@@ -234,3 +234,10 @@ The database schema is shown below:
 Recipe name and recipe author values are duplicated across the Recipe and User document types as these values will be regularly used whilst the remainder of the Recipe and User properties 
 remain separated out.  
 
+
+
+## Setting up the working environment
+
+ 1. sudo pip3 install flask
+    >Created the app.py file and ran the app.py code executed in the 'Create the Flask Application' in the Mini-project of the Code Institute Data Centric Development Module
+ 
