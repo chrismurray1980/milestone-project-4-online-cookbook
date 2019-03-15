@@ -238,6 +238,19 @@ remain separated out.
 
 ## Setting up the working environment
 
- 1. sudo pip3 install flask
-    >Created the app.py file and ran the app.py code executed in the 'Create the Flask Application' in the Mini-project of the Code Institute Data Centric Development Module
+ 1. Created a git repository for the project named 'milestone-project-4-online-cookbook'
+ 2. Installed flask in C9
+    >Used 'sudo pip3 install flask' in the terminal to install Flask and created the app.py file. I ran the app.py file with the code executed in the 'Create the Flask Application' in 
+    the Mini-project of the Code Institute Data Centric Development Module to ensure functionality
+ 2. Created new app in heroku and logged in via the terminal using my credentials to connect the C9 project to Heroku. I added the Heroku remote to my existing repository.
+ 3. I then created a 'requirements.txt' file using 'pip freeze > requirements.txt' but after mulitple failed attempts due to lack of dependencies I populated this file with the packages found in 
+    'Deploy application to Heroku' in the Code Institute Data Centric Development Module
+ 4. Added a procfile to my project to ensure that Heroku knows how to run the project as follows: using 'echo web: python app.py > Procfile'
+ 5. Once the application was successfully pushed to Heroku I specified the IP and Port on Heroku in the configuration settings and the app opened in Heroku to ensure functionality
+ 6. The 'onlineCookbook' database was then created in MongoDB Atlas with the collection named 'recipes'
+ 7. To create the connection between the C9 workspace I first installed dnspython and pymongo libraries using 'sudo pip3 install dnspython' and 'sudo pip3 install pymongo' and then on MongoDB Atlas chose 
+    to connect to my database through a SRV string. For security, I used environment variables to connect to MongoDB Atlas. I edited the '.bashrc' file to include the MongoDB Atlas using the following commands 'cd ..' to change to my home directory then 'nano .bashrc'
+    to open the file. I then typed 'export MONGO_URI= copied connection string' added my password and edited the database name and saved the file. I then closed and reopened the temrinal and typed 'echo $MONGO_URI'
+    to verify the connection
+ 8. I then ran the code found in the ' Run Mongo Commands From a Python File ' of the Code Institute Data Centric Development Module to ensure functionality and installed Flask-PyMongo'sudo pip3 install Flask-PyMongo'
  
