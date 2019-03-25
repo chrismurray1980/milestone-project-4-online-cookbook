@@ -4,7 +4,10 @@
     </head>
     <body>
         {% for recipe in recipes %}
+            {{recipe.author}}
             {{recipe.name}}
+            {{recipe.countryOfOrigin}}
+            {{recipe.cuisine}}
         {% endfor %}
     </body>
 </html>

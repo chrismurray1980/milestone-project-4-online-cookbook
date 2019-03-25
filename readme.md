@@ -254,11 +254,15 @@ remain separated out.
     to verify the connection
  8. I then ran the code found in the ' Run Mongo Commands From a Python File ' of the Code Institute Data Centric Development Module to ensure functionality and installed Flask-PyMongo'sudo pip3 install Flask-PyMongo'
  9. The environment setup was succesfully completed when I added the index.hmtl file and successfully wrote the name of my first database entry to the page.
- 10. added jasmine test suite for python using 'sudo pip3 install jasmine' and initialised it using  'jasmine init' in the bash terminal
- 11. Installed Flask testing extension using 'sudo pip3 install Flask-Testing'
- 12.  
+ 10. Installed lask-mongokit
+
  
 
+## Test Setup 
+ 
+ 1. *Installed Flask testing extension using 'sudo pip3 install Flask-Testing' to perform unit level testing on my flask application*
+ 2. Installed mockupdb using 'sudo pip3 install mockupdb' to provide a mock mongodb database for testing
+ 3. installed python blinker library to allow signals to be seen using 'sudo pip3 install blinker'
 
 
  
