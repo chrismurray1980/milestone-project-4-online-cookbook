@@ -264,7 +264,7 @@ remain separated out.
  2. installed ming to provide a validation layer to the data to and from the mongo database and provide a mim: mongo in memory functionality for testing
  3. installed python blinker library to allow signals to be seen using 'sudo pip3 install blinker'
  4. created a configuration file to allow the production database and the mim databases to be selected for testing 
- 5. 
+ 5. installed coverage.py to show the code coverage of the test.py file for the app.py file.... using 'coverage html --omit=*/usr/local/lib/python3.4/dist-packages*,*test*  ' to obtaine coverage
 
 
  
