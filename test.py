@@ -1,48 +1,37 @@
 from flask_testing import TestCase
-from app import app, mongo, get_recipes
+from app import app, session, get_recipes
+import unittest
+from ming import Session, create_datastore
+from models import add_recipe, add_user
+from ming import mim
+from ming.datastore import DataStore
 import unittest
 import os
-from flask_pymongo import PyMongo
+from ming.odm import ThreadLocalODMSession
 
-app.config["MONGO_DBNAME"] = 'onlineCookbook'
-app.config["MONGO_URI"] = os.getenv('MONGO_URI', 'mongodb://localhost')
-
-mongo = PyMongo(app)
-
-coll = mongo.db.recipes
-
-documents = coll.find()
-
-for doc in documents:
-    print(doc)
-
-class recipe:
-  def __init__(self, author, name, countryOfOrigin, cuisine, mealTime):
-    self.author=author
-    self.name = name
-    self.countryOfOrigin = countryOfOrigin
-    self.cuisine = cuisine
-    self.mealTime = mealTime
 
 class FlaskTestCase(TestCase):
-
+    
     def create_app(self):
-        app.config['TESTING'] = True
-        app.config["MONGO_URI"] ='mongodb:///:memory:'
-        recipe("chris murray", "chicken curry", "India", "Indian", "Dinner")
+        app.config["MONGO_URI"] = 'mim://localhost/test'
+        session = ThreadLocalODMSession(bind=create_datastore(app.config["MONGO_URI"] ) )
         return app
         
-    def test_index_rendered(self):
-        """Ensure index page loads correctly."""
+    def setUp(self):
+        session.db.users.insert_one(add_user.make(dict(author='rrrr', name='ttttt')))
+        session.db.users.insert_one(add_user.make(dict(author='hhhhh', name='gggg')))
+        
+    def tearDown(self):
+        session.clear()
+
+    def test_index_loads(self):
+        #Ensure index page loads correctly.
         response = self.client.get('/', follow_redirects=True)
+        
         self.assert200(response)
         self.assertTemplateUsed('index.html')
-        self.assertIn(b'chris murray', response.data)
-        self.assertEqual(len(self.get_context_variable('recipes')), 2)
-        print(response.data)
-        
-        
+        self.assertIn(b'rrrr', response.data)
+        self.assertEqual(session.db.users.count(), 2)
+    
 if __name__ == '__main__':
-    unittest.main() 
-
-
+    unittest.main()
