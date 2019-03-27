@@ -3,12 +3,18 @@ from bson.objectid import ObjectId
 from models import add_recipe, add_user
 from ming import mim, create_datastore
 from ming.odm import ThreadLocalODMSession
-from config import connection_config
 import os
+
+def database_config_setup(filename):
+    if filename == "__main__":
+        database_config=os.getenv("MONGO_URI",'mongodb://localhost')
+    else:
+        database_config='mim://localhost/test'
+    return database_config
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'onlineCookbook'
-app.config["MONGO_URI"]=connection_config
+app.config["MONGO_URI"]=database_config_setup(__name__)    
 session = ThreadLocalODMSession(bind=create_datastore(app.config["MONGO_URI"] ) )
 
 @app.route('/')
@@ -17,5 +23,3 @@ def get_recipes():
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
-    
-    

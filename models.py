@@ -3,7 +3,6 @@ from ming import Document, Field, schema, Session
 session = Session()
 
 class add_recipe(Document):
-
     class __mongometa__:
         session = session
         name = 'recipe'
@@ -13,7 +12,6 @@ class add_recipe(Document):
     name = Field(str)
     
 class add_user(Document):
-
     class __mongometa__:
         session = session
         name = 'user'
