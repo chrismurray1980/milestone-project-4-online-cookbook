@@ -2,7 +2,7 @@ from ming import Document, Field, schema, Session
 
 session = Session()
 
-class add_recipe(Document):
+class recipes(Document):
     class __mongometa__:
         session = session
         name = 'recipe'
@@ -11,7 +11,7 @@ class add_recipe(Document):
     author = Field(str)
     name = Field(str)
     
-class add_user(Document):
+class users(Document):
     class __mongometa__:
         session = session
         name = 'user'

@@ -269,3 +269,7 @@ remain separated out.
 
 
  
+## CSS
+ 1. created scss file in static folder called 'main.scss'
+ 2. change to the static directory usgin 'cd static' 
+ 2. started a watch on the scss for compiling into css using 'sass --watch main.scss'
