@@ -267,7 +267,8 @@ remain separated out.
  5. installed coverage.py to show the code coverage of the test.py file for the app.py file.... using 'coverage html --omit=*/usr/local/lib/python3.4/dist-packages*,*test*  '  or 'coverage html --omit=*/usr/local/lib/python3.4/dist-packages*,*test*' to obtain coverage
  6. created database_config_setup function to define database to be sued dependent upon whether the main application or the test application is being run, no need for config.py any longer
 
-
+## git ignore
+ 'git rm --cached'
  
 ## CSS
  1. created scss file in static folder called 'main.scss'

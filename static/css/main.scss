@@ -12,35 +12,42 @@
   background-size: cover;
 }
 
-.aside-content-container{
 
-}
 
-.aside-container{
-
-}
 
 .title {
+  border-top: 5px solid #33567a;
+  border-bottom: 5px solid #33567a;
   text-align: center; 
   font-family: 'Lobster', cursive;
   color: #33567a;
   h1 {
     margin: 0;
-    padding: 2% 0 1% 0;
+    padding: 1% 0 1% 0;
   }
   h4 { 
     margin: 0;
-    padding: 0 0 2% 0;
+    padding: 0 0 1.5% 0;
   }
 }
-/*https://images.pexels.com/photos/1435895/pexels-photo-1435895.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500*/
 
-aside {
-  border-right: 2px solid #212529; }
+.aside {
+  border-top: 5px solid #33567a;
+  border-right: 5px solid #33567a;
+  border-bottom: 5px solid #33567a;
+}
 
-#content {
-  border-top: 2px solid #212529;
-  border-bottom: 2px solid #212529; }
+.page-content{
+  border-top: 5px solid #33567a;
+  border-bottom: 5px solid #33567a;
+  font-family: 'Lobster', cursive;
+  color: #33567a;
+}
+
+#footer {
+  border-top: 5px solid #33567a;
+}
+
 
 #dropdownMenuButton {
   color: rgba(255, 255, 255, 0.5);
@@ -54,5 +61,10 @@ aside {
 #site-logo {
   padding-right: 50%; 
   font-family: 'Lobster', cursive;
+  color: #33567a;
+}
+
+#header{
+   border-bottom: 5px solid #33567a;
 }
 

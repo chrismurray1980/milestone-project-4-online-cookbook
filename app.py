@@ -20,8 +20,23 @@ session = ThreadLocalODMSession(bind=create_datastore(app.config["MONGO_URI"] ) 
 
 @app.route('/')
 def get_recipes():
-    
     return render_template("index.html", users=session.db.users.find())
+    
+@app.route('/add_recipe')
+def add_recipe():
+    return render_template("add_recipe.html")
+
+@app.route('/edit_delete_recipe')
+def edit_delete_recipe():
+    return render_template("edit_delete_recipe.html")  
+
+@app.route('/show_recipe')
+def show_recipe():
+    return render_template("show_recipe.html")
+
+@app.route('/favourites')
+def favourites():
+    return render_template("favourites.html") 
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
