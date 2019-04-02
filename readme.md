@@ -277,3 +277,4 @@ remain separated out.
  
 ## References
 Parallax https://www.w3schools.com/howto/howto_css_parallax.asp
+https://www.plus2net.com/javascript_tutorial/list-adding.php
