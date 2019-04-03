@@ -12,7 +12,6 @@
     <div id="page">
         <header>
             <div id="header" class="row">
-
                 <div class="col-12">
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                         <a class="navbar-brand" href="#" id="site-logo">The Good Grub Guide</a>
@@ -32,7 +31,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <div class="dropdown" id="nav-login">
-                                        <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">login</button>
+                                        <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="login" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">login</button>
                                         <div class="dropdown-menu">
                                             <form class="px-4 py-3">
                                                 <div class="form-group">
@@ -63,34 +62,70 @@
         </header>
 
         <div id="content">
-
             <div class="parallax"></div>
 
             {% block content_one %}{% endblock %}
 
             <div class="row">
-                    <div class="col-4 aside">
-                        <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search a recipe" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                        <h4>filter by:</h4>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="col-2 aside">
+                    <h4>filter by:</h4>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Cuisine
                           </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="cuisine-menu"></div>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="mealtime" name="mealtime"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Mealtime
-                          </button>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="mealtime-menu"></div>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="cuisine-menu">
+                            <li class='dropdown-item'> Cuisine</li>
+                            <div class="dropdown-divider"></div>
                         </div>
                     </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Mealtime
+                          </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="mealtime-menu">
+                            <li class='dropdown-item'> Mealtime</li>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Course
+                          </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="course-menu">
+                            <li class='dropdown-item'> Course</li>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Difficulty
+                          </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="difficulty-menu"></div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Main Ingredient
+                          </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="main_ingredient-menu">
+                            <li class='dropdown-item'> Main Ingredient</li>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Allergens
+                          </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="allergens-menu">
+                            <li class='dropdown-item'> Allergens</li>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary search-filter" type="submit" id="search-submit">Search</button>
+                    </div>
+                </div>
 
-                <div class="col-8 page-content">
+                <div class="col-10 page-content">
                     {% block content_two %}{% endblock %}
                 </div>
             </div>
@@ -114,4 +149,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script type="text/javascript" src="static/js/main.js"></script>
+
 </html>

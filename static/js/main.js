@@ -1,27 +1,32 @@
-/*var cuisine = ["American", "Italian", "Spanish", "Chinese", "French", "Japanese", "German","Thai", 
-                        "Mexican", "English", "Scottish", "Irish", "Brazilian" ];
-var mealtime = ["Breakfast", "Lunch", "Dinner", "Snack"];
-var course = ["Starter", "Main", "Dessert"];
-var difficulty = ["Easy", "Intermediate", "Hard"];
-var main_ingredient = ["Chicken", "Beef", "Pork", "Fish", "Turkey", "Seafood"];
-var allergens = ["Nuts", "Gluten"];*/
+var $;
 
-var dropdown_contents={cuisine: ["American", "Italian", "Spanish", "Chinese", "French", "Japanese", "German","Thai", 
-                        "Mexican", "English", "Scottish", "Irish", "Brazilian"], mealtime:["Breakfast", "Lunch", "Dinner", "Snack"]};
-
-
-$( document ).ready(function() {
+$(document).ready(function() {
     add_options(dropdown_contents);
-    //console.log(Object.keys(dropdown_contents));
-    //console.log(Object.values(dropdown_contents))
+    
+    $(".dropdown-menu li").click(function(){
+      $(this).parents(".dropdown").find('.btn').html($(this).text() + '<span></span>');
+      $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+    });
+    
 });
 
+var dropdown_contents = {
+    cuisine: ["American", "Italian", "Spanish", "Chinese", "French", "Japanese", "German", "Thai",
+        "Mexican", "English", "Scottish", "Irish", "Brazilian", "Indian"],
+    mealtime: ["Breakfast", "Lunch", "Dinner", "Snack"],
+    course: ["Starter", "Main", "Dessert"],
+    difficulty: ["Easy", "Intermediate", "Hard"],
+    main_ingredient: ["Chicken", "Beef", "Pork", "Fish", "Turkey", "Seafood"],
+    allergens: ["Nuts", "Gluten"]
+};
+
 function add_options(option_object) {
-    for (var option_name in option_object) {
-        var name = '#' + option_name.toString() + '-menu';
-        console.log(name);
-        for (i = 0; i < option_object[option_name].length; i++) {
-            $(name).append("<a class='dropdown-item' href='#'>" + option_object[option_name][i] + "</a>");
+    for (const entry of Object.entries(option_object)) {
+        var i, key = entry[0],
+            value = entry[1];
+        for (i = 0; i < value.length; i++) {
+            var name = '#' + key.toString() + '-menu';
+            $(name).append("<li class='dropdown-item'>" + value[i] + "</li>");
         }
     }
 }
