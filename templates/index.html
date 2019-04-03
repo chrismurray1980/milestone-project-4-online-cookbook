@@ -14,19 +14,19 @@
 
 {% block content_two %}
 <h3>Most popular</h3>
-<!-- </p>
+</p>
             {% for recipe in recipes %}
             {{recipe.author}}
             {{recipe.name}}
             {{recipe.countryOfOrigin}}
             {{recipe.cuisine}}
             {% endfor %}
-    </p>-->
+    </p>
 
 <p>
 
     {% for user in users %} 
-        {{user.author}} 
-        {{user.name}} 
+        {{user.user_name}} 
+        {{user.email}} 
     {% endfor %} 
 {% endblock %}

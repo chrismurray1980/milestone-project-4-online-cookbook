@@ -12,12 +12,12 @@ $(document).ready(function() {
 
 var dropdown_contents = {
     cuisine: ["American", "Italian", "Spanish", "Chinese", "French", "Japanese", "German", "Thai",
-        "Mexican", "English", "Scottish", "Irish", "Brazilian", "Indian"],
+        "Mexican", "English", "Scottish", "Irish", "Brazilian", "Indian", "Other"],
     mealtime: ["Breakfast", "Lunch", "Dinner", "Snack"],
     course: ["Starter", "Main", "Dessert"],
     difficulty: ["Easy", "Intermediate", "Hard"],
-    main_ingredient: ["Chicken", "Beef", "Pork", "Fish", "Turkey", "Seafood"],
-    allergens: ["Nuts", "Gluten"]
+    main_ingredient: ["Chicken", "Beef", "Pork", "Fish", "Turkey", "Seafood", "Other"],
+    allergens: ["Nuts", "Gluten", "Other"]
 };
 
 function add_options(option_object) {
