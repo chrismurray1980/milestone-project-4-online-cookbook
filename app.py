@@ -25,6 +25,11 @@ def get_recipes():
 @app.route('/add_recipe')
 def add_recipe():
     return render_template("add_recipe.html")
+    
+@app.route('/insert_recipe', methods=['POST'])
+def insert_recipe():
+    session.db.recipes.insert_one(recipes.make(request.form.to_dict()))
+    return redirect(url_for('get_recipes'))
 
 @app.route('/edit_delete_recipe')
 def edit_delete_recipe():

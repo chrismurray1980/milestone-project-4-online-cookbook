@@ -67,13 +67,13 @@
             {% block content_one %}{% endblock %}
 
             <div class="row">
-                <div class="col-2 aside">
-                    <h4>filter by:</h4>
-                    <div class="dropdown">
+                <div class="col-3 aside">
+                    <h4>Quick search:</h4>
+                    <!--<div class="dropdown">
                         <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Cuisine
                           </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="cuisine-menu">
+                        <div class="dropdown-menu cuisine-menu" aria-labelledby="dropdownMenuButton">
                             <li class='dropdown-item'> Cuisine</li>
                             <div class="dropdown-divider"></div>
                         </div>
@@ -82,7 +82,7 @@
                         <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Mealtime
                           </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="mealtime-menu">
+                        <div class="dropdown-menu mealtime-menu" aria-labelledby="dropdownMenuButton">
                             <li class='dropdown-item'> Mealtime</li>
                             <div class="dropdown-divider"></div>
                         </div>
@@ -91,7 +91,7 @@
                         <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Course
                           </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="course-menu">
+                        <div class="dropdown-menu course-menu" aria-labelledby="dropdownMenuButton">
                             <li class='dropdown-item'> Course</li>
                             <div class="dropdown-divider"></div>
                         </div>
@@ -100,13 +100,16 @@
                         <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Difficulty
                           </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="difficulty-menu"></div>
+                        <div class="dropdown-menu difficulty-menu" aria-labelledby="dropdownMenuButton">
+                            <li class='dropdown-item'> Difficulty</li>
+                            <div class="dropdown-divider"></div>
+                        </div>
                     </div>
                     <div class="dropdown">
                         <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Main Ingredient
                           </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="main_ingredient-menu">
+                        <div class="dropdown-menu main_ingredient-menu" aria-labelledby="dropdownMenuButton">
                             <li class='dropdown-item'> Main Ingredient</li>
                             <div class="dropdown-divider"></div>
                         </div>
@@ -115,17 +118,75 @@
                         <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Allergens
                           </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="allergens-menu">
+                        <div class="dropdown-menu allergens-menu" aria-labelledby="dropdownMenuButton">
                             <li class='dropdown-item'> Allergens</li>
                             <div class="dropdown-divider"></div>
                         </div>
                     </div>
                     <div>
                         <button class="btn btn-secondary search-filter" type="submit" id="search-submit">Search</button>
-                    </div>
+                    </div>-->
+                    <form>
+                        <div class="form-group">
+                            <label for="cuisine">Cuisine</label>
+                            <select class="form-control cuisine-menu">
+                                <option>Please select</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="country of origin">Country of origin</label>
+                            <select class="form-control countryOfOrigin-menu">
+                              <option>Please select</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mealtime">Mealtime</label>
+                            <select class="form-control mealtime-menu">
+                              <option>Please select</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="servings">Number of servings</label>
+                            <select class="form-control servings-menu">
+                              <option>Please select</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="difficulty">Difficulty</label>
+                            <select class="form-control difficulty-menu" id="recipe-difficulty">
+                              <option>Please select</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cookingtime">Cooking time</label>
+                            <select class="form-control cookingtime-menu" id="recipe-cookingtime">
+                              <option>Please select</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mainIngredient">Main Ingredient</label>
+                            <select class="form-control mainIngredient-menu">
+                              <option>Please select</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dietary">Dietary</label>
+                            <select class="form-control dietary-menu">
+                              <option>Please select</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mainIngredient">Allergens</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="option1">
+                                <label class="form-check-label" for="inlineCheckbox1">1</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
 
-                <div class="col-10 page-content">
+                <div class="col-9 page-content">
                     {% block content_two %}{% endblock %}
                 </div>
             </div>
