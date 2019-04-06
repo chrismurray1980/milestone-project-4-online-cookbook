@@ -20,7 +20,7 @@ session = ThreadLocalODMSession(bind=create_datastore(app.config["MONGO_URI"] ) 
 
 @app.route('/')
 def get_recipes():
-    return render_template("index.html", users=session.db.users.find())
+    return render_template("index.html", recipes=session.db.recipes.find())
     
 @app.route('/add_recipe')
 def add_recipe():
@@ -28,8 +28,7 @@ def add_recipe():
     
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    session.db.recipes.insert_one(recipes.make(request.form.to_dict()))
-    return redirect(url_for('get_recipes'))
+    return redirect(url_for('get_recipes'), session.db.recipes.insert_one(recipes.make(request.form.to_dict())))
 
 @app.route('/edit_delete_recipe')
 def edit_delete_recipe():
@@ -37,7 +36,7 @@ def edit_delete_recipe():
 
 @app.route('/show_recipe')
 def show_recipe():
-    return render_template("show_recipe.html")
+    return render_template("show_recipe.html", recipe=session.db.recipes.find_one({"recipeName":"Chilli con carne"}))
 
 @app.route('/favourites')
 def favourites():

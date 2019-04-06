@@ -5,5 +5,26 @@
 {% endblock %}
 
 {% block content_two %}
-    <p> Recipes will be shown here</p>
+    <h3>{{recipe.recipeName}} ({{recipe.recipeAuthor}})</h3>
+<div class="row">
+
+        <div class="row">
+           <div class="col-4">
+               <img src={{recipe.recipeImageLink}} alt="Image unavailable">
+           </div> 
+           <div class="col-8">
+               <h5>{{recipe.recipeName}}</h5>
+                <h6>{{recipe.recipeAuthor}}</h6>
+                
+               <!-- {{recipe.recipeCuisine}}
+                {{recipe.recipeCountryOfOrigin}}
+                {{recipe.recipeMealTime}}
+                {{recipe.recipeServings}}
+                {{recipe.recipeDifficulty}}
+                {{recipe.recipeIngredients}}-->
+            </div>
+        </div>
+        <hr width="50%" align="center">
+
+</div>   
 {% endblock %} 

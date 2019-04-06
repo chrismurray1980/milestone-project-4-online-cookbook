@@ -14,19 +14,25 @@
 
 {% block content_two %}
 <h3>Most popular</h3>
-</p>
-            {% for recipe in recipes %}
-            {{recipe.author}}
-            {{recipe.name}}
-            {{recipe.countryOfOrigin}}
-            {{recipe.cuisine}}
-            {% endfor %}
-    </p>
-
-<p>
-
-    {% for user in users %} 
-        {{user.user_name}} 
-        {{user.email}} 
-    {% endfor %} 
+<div class="row">
+    {% for recipe in recipes %}
+        <div class="row">
+           <div class="col-4">
+               <img src={{recipe.recipeImageLink}} alt="Image unavailable">
+           </div> 
+           <div class="col-8">
+               <h5>{{recipe.recipeName}}</h5>
+                <h6>{{recipe.recipeAuthor}}</h6>
+                
+                {{recipe.recipeCuisine}}
+                {{recipe.recipeCountryOfOrigin}}
+                {{recipe.recipeMealTime}}
+                {{recipe.recipeServings}}
+                {{recipe.recipeDifficulty}}
+                {{recipe.recipeIngredients}}
+            </div>
+        </div>
+        <hr width="50%" align="center">
+    {% endfor %}
+</div>   
 {% endblock %}

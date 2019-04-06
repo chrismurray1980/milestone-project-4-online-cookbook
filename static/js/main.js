@@ -2,11 +2,11 @@ var $;
 
 $(document).ready(function() {
     add_options(select_contents);
-    add_form_options(select_contents);
+   /* add_form_options(select_contents);
     $(".dropdown-menu li").click(function(){
       $(this).parents(".dropdown").find('.btn').html($(this).text() + '<span></span>');
       $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
-    });
+    });*/
     
 });
 
@@ -24,7 +24,7 @@ var select_contents = {
     allergens: ["Nuts", "Gluten", "Other"]
 };
 
-function add_options(option_object) {
+/*function add_options(option_object) {
     for (const entry of Object.entries(option_object)) {
         var i, key = entry[0],
             value = entry[1];
@@ -33,7 +33,7 @@ function add_options(option_object) {
             $(name).append("<li class='dropdown-item'>" + value[i] + "</li>");
         }
     }
-}
+}*/
 
 function add_options(option_object) {
     for (const entry of Object.entries(option_object)) {
