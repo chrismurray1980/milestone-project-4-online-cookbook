@@ -28,10 +28,9 @@ def add_recipe():
     
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-   # return redirect(url_for('get_recipes'), session.db.recipes.insert_one(recipes.make(request.form.to_dict())))
    session.db.recipes.insert_one(recipes.make(request.form.to_dict()))
    return redirect(url_for('get_recipes'))
-   
+
 @app.route('/edit_delete_recipe')
 def edit_delete_recipe():
     return render_template("edit_delete_recipe.html")  
@@ -46,3 +45,5 @@ def favourites():
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
+    
+    

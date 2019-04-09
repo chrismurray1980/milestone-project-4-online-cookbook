@@ -18,18 +18,18 @@
     {% for recipe in recipes %}
         <div class="row">
            <div class="col-4">
-               <img src={{recipe.recipeImageLink}} alt="Image unavailable">
+               <img class="recipe-image" src={{recipe.recipeImageLink}} alt="Image unavailable">
            </div> 
            <div class="col-8">
                <h5>{{recipe.recipeName}}</h5>
                 <h6>{{recipe.recipeAuthor}}</h6>
                 
-                {{recipe.recipeCuisine}}
-                {{recipe.recipeCountryOfOrigin}}
-                {{recipe.recipeMealTime}}
-                {{recipe.recipeServings}}
-                {{recipe.recipeDifficulty}}
-                {{recipe.recipeIngredients}}
+                <p>Cusine : {{recipe.recipeCuisine}} </br>
+                   Country of origin : {{recipe.recipeCountryOfOrigin}} </br>
+                   Servings : {{recipe.recipeServings}} </br>
+                   Difficulty : {{recipe.recipeDifficulty}}
+                   Mealtime : {{recipe.recipeMealTime}}
+                </p>
             </div>
         </div>
         <hr width="50%" align="center">
