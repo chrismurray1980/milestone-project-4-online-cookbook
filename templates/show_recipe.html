@@ -9,17 +9,28 @@
 <div class="row">
 
         <div class="row">
-           <div class="col-4">
-               <img src={{recipe.recipeImageLink}} alt="Image unavailable">
+           <div class="col-7">
+               <img class="recipe-image" src={{recipe.recipeImageLink}} alt="Image unavailable">
            </div> 
-           <div class="col-8">
-               <h5>{{recipe.recipeName}}</h5>
-                <h6>{{recipe.recipeAuthor}}</h6>
+           <div class="col-5">
+               <p>Mealtime : {{recipe.recipeMealTime}}</p> <p>Servings : {{recipe.recipeServings}}</p>
+                <p>Cuisine : {{recipe.recipeCuisine}}</p>
+                <p>Country of origin : {{recipe.recipeCountryOfOrigin}}</p>
                 
+                <p>Difficulty : {{recipe.recipeDifficulty}}</p>
+                <p>{{ recipe.recipeIngredients}}</p>
+
+                    
+                <p> Ingredients : <br />
+                </p>
+               
+           </div>
+           <div class="col-8">
+               <h5>Instructions</h5>
+                {{recipe.recipeInstructions}}
                <!-- {{recipe.recipeCuisine}}
                 {{recipe.recipeCountryOfOrigin}}
-                {{recipe.recipeMealTime}}
-                {{recipe.recipeServings}}
+                
                 {{recipe.recipeDifficulty}}
                 {{recipe.recipeIngredients}}-->
             </div>
