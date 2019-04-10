@@ -4,7 +4,7 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
     <title>{% block title %}{% endblock %} - The Good Grub Guide</title>
 </head>
@@ -12,7 +12,7 @@
 <body>
     <div id="page">
         <header>
-            <div id="header" class="row">
+            <div id="header" class="row no-gutters">
                 <div class="col-12">
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                         <a class="navbar-brand" href="{{url_for('get_recipes')}}" id="site-logo">The Good Grub Guide</a>
@@ -67,66 +67,9 @@
 
             {% block content_one %}{% endblock %}
 
-            <div class="row">
-                <div class="col-3 aside">
+            <div class="row no-gutters">
+                <div class="col-4 aside">
                     <h4>Quick search:</h4>
-                    <!--<div class="dropdown">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Cuisine
-                          </button>
-                        <div class="dropdown-menu cuisine-menu" aria-labelledby="dropdownMenuButton">
-                            <li class='dropdown-item'> Cuisine</li>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Mealtime
-                          </button>
-                        <div class="dropdown-menu mealtime-menu" aria-labelledby="dropdownMenuButton">
-                            <li class='dropdown-item'> Mealtime</li>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Course
-                          </button>
-                        <div class="dropdown-menu course-menu" aria-labelledby="dropdownMenuButton">
-                            <li class='dropdown-item'> Course</li>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Difficulty
-                          </button>
-                        <div class="dropdown-menu difficulty-menu" aria-labelledby="dropdownMenuButton">
-                            <li class='dropdown-item'> Difficulty</li>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Main Ingredient
-                          </button>
-                        <div class="dropdown-menu main_ingredient-menu" aria-labelledby="dropdownMenuButton">
-                            <li class='dropdown-item'> Main Ingredient</li>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle search-filter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Allergens
-                          </button>
-                        <div class="dropdown-menu allergens-menu" aria-labelledby="dropdownMenuButton">
-                            <li class='dropdown-item'> Allergens</li>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <button class="btn btn-secondary search-filter" type="submit" id="search-submit">Search</button>
-                    </div>-->
                     <form>
                         <div class="form-group">
                             <label for="cuisine">Cuisine</label>
@@ -187,7 +130,7 @@
                     </form>
                 </div>
 
-                <div class="col-9 page-content">
+                <div class="col-8 page-content">
                     {% block content_two %}{% endblock %}
                 </div>
             </div>

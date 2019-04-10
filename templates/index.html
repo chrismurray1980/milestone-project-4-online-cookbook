@@ -1,8 +1,4 @@
-{% extends "base.html" %}
-
-{% block title %}
-    Home
-{% endblock %} 
+{% extends "base.html" %} {% block title %} Home {% endblock %} 
 
 {% block content_one %}
     <div class="col-12 title">
@@ -13,26 +9,50 @@
 {% endblock %} 
 
 {% block content_two %}
-<h3>Most popular</h3>
-<div class="row">
-    {% for recipe in recipes %}
-        <div class="row">
-           <div class="col-4">
-               <img class="recipe-image" src={{recipe.recipeImageLink}} alt="Image unavailable">
-           </div> 
-           <div class="col-8">
-               <h5>{{recipe.recipeName}}</h5>
-                <h6>{{recipe.recipeAuthor}}</h6>
-                
-                <p>Cusine : {{recipe.recipeCuisine}} </br>
-                   Country of origin : {{recipe.recipeCountryOfOrigin}} </br>
-                   Servings : {{recipe.recipeServings}} </br>
-                   Difficulty : {{recipe.recipeDifficulty}}
-                   Mealtime : {{recipe.recipeMealTime}}
-                </p>
+    <h2 class="block-heading">Most popular</h2>
+    <div class="row no-gutters">
+        {% for recipe in recipes %}
+        <div class="col-3 offset-1 recipe-image-container">
+            <img class="recipe-image" src={{recipe.recipeImageLink}} alt="Image unavailable">
+        </div>
+        <div class="col-6 offset-1">
+            <h4 class="recipe-name">{{recipe.recipeName}}</h4>
+            
+            <div class="row no-gutters">
+                <div class="col-6 recipe-info">
+                    <p>
+                        Author : {{recipe.recipeAuthor}}</br>
+                        Cusine : {{recipe.recipeCuisine}}</br>
+                        Country of origin : {{recipe.recipeCountryOfOrigin}}</br>
+                        Servings : {{recipe.recipeServings}}</br>
+                        Difficulty : {{recipe.recipeDifficulty}}
+                    </p>
+                </div>
+                <div class="col-6 recipe-info">
+                    <p>
+                        Mealtime : {{recipe.recipeMealTime}}</br>
+                        Cooking Time  {{recipe.recipeCookingTime}}</br>
+                        Main Ingredient  : {{recipe.recipeMainIngredient}}</br>
+                        Up-votes : {{recipe.recipeUpvotes}}</br>
+                        Dietary : {{recipe.recipeDietary}}
+                    </p>
+                </div>
             </div>
         </div>
-        <hr width="50%" align="center">
-    {% endfor %}
-</div>   
+        {% endfor %}
+        
+        <i class="material-icons">local_dining</i>
+  <i class="material-icons">local_grocery_store</i>
+  <i class="material-icons">people</i>
+  <i class="material-icons">pie_chart</i>
+  <i class="material-icons">restaurant</i>
+  <i class="material-icons">restaurant_menu</i>
+  <i class="material-icons">schedule</i>
+  <i class="material-icons">sentiment_very_satisfied</i>
+  <i class="material-icons">shopping_cart</i>
+  <i class="material-icons">star_half</i>
+  <i class="material-icons">stars</i>
+  <i class="material-icons">store</i>
+  <i class="material-icons">thumb_up</i>
+    </div>
 {% endblock %}
