@@ -15,6 +15,7 @@ class recipes(Document):
     recipeMealTime = Field(str)
     recipeServings = Field(str)
     recipeDifficulty = Field(str)
+    recipePreparationTime = Field(str)
     recipeCookingTime = Field(str)
     recipeAllergen = Field(str)
     recipeMainIngredient = Field(str)

@@ -20,39 +20,18 @@
             
             <div class="row no-gutters">
                 <div class="col-6 recipe-info">
-                    <p>
-                        Author : {{recipe.recipeAuthor}}</br>
-                        Cusine : {{recipe.recipeCuisine}}</br>
-                        Country of origin : {{recipe.recipeCountryOfOrigin}}</br>
-                        Servings : {{recipe.recipeServings}}</br>
-                        Difficulty : {{recipe.recipeDifficulty}}
-                    </p>
+                    
+                        <p><i class="material-icons">create</i>  {{recipe.recipeAuthor}}</p>
+                        <p><i class="material-icons">restaurant_menu</i> {{recipe.recipeCuisine}}</p>
+                        <p> <i class="material-icons">people</i>  {{recipe.recipeServings}} servings</p>
                 </div>
                 <div class="col-6 recipe-info">
-                    <p>
-                        Mealtime : {{recipe.recipeMealTime}}</br>
-                        Cooking Time  {{recipe.recipeCookingTime}}</br>
-                        Main Ingredient  : {{recipe.recipeMainIngredient}}</br>
-                        Up-votes : {{recipe.recipeUpvotes}}</br>
-                        Dietary : {{recipe.recipeDietary}}
-                    </p>
+                        <p><i class="material-icons">schedule</i>  {{recipe.recipeCookingTime}}</p>
+                        <p><i class="material-icons">restaurant</i>  {{recipe.recipeDifficulty}}</p>
+                        <p><i class="material-icons">stars</i>  {{recipe.recipeUpvotes}}</p>
                 </div>
             </div>
         </div>
         {% endfor %}
-        
-        <i class="material-icons">local_dining</i>
-  <i class="material-icons">local_grocery_store</i>
-  <i class="material-icons">people</i>
-  <i class="material-icons">pie_chart</i>
-  <i class="material-icons">restaurant</i>
-  <i class="material-icons">restaurant_menu</i>
-  <i class="material-icons">schedule</i>
-  <i class="material-icons">sentiment_very_satisfied</i>
-  <i class="material-icons">shopping_cart</i>
-  <i class="material-icons">star_half</i>
-  <i class="material-icons">stars</i>
-  <i class="material-icons">store</i>
-  <i class="material-icons">thumb_up</i>
     </div>
 {% endblock %}

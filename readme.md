@@ -278,3 +278,4 @@ remain separated out.
 ## References
 Parallax https://www.w3schools.com/howto/howto_css_parallax.asp
 https://www.plus2net.com/javascript_tutorial/list-adding.php
+https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags   ---new line replace string--

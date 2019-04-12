@@ -42,6 +42,12 @@
     </select>
     </div>
     <div class="form-group">
+        <label for="preparationtime">Preparation time</label>
+        <select class="form-control preparationtime-menu" name="recipePreparationTime">
+      <option>Please select</option>
+    </select>
+    </div>
+    <div class="form-group">
         <label for="cookingtime">Cooking time</label>
         <select class="form-control cookingtime-menu" name="recipeCookingTime">
       <option>Please select</option>
@@ -77,16 +83,16 @@
     </div>
     <div class="form-group">
         <label for="ingredients">Ingredients</label>
-        <textarea class="form-control" name="recipeIngredients" rows="3"></textarea>
+        <textarea class="form-control" name="recipeIngredients" id="recipeIngredients" rows="3"></textarea>
     </div>
     <div class="form-group">
         <label for="instructions">Instructions</label>
-        <textarea class="form-control" name="recipeInstructions" rows="3"></textarea>
+        <textarea class="form-control" name="recipeInstructions" id="recipeInstructions" rows="3"></textarea>
     </div>
     <div class="form-group">
         <label for="name">Recipe image</label>
         <input type="text" class="form-control" name="recipeImageLink" placeholder="Please enter a link to the recipe image">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary recipe_button" >Submit</button>
 </form>
 {% endblock %}

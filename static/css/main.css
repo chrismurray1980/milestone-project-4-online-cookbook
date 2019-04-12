@@ -44,11 +44,17 @@
   padding: 0;
   margin: 0; }
 
+.instructions {
+  text-align: justify; }
+
 .page-content {
   border-top: 5px solid #33567a;
   border-bottom: 5px solid #33567a;
   font-family: 'Lobster', cursive;
   color: #33567a; }
+
+.material-icons {
+  font-size: 30px; }
 
 #footer {
   border-top: 5px solid #33567a; }
