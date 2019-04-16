@@ -5,48 +5,29 @@
 {% endblock %}
 
 {% block content_two %}
-    <h3>{{recipe.recipeName}} ({{recipe.recipeAuthor}})</h3>
+    <h2 class="block-heading">{{recipe.recipeName}}</h2>
 
         <div class="row no-gutters">
-            <div class="col-4 offset-1 recipe-image-container">
+            <div class="col-5 recipe-image-container">
                 <img class="recipe-image" src={{recipe.recipeImageLink}} alt="Image unavailable">
             </div>
-
-        
-                
-                    <div class="col-3 offset-1 recipe-info">
-        
-                        <p><i class="material-icons">create</i> {{recipe.recipeAuthor}}</p>
-                        <p><i class="material-icons">restaurant_menu</i> {{recipe.recipeCuisine}}</p>
-                        <p> <i class="material-icons">people</i> {{recipe.recipeServings}} servings</p>
-                    </div>
-                    <div class="col-3 recipe-info">
-                        <p><i class="material-icons">schedule</i> {{recipe.recipeCookingTime}}</p>
-                        <p><i class="material-icons">restaurant</i> {{recipe.recipeDifficulty}}</p>
-                        <p><i class="material-icons">stars</i> {{recipe.recipeUpvotes}}</p>
-                    </div>
-                
-        </div>
-        <div class="row no-gutters">
-           <div class="col-3">
-               <h5> Ingredients :</h5>
+            <div class="col-2 offset-1 recipe-info">
+                <p><i class="material-icons">create</i> {{recipe.recipeAuthor}}</p>
+                <p><i class="material-icons">restaurant_menu</i> {{recipe.recipeCuisine}}</p>
+                <p> <i class="material-icons">people</i> {{recipe.recipeServings}} servings</p>
+                <p><i class="material-icons">schedule</i> {{recipe.recipeCookingTime}}</p>
+                <p><i class="material-icons">restaurant</i> {{recipe.recipeDifficulty}}</p>
+                <p><i class="material-icons">stars</i> {{recipe.recipeUpvotes}}</p>
+            </div>
+            <div class="col-3">
+                <h5 > Ingredients :</h5>
                 <p id="recipeIngredientsDisplay">{{recipe.recipeIngredients}}</p>
             </div>
-            <div class="col-9">
-                <h5>Instructions</h5>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-12">
+                <h5 class="instructions-heading">Instructions</h5>
                 <p class ="instructions">{{ recipe.recipeInstructions }}</p>
-                
-                <!--<ol>
-                    {% for instruction in recipe.recipeInstructions.split(". ") %}
-                    <li>{{ instruction }}</li>
-                    {% endfor %}
-                </ol>
-                
-                {{recipe.recipeInstructions}}{{recipe.recipeCuisine}}
-                {{recipe.recipeCountryOfOrigin}}
-                
-                {{recipe.recipeDifficulty}}
-                {{recipe.recipeIngredients}}-->
             </div>
         </div>
 {% endblock %} 

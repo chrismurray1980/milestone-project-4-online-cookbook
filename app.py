@@ -37,7 +37,7 @@ def edit_delete_recipe():
 
 @app.route('/show_recipe')
 def show_recipe():
-    return render_template("show_recipe.html", recipe=session.db.recipes.find_one({"recipeName":"Iced chocolate and cherry trifle"}))
+    return render_template("show_recipe.html", recipe=session.db.recipes.find_one({"recipeName":"Chilli con carne"}))
 
 @app.route('/favourites')
 def favourites():

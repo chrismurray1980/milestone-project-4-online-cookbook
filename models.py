@@ -21,7 +21,7 @@ class recipes(Document):
     recipeMainIngredient = Field(str)
     recipeIngredients = Field(str)
     recipeInstructions = Field(str)
-    recipeDietary = Field(str)
+    recipeDietary= Field(str)
     recipeUpvotes = Field(str)
     recipeImageLink = Field(str)
     
