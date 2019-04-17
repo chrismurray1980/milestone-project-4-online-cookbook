@@ -2,54 +2,51 @@ var $;
 
 $(document).ready(function() {
     add_options(select_contents);
-    var dietary_checkbox_array = [];
-    var allergy_checkbox_array = [];
-    
-    $('input[type="checkbox"][class="form-check-input dietary-input"]').click(function() {
+    var dietary_checkbox_array= [];
+    var allergy_checkbox_array= [];
+   
+   $('input[type="checkbox"][id="recipeDietary"]').click(function() {
 
         if ($(this).prop("checked") == true) {
             dietary_checkbox_array.push(this.value);
         }
         else if ($(this).prop("checked") == false) {
-            dietary_checkbox_array.pop(this.value);
+            dietary_checkbox_array.splice(dietary_checkbox_array.indexOf(this.value), 1);
         }
-        $('input[name="recipeDietary"]').val(dietary_checkbox_array.join(", "));
+         $('input[name="recipeDietary"]').val(dietary_checkbox_array.join(", "));
         console.log($('input[name="recipeDietary"]').val());
     });
     
-    $('input[type="checkbox"][class="form-check-input allergy-input"]').click(function() {
+   $('input[type="checkbox"][id="recipeAllergen"]').click(function() {
 
         if ($(this).prop("checked") == true) {
             allergy_checkbox_array.push(this.value);
         }
         else if ($(this).prop("checked") == false) {
-            allergy_checkbox_array.pop(this.value);
+            allergy_checkbox_array.splice(allergy_checkbox_array.indexOf(this.value), 1);
         }
          $('input[name="recipeAllergen"]').val(allergy_checkbox_array.join(", "));
         console.log($('input[name="recipeAllergen"]').val());
-    });
-});
-
-
-/*$(function () {
-        $("#add-recipe-submit").click(function () {
-            //Create an Array.
-            var dietary_checkbox_array =[];
- 
-            //Reference the CheckBoxes and insert the checked CheckBox value in Array.
-            $("#tblFruits input[type=checkbox]:checked").each(function () {
-                selected.push(this.value);
-            });
- 
-            //Display the selected CheckBox values.
-            if (selected.length > 0) {
-                alert("Selected values: " + selected.join(","));
-            }
-        });
-    });
+    });  
+    
+   // var allergy_checkbox_array = [];
+    
+   /*$('input[type="checkbox"]').click(function() {
         
-    console.log($( "input[type=checkbox]:checked" ).val());
-});*/
+        if ($(this).prop('checked')==true) {
+            checkbox_array.push(this.value);
+        }
+        else if ($(this).prop('checked')==false) {
+            checkbox_array.splice(checkbox_array.indexOf(this.value), 1);
+        }
+        
+        var name ="input[name="+$(this).attr("id")+"]";
+        console.log(name);
+            
+        $("input[name="+$(this).attr("id")+"]").val(checkbox_array.join(", "));
+        console.log($("input[name="+$(this).attr("id")+"]").val());
+    });*/
+});
 
 var select_contents = {
     cuisine: ["American", "Brazilian", "Chinese", "English", "French", "German", "Indian", "Irish", "Italian", "Japanese",
