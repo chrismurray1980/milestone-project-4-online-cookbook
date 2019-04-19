@@ -31,13 +31,26 @@ def insert_recipe():
    session.db.recipes.insert_one(recipes.make(request.form.to_dict()))
    return redirect(url_for('get_recipes'))
 
-@app.route('/edit_delete_recipe')
-def edit_delete_recipe():
-    return render_template("edit_delete_recipe.html")  
+@app.route('/edit_delete_recipe/<recipe_id>')
+def edit_delete_recipe(recipe_id):
+    return render_template("edit_delete_recipe.html", recipe=session.db.recipes.find_one({"_id": ObjectId(recipe_id)}))
+    
+@app.route('/update_recipe/<recipe_id>', methods=["POST"])
+def update_recipe(recipe_id):
+    session.db.recipes.update( {'_id': ObjectId(recipe_id)},
+    {
+        'recipeName':request.form.get('recipeName')
+    })
+    return redirect(url_for('get_recipes'))
 
-@app.route('/show_recipe')
-def show_recipe():
-    return render_template("show_recipe.html", recipe=session.db.recipes.find_one({"recipeName":"Chilli con carne"}))
+@app.route('/show_recipe/<recipe_id>')
+def show_recipe(recipe_id):
+    return render_template("show_recipe.html", recipe=session.db.recipes.find_one({"_id": ObjectId(recipe_id)}))
+
+@app.route('/delete_recipe/<recipe_id>')
+def delete_recipe(recipe_id):
+    session.db.recipes.remove({'_id': ObjectId(recipe_id)})
+    return redirect(url_for('get_recipes'))
 
 @app.route('/favourites')
 def favourites():
@@ -45,5 +58,3 @@ def favourites():
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
-    
-    

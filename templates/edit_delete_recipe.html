@@ -5,20 +5,99 @@
 {% endblock %}
 
 {% block content_two %}
-    <form>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    
+<h4> Please update or delete your recipe:</h4>
+
+<form action="{{ url_for('update_recipe', recipe_id=recipe._id) }}" method="POST">
+    <div class="form-group">
+        <label for="name">Recipe name</label>
+        <input type="text" class="form-control" name="recipeName" placeholder="Please enter recipe name" value="{{recipe.recipeName}}">
+    </div>
+    <div class="form-group">
+        <label for="name">Recipe author</label>
+        <input type="text" class="form-control" name="recipeAuthor" placeholder="Please enter recipe author" value="{{recipe.recipeAuthor}}">
+    </div>
+    <div class="form-group">
+        <label for="cuisine">Cuisine</label>
+        <select class="form-control cuisine-menu" name="recipeCuisine" value="{{recipe.recipeCusine}}">
+      <option>Please select</option>
+    </select>
+    </div>
+    <div class="form-group">
+        <label for="country of origin">Country of origin</label>
+        <select class="form-control countryOfOrigin-menu" name="recipeCountryOfOrigin" value="{{recipe.recipeCountryOfOrigin}}">
+      <option>Please select</option>
+    </select>
+    </div>
+    <div class="form-group">
+        <label for="mealtime">Mealtime</label>
+        <select class="form-control mealtime-menu" name="recipeMealTime" value="{{recipe.recipeMealtime}}">
+      <option>Please select</option>
+    </select>
+    </div>
+    <div class="form-group">
+        <label for="servings">Number of servings</label>
+        <select class="form-control servings-menu" name="recipeServings" value="{{recipe.recipeServings}}">
+      <option>Please select</option>
+    </select>
+    </div>
+    <div class="form-group">
+        <label for="difficulty">Difficulty</label>
+        <select class="form-control difficulty-menu" name="recipeDifficulty" value="{{recipe.recipeDifficulty}}">
+      <option>Please select</option>
+    </select>
+    </div>
+    <div class="form-group">
+        <label for="preparationtime">Preparation time</label>
+        <select class="form-control preparationtime-menu" name="recipePreparationTime" value="{{recipe.recipePreparationTime}}">
+      <option>Please select</option>
+    </select>
+    </div>
+    <div class="form-group">
+        <label for="cookingtime">Cooking time</label>
+        <select class="form-control cookingtime-menu" name="recipeCookingTime" value="{{recipe.recipeCookingTime}}">
+      <option>Please select</option>
+    </select>
+    </div>
+    <div class="form-group">
+        <label for="mainIngredient">Main Ingredient</label>
+        <select class="form-control mainIngredient-menu" name="recipeMainIngredient" value="{{recipe.recipeMainIngredient}}">
+      <option>Please select</option>
+    </select>
+    </div>
+    <div class="form-group">
+        <label for="Dietary">Dietary</label>
+        <div class="form-check form-check">
+            <label><input class="form-check-input dietary-input" type="checkbox" value="vegan" id="recipeDietary">Vegan</label>
+            <label><input class="form-check-input dietary-input" type="checkbox" value="other" id="recipeDietary">Other</label>
+            <input type="hidden" name="recipeDietary">
         </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <label for="Allergen">Allergens</label>
+        <div class="form-check form-check">
+            <label><input class="form-check-input allergy-input" type="checkbox" value="nut" id="recipeAllergen">Nut</label>
+            <label><input class="form-check-input allergy-input" type="checkbox" value="gluten" id="recipeAllergen">Gluten</label>
+            <label><input class="form-check-input allergy-input" type="checkbox" value="other" id="recipeAllergen">Other</label>
+            <input type="hidden" name="recipeAllergen">
         </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
+    <div class="form-group">
+        <label for="ingredients">Ingredients</label>
+        <textarea class="form-control" name="recipeIngredients" id="recipeIngredients" rows="3" value="{{recipe.recipeIngredients}}"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="instructions">Instructions</label>
+        <textarea class="form-control" name="recipeInstructions" id="recipeInstructions" rows="3" value="{{recipe.recipeInstructions}}"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="name">Recipe image</label>
+        <input type="text" class="form-control" name="recipeImageLink" placeholder="Please enter a link to the recipe image" value="{{recipe.recipeImageLink}}">
+    </div>
+    <button type="submit" class="btn btn-primary recipe_button" id="add-recipe-submit">Submit</button>
+</form>
+    
+ <a href="{{url_for('delete_recipe', recipe_id=recipe._id)}}" 
+                    class="waves-effect waves-light btn btn_small">Delete recipe</a>   
+    
 {% endblock %} 
