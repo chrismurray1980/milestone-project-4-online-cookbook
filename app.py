@@ -39,7 +39,21 @@ def edit_delete_recipe(recipe_id):
 def update_recipe(recipe_id):
     session.db.recipes.update( {'_id': ObjectId(recipe_id)},
     {
-        'recipeName':request.form.get('recipeName')
+        'recipeName':request.form.get('recipeName'),
+        'recipeAuthor':request.form.get('recipeAuthor'),
+        'recipeCuisine':request.form.get('recipeCuisine'),
+        'recipeCountryOfOrigin':request.form.get('recipeCountryOfOrigin'),
+        'recipeMealTime': request.form.get('recipeMealTime'),
+        'recipeServings': request.form.get('recipeServings'),
+        'recipeDifficulty': request.form.get('recipeDifficulty'),
+        'recipePreparationTime': request.form.get('recipePreparationTime'),
+        'recipeCookingTime': request.form.get('recipeCookingTime'),
+        'recipeAllergen': request.form.get('recipeAllergen'),
+        'recipeMainIngredient': request.form.get('recipeMainIngredient'),
+        'recipeIngredients': request.form.get('recipeIngredients'),
+        'recipeInstructions': request.form.get('recipeInstructions'),
+        'recipeDietary': request.form.get('recipeDietary'),
+        'recipeImageLink': request.form.get('recipeImageLink')
     })
     return redirect(url_for('get_recipes'))
 
