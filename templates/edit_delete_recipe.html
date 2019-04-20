@@ -19,7 +19,7 @@
     </div>
     <div class="form-group">
         <label for="cuisine">Cuisine</label>
-        <select class="form-control cuisine-menu" name="recipeCuisine" value="{{recipe.recipeCusine}}">
+        <select class="form-control cuisine-menu" name="recipeCuisine">
       <option>Please select</option>
     </select>
     </div>
@@ -99,5 +99,5 @@
     
  <a href="{{url_for('delete_recipe', recipe_id=recipe._id)}}" 
                     class="waves-effect waves-light btn btn_small">Delete recipe</a>   
-    
+
 {% endblock %} 

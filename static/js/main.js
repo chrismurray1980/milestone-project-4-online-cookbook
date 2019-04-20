@@ -48,6 +48,7 @@ $(document).ready(function() {
     });*/
 });
 
+
 var select_contents = {
     cuisine: ["American", "Brazilian", "Chinese", "English", "French", "German", "Indian", "Irish", "Italian", "Japanese",
         "Mexican",  "Scottish", "Spanish", "Thai", "Other"],
@@ -55,6 +56,7 @@ var select_contents = {
         "Mexico",  "Scotland", "Spain", "Thailand", "Other"],
     mealtime: ["Breakfast", "Lunch", "Dinner", "Snack"],
     servings: ["1", "2", "4", "6", "8"],
+    preparationtime: ["< 10 minutes", "< 20 minutes", "< 30 minutes", "< 45 minutes", "< 1 hour", "< 1.5 hours", "< 2 hours", "> 2 hours"],
     cookingtime: ["< 10 minutes", "< 20 minutes", "< 30 minutes", "< 45 minutes", "< 1 hour", "< 1.5 hours", "< 2 hours", "> 2 hours"],
     course: ["Starter", "Main", "Dessert"],
     difficulty: ["Easy", "Intermediate", "Hard"],
@@ -79,5 +81,4 @@ function add_options(option_object) {
     //var recipeInstructions = document.getElementById("recipeInstructions");
     console.log(str);
 })();
-
        
