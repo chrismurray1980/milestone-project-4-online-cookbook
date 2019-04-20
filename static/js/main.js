@@ -1,22 +1,4 @@
-var $;
-
-$(document).ready(function() {
-    add_options(select_contents);
-    
-    $("select").change(function() {
-        var select_id = $(this).attr("id");
-        
-        if (select_id=="recipeDietary" || select_id=="recipeAllergen" ){
-            $('input[name='+select_id +']').val($('#'+select_id.toString()).val().join(", "));
-        }
-        else{
-            $('input[name='+select_id +']').val($('#'+select_id.toString()).val());
-        }
-    });
-});
-
-
-var select_contents = {
+var $, select_contents = {
     allergens: ["Dairy", "Fish", "Peanuts", "Shellfish", "Soya", "Tree Nuts",  "Wheat", "Other"],
     cookingtime: ["5minutes", "10minutes", "15minutes", "20minutes", "30minutes", "45minutes", "1hour", "1.5hours", "2hours", "2.5hours"],
     countryOfOrigin: ["America", "Brazil", "China", "England", "France", "Germany", "India", "Ireland", "Italy", "Japan",
@@ -31,6 +13,20 @@ var select_contents = {
     preparationtime: ["5minutes", "10minutes", "15minutes", "20minutes", "30minutes", "45minutes", "1hour"],
     servings: ["1", "2", "4", "6", "8"]
 };
+
+$(document).ready(function() {
+    add_options(select_contents);
+    $("select").change(function() {
+        var select_id = $(this).attr("id");
+        
+        if (select_id=="recipeDietary" || select_id=="recipeAllergen" ){
+            $('input[name='+select_id +']').val($('#'+select_id.toString()).val().join(", "));
+        }
+        else{
+            $('input[name='+select_id +']').val($('#'+select_id.toString()).val());
+        }
+    });
+});
 
 function add_options(option_object) {
     for (const entry of Object.entries(option_object)) {

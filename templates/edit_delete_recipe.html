@@ -23,7 +23,7 @@
             </select>
         </div>
         <div class="col-sm-4">
-            <input type="text" class="form-control" name="recipeCuisine" value="{{ recipe.recipeCuisine}}">
+            <input type="text" class="form-control" name="recipeCuisine" value="{{recipe.recipeCuisine}}">
         </div>
     </div>
     <div class="form-group row">
@@ -34,7 +34,7 @@
             </select>
         </div>
         <div class="col-sm-4">
-            <input type="text" class="form-control" name="recipeCountryOfOrigin" value="{{ recipe.recipeCountryOfOrigin}}">
+            <input type="text" class="form-control" name="recipeCountryOfOrigin" value="{{recipe.recipeCountryOfOrigin}}">
         </div>
     </div>
     <div class="form-group row">
@@ -106,8 +106,7 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="Dietary">Dietary</label>
         <div class="col-sm-4">
-            <select multiple size="2" class="form-control dietary-menu" id="recipeDietary">
-              <option>Use Ctrl for multi-select</option>
+            <select multiple size="2" class="form-control dietary-menu" id="recipeDietary" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
             </select>
         </div>
         <div class="col-sm-4">
@@ -118,8 +117,7 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="Allergen">Allergens</label>
         <div class="col-sm-4">
-            <select multiple size="2" class="form-control allergens-menu" id="recipeAllergen">
-                <option>Please select</option>
+            <select multiple size="2" class="form-control allergens-menu" id="recipeAllergen" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
             </select>
         </div>
         <div class="col-sm-4">
@@ -144,9 +142,12 @@
             <input type="text" class="form-control" name="recipeImageLink" placeholder="Please enter recipe image" value="{{recipe.recipeImageLink}}">
         </div>
     </div>
-    <button type="submit" class="btn btn-primary recipe_button" id="update-recipe-submit">Update recipe</button>
+    <div class="form-group row">
+        <a class="col-sm-2 offset-1 " href="{{url_for('delete_recipe', recipe_id=recipe._id)}}"><button type="submit" class="btn btn-primary recipe_button" id="delete-recipe-submit">Delete recipe</button></a>
+        <button type="submit" class="col-sm-2 offset-6 btn btn-primary recipe_button" id="update-recipe-submit">Update recipe</button>
+    </div>
 </form>
 
-<a href="{{url_for('delete_recipe', recipe_id=recipe._id)}}"><button type="submit" class="btn btn-primary recipe_button" id="delete-recipe-submit">Delete recipe</button></a>
+
 
 {% endblock %}

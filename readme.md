@@ -280,3 +280,8 @@ Parallax https://www.w3schools.com/howto/howto_css_parallax.asp
 https://www.plus2net.com/javascript_tutorial/list-adding.php
 https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags   ---new line replace string--
 https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-values-as-Comma-Separated-String-using-jQuery.aspx--checkboxes to string--
+https://stackoverflow.com/questions/33677374/jinja2-and-bootstrap-carousel-item-active   ----set carousel item active----
+
+
+
+

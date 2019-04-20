@@ -19,13 +19,13 @@
                 <p><i class="material-icons">restaurant</i> {{recipe.recipeDifficulty}}</p>
                 <p><i class="material-icons">stars</i> {{recipe.recipeUpvotes}}</p>
             </div>
-            <div class="col-3">
+        </div>
+        <div class="row no-gutters">
+            <div class="col-4">
                 <h5 > Ingredients :</h5>
                 <p id="recipeIngredientsDisplay">{{recipe.recipeIngredients}}</p>
             </div>
-        </div>
-        <div class="row no-gutters">
-            <div class="col-12">
+            <div class="col-8">
                 <h5 class="instructions-heading">Instructions</h5>
                 <p class ="instructions">{{ recipe.recipeInstructions }}</p>
             </div>
