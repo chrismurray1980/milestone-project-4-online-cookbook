@@ -15,16 +15,21 @@ var $, select_contents = {
 };
 
 $(document).ready(function() {
+    
     add_options(select_contents);
+    
     $("select").change(function() {
         var select_id = $(this).attr("id");
-        
-        if (select_id=="recipeDietary" || select_id=="recipeAllergen" ){
-            $('input[name='+select_id +']').val($('#'+select_id.toString()).val().join(", "));
+        if (select_id == "recipeDietary" || select_id == "recipeAllergen") {
+            $('input[name=' + select_id + ']').val($('#' + select_id.toString()).val().join(", "));
         }
-        else{
-            $('input[name='+select_id +']').val($('#'+select_id.toString()).val());
+        else {
+            $('input[name=' + select_id + ']').val($('#' + select_id.toString()).val());
         }
+    });
+    
+    $('.carousel').carousel({
+        interval: 5000
     });
 });
 

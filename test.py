@@ -2,6 +2,7 @@ from flask_testing import TestCase
 from app import app, session
 from models import recipes, users
 import unittest
+from bson.objectid import ObjectId
 
 class FlaskTestCase(TestCase):
     
@@ -10,27 +11,28 @@ class FlaskTestCase(TestCase):
         return app
     
     def setUp(self):
-        pass
+        objectId = ObjectId('0123456789ab0123456789ab')
+        session.db.recipes.insert_one(recipes.make(dict(_id=objectId, recipeName='test this document')))
         
     def tearDown(self):
+        objectId = ObjectId('0123456789ab0123456789ab')
+        session.db.recipes.delete_one({"_id":objectId})
         session.clear()
 
     def test_index_loads(self):
-        #session.db.users.insert_one(users.make(dict(user_name='AAAAA', email='BBBBB')))
-        session.db.recipes.insert_one(recipes.make(dict(recipeName='CCCCC', recipeAuthor='DDDDD')))
-        #session.db.users.insert_one(users.make(dict(user_name='C', email='DD')))
         #Ensure index page loads correctly.
         response = self.client.get('/', follow_redirects=True)
         self.assert200(response)
         self.assertTemplateUsed('index.html')
-        self.assertIn(b'CCCCC', response.data)
+        self.assertIn(b'test this', response.data)
         self.assertEqual(session.db.recipes.count(), 1)
     
     def test_edit_delete_recipe_loads(self):
         #Ensure edit_delete_recipe page loads correctly.
-        response = self.client.get('/edit_delete_recipe', follow_redirects=True)
+        response = self.client.get('/edit_delete_recipe/0123456789ab0123456789ab', follow_redirects=True)
         self.assert200(response)
         self.assertTemplateUsed('edit_delete_recipe.html')
+        self.assertIn(b'test this document', response.data)
     
     def test_add_recipe_loads(self):
         #Ensure add_recipe page loads correctly.
@@ -46,7 +48,7 @@ class FlaskTestCase(TestCase):
     
     def test_show_recipe_loads(self):
         #Ensure show_recipe page loads correctly.
-        response = self.client.get('/show_recipe', follow_redirects=True)
+        response = self.client.get('/show_recipe/0123456789ab0123456789ab', follow_redirects=True)
         self.assert200(response)
         self.assertTemplateUsed('show_recipe.html')
         

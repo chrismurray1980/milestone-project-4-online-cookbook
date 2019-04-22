@@ -1,11 +1,11 @@
 .parallax {
   /* The image used */
-  background-image: url("https://images.pexels.com/photos/277253/pexels-photo-277253.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-  
+  background-image: url("https://images.pexels.com/photos/207204/pexels-photo-207204.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
+  background-size: cover;
   /* Set a specific height */
-  height: 225px;
+  height: auto;  
   width: 100%;
-
+  opacity: 0.8;
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
   background-position: center;
@@ -13,7 +13,17 @@
   background-size: cover;
 }
 
+.carousel-item {
+  height: 500px;
+}
 
+.carousel-inner > .item > img {
+  height: 500px; 
+  object-fit: cover;
+}
+
+.pre-post-page-content-parallax { height: 100px;}
+ 
 
 
 .title {
@@ -29,18 +39,6 @@
   h4 { 
     margin: 0;
     padding: 0 0 1.5% 0;
-  }
-}
-
-.aside {
-  border-top: 5px solid #33567a;
-  border-right: 5px solid #33567a;
-  border-bottom: 5px solid #33567a;
-  padding: 1% 1.5%;
-  h4 {
-    //font-family: 'Lobster', cursive;
-    color: #33567a;
-    margin-left: 5%;
   }
 }
 
@@ -104,7 +102,7 @@
     }
 
 #login {
-  color: rgba(255, 255, 255, 0.5);
+  color: #495057;
   text-decoration: none;
   font-size: 1rem;
   line-height: 1.4;
@@ -113,9 +111,10 @@
 }
 
 #site-logo {
-  padding-right: 50%; 
+  padding: 2% 5% 2% 2%; 
   font-family: 'Lobster', cursive;
-  color: #33567a;
+  color: #449c73;
+  font-size: 25px;
 }
 
 #header{

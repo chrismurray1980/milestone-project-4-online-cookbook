@@ -10,11 +10,15 @@
 </head>
 
 <body>
-    <div id="page">
-        <header>
-            <div id="header" class="row no-gutters">
-                <div class="col-12">
-                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    
+   <div class="parallax pre-post-page-content-parallax"></div>
+    
+    <div class="row no-gutters">
+        <div class="parallax col-3"></div>
+        <div class="col-6">
+            <div class="row no-gutters">
+                <header class="col-12">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
                         <a class="navbar-brand" href="{{url_for('get_recipes')}}" id="site-logo">The Good Grub Guide</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
@@ -54,91 +58,29 @@
                                 </li>
                             </ul>
                         </div>
+                        <form class="form-inline my-2 my-lg-0">
+                          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
                     </nav>
-                </div>
-            </div>
         </header>
-
-        <div id="content">
-            <div class="parallax"></div>
-
-            {% block content_one %}{% endblock %}
-
-            <div class="row no-gutters">
-                <div class="col-3 aside">
-                    <h4>Quick search:</h4>
-                    <form>
-                        <div class="form-group">
-                            <label for="cuisine">Cuisine</label>
-                            <select class="form-control cuisine-menu">
-                                <option>Please select</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="country of origin">Country of origin</label>
-                            <select class="form-control countryOfOrigin-menu">
-                              <option>Please select</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="mealtime">Mealtime</label>
-                            <select class="form-control mealtime-menu">
-                              <option>Please select</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="servings">Number of servings</label>
-                            <select class="form-control servings-menu">
-                              <option>Please select</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="difficulty">Difficulty</label>
-                            <select class="form-control difficulty-menu" id="recipe-difficulty">
-                              <option>Please select</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="cookingtime">Cooking time</label>
-                            <select class="form-control cookingtime-menu" id="recipe-cookingtime">
-                              <option>Please select</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="mainIngredient">Main Ingredient</label>
-                            <select class="form-control mainIngredient-menu">
-                              <option>Please select</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="dietary">Dietary</label>
-                            <select class="form-control dietary-menu">
-                              <option>Please select</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="mainIngredient">Allergens</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="option1">
-                                <label class="form-check-label" for="inlineCheckbox1">1</label>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-
-                <div class="col-9 page-content">
-                    {% block content_two %}{% endblock %}
-                </div>
             </div>
-            <div class="parallax"></div>
-        </div>
-
-
-        <div id="footer">
+            <div class="row no-gutters">
+                <div class="col-12">{% block content_two %}{% endblock %}</div>
+            </div>
+            <div id="footer">
             &copy; Copyright 2019 by CM<a href="http://domain.invalid/">you</a>.
             <!--check this later-->
         </div>
+        </div>
+        <div class="parallax col-3"></div>
+    </div>
+    
+   <div class="parallax pre-post-page-content-parallax"></div>
+    
+    
+    
+        
 
 
 
