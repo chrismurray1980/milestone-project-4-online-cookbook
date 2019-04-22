@@ -37,7 +37,7 @@ def edit_delete_recipe(recipe_id):
     
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
-    session.db.recipes.update( {'_id': ObjectId(recipe_id)},
+    session.db.recipes.update_one( {'_id': ObjectId(recipe_id)}, {"$set": 
     {
         'recipeName':request.form.get('recipeName'),
         'recipeAuthor':request.form.get('recipeAuthor'),
@@ -54,7 +54,7 @@ def update_recipe(recipe_id):
         'recipeInstructions': request.form.get('recipeInstructions'),
         'recipeDietary': request.form.get('recipeDietary'),
         'recipeImageLink': request.form.get('recipeImageLink')
-    })
+    }}, upsert=True)
     return redirect(url_for('get_recipes'))
 
 @app.route('/show_recipe/<recipe_id>')
