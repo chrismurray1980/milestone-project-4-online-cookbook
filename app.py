@@ -1,10 +1,14 @@
 from flask import Flask, render_template, redirect, request, url_for
 from bson.objectid import ObjectId
+import os
+
+
 from models import recipes, users
 from ming import mim, create_datastore
-from ming.odm import ThreadLocalODMSession
+from ming.odm import ThreadLocalODMSession, Mapper
 from ming.base import Cursor
-import os
+from flask_pymongo import pymongo, ASCENDING, DESCENDING
+
 
 def database_config_setup(filename):
     if filename == "__main__":
@@ -17,6 +21,8 @@ app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'onlineCookbook'
 app.config["MONGO_URI"]=database_config_setup(__name__)    
 session = ThreadLocalODMSession(bind=create_datastore(app.config["MONGO_URI"] ) )
+
+Mapper.ensure_all_indexes()
 
 @app.route('/')
 def get_recipes():
@@ -66,9 +72,22 @@ def delete_recipe(recipe_id):
     session.db.recipes.delete_one({'_id': ObjectId(recipe_id)})
     return redirect(url_for('get_recipes'))
 
+@app.route('/search_results')
+def search_results():
+    session.db.recipes.create_index([('recipeMainIngredient', pymongo.DESCENDING)])
+    return render_template("search_results.html", recipes=session.db.recipes.find({"$text": {"$search": "beef"}}))
+
+session.db.recipes.create_index([('recipeMainIngredient', pymongo.DESCENDING)])
+#session.db.recipes.create_index([('recipeName', 'text')])
+#session.db.recipes.create_index([('recipeIngredients', 'text')])
+recipe=session.db.recipes.find({"$text": {"$search": "Chopped tomatoes"}})
+for doc in recipe:
+    print(doc['recipeName'])
+
 @app.route('/favourites')
 def favourites():
     return render_template("favourites.html") 
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
+
