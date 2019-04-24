@@ -15,7 +15,7 @@
     
     <div class="row no-gutters">
         <div class="parallax col-3"></div>
-        <div class="col-6">
+        <div class="col-6 page-content">
             <div class="row no-gutters">
                 <header class="col-12">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -58,12 +58,11 @@
                                 </li>
                             </ul>
                         </div>
-                        <form class="form-inline my-2 my-lg-0">
-                          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
                     </nav>
         </header>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-12">{% block content_one %}{% endblock %}</div>
             </div>
             <div class="row no-gutters">
                 <div class="col-12">{% block content_two %}{% endblock %}</div>
