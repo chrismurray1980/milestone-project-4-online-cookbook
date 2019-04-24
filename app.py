@@ -26,9 +26,10 @@ Mapper.ensure_all_indexes()
 session.db.recipes.create_index([("$**","text")])
 #session.db.recipes.drop_index("$**_text")
 
-@app.route('/search_results')
+@app.route('/search_results', methods=['POST'])
 def search_results():
-    return render_template("search_results.html", recipes=session.db.recipes.find({"$text": {"$search": "sour cream"}}))
+    search_content=request.form.get('searchContent')
+    return render_template("search_results.html", recipes=session.db.recipes.find({"$text": {"$search": search_content}}))
 
     
 @app.route('/add_recipe')
