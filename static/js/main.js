@@ -31,6 +31,10 @@ $(document).ready(function() {
     $('.carousel').carousel({
         interval: 5000
     });
+    
+    $('#advanced-search').click(function(){
+        $('#advanced-search-form').toggleClass('hidden');
+    });
 });
 
 function add_options(option_object) {

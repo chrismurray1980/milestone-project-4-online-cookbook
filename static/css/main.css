@@ -12,6 +12,9 @@
   background-repeat: no-repeat;
   background-size: cover; }
 
+.hidden {
+  display: none; }
+
 .carousel-item {
   height: 500px; }
 

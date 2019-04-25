@@ -283,5 +283,6 @@ https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-valu
 https://stackoverflow.com/questions/33677374/jinja2-and-bootstrap-carousel-item-active   ----set carousel item active----
 https://code.tutsplus.com/tutorials/full-text-search-in-mongodb--cms-24835 -----full text search----
 https://gist.github.com/cpatrick/5719077 ----text score----
-
+https://docs.mongodb.com/manual/reference/method/db.collection.find/ ---sort---
+https://docs.mongodb.com/manual/reference/operator/update/inc/index.html ---increment---
 
