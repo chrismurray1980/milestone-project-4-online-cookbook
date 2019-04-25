@@ -80,7 +80,8 @@ def delete_recipe(recipe_id):
 
 @app.route('/like_recipe/<recipe_id>')
 def like_recipe(recipe_id):
-    return render_template("show_recipe.html", recipe=recipes_collection.update( {'_id': ObjectId(recipe_id)}, { '$inc': { 'recipeUpvotes': 1} } ))
+    recipes_collection.update( {'_id': ObjectId(recipe_id)}, { '$inc': { 'recipeUpvotes': 1} } )
+    return render_template("show_recipe.html", recipe=recipes_collection.find_one({"_id": ObjectId(recipe_id)}))
 
 @app.route('/favourites')
 def favourites():
