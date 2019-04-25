@@ -6,6 +6,8 @@ from ming.odm import ThreadLocalODMSession, Mapper
 from ming.base import Cursor
 import os
 
+Mapper.ensure_all_indexes()
+
 def database_config_setup(filename):
     if filename == "__main__":
         database_config=os.getenv("MONGO_URI",'mongodb://localhost')
@@ -18,19 +20,19 @@ app.config["MONGO_DBNAME"] = 'onlineCookbook'
 app.config["MONGO_URI"]=database_config_setup(__name__)    
 session = ThreadLocalODMSession(bind=create_datastore(app.config["MONGO_URI"] ) )
 
+recipes_collection=session.db.recipes
+ #recipes_collection.drop_index("$**_text")
+recipes_collection.create_index([("$**","text")])
+
 @app.route('/')
 def get_recipes():
-    return render_template("index.html", recipes=session.db.recipes.find())
-
-Mapper.ensure_all_indexes()
-session.db.recipes.create_index([("$**","text")])
-#session.db.recipes.drop_index("$**_text")
+    return render_template("index.html", recipes=recipes_collection.find())
 
 @app.route('/search_results', methods=['POST'])
 def search_results():
     search_content=request.form.get('searchContent')
-    return render_template("search_results.html", recipes=session.db.recipes.find({"$text": {"$search": search_content}}))
-
+    recipes=recipes_collection.find({"$text": {"$search": search_content}}, {'_txtscr': {'$meta': 'textScore'}}).sort([('_txtscr', {'$meta':'textScore'})])
+    return render_template("search_results.html", recipes=recipes)
     
 @app.route('/add_recipe')
 def add_recipe():
@@ -38,16 +40,16 @@ def add_recipe():
     
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-   session.db.recipes.insert_one(recipes.make(request.form.to_dict()))
+   recipes_collection.insert_one(recipes.make(request.form.to_dict()))
    return redirect(url_for('get_recipes'))
 
 @app.route('/edit_delete_recipe/<recipe_id>')
 def edit_delete_recipe(recipe_id):
-    return render_template("edit_delete_recipe.html", recipe=session.db.recipes.find_one({"_id": ObjectId(recipe_id)}))
+    return render_template("edit_delete_recipe.html", recipe=recipes_collection.find_one({"_id": ObjectId(recipe_id)}))
     
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
-    session.db.recipes.update_one( {'_id': ObjectId(recipe_id)}, {"$set": 
+    recipes_collection.update_one( {'_id': ObjectId(recipe_id)}, {"$set": 
     {
         'recipeName':request.form.get('recipeName'),
         'recipeAuthor':request.form.get('recipeAuthor'),
@@ -69,11 +71,11 @@ def update_recipe(recipe_id):
 
 @app.route('/show_recipe/<recipe_id>')
 def show_recipe(recipe_id):
-    return render_template("show_recipe.html", recipe=session.db.recipes.find_one({"_id": ObjectId(recipe_id)}))
+    return render_template("show_recipe.html", recipe=recipes_collection.find_one({"_id": ObjectId(recipe_id)}))
 
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
-    session.db.recipes.delete_one({'_id': ObjectId(recipe_id)})
+    recipes_collection.delete_one({'_id': ObjectId(recipe_id)})
     return redirect(url_for('get_recipes'))
 
 @app.route('/favourites')
@@ -82,4 +84,3 @@ def favourites():
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
-    
