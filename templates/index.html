@@ -27,6 +27,8 @@
         <li data-target="#popularRecipeIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#popularRecipeIndicators" data-slide-to="1"></li>
         <li data-target="#popularRecipeIndicators" data-slide-to="2"></li>
+        <li data-target="#popularRecipeIndicators" data-slide-to="3"></li>
+        <li data-target="#popularRecipeIndicators" data-slide-to="4"></li>
       </ol>
       
       <div class="carousel-inner">
@@ -35,6 +37,7 @@
               <img style="background-size: cover;" class="d-block w-100" src={{recipe.recipeImageLink}} alt="Image unavailable">
                <div class="carousel-caption d-none d-md-block"> 
                   <h2>{{recipe.recipeName }}</h2>
+                  <h2>{{recipe.recipeUpvotes }}</h2>
                   <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}"><h4>View recipe</h4></a>
           </div>
           </div>

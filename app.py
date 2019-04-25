@@ -21,19 +21,19 @@ app.config["MONGO_URI"]=database_config_setup(__name__)
 session = ThreadLocalODMSession(bind=create_datastore(app.config["MONGO_URI"] ) )
 
 recipes_collection=session.db.recipes
- #recipes_collection.drop_index("$**_text")
+recipes_collection.drop_index("$**_text")
 recipes_collection.create_index([("$**","text")])
 
 @app.route('/')
 def get_recipes():
-    return render_template("index.html", recipes=recipes_collection.find())
+    return render_template("index.html", recipes=recipes_collection.find().sort([('recipeUpvotes', -1)]).sort([('recipeUpvotes', -1)]).limit( 5 ))
 
 @app.route('/search_results', methods=['POST'])
 def search_results():
-    search_content=request.form.get('searchContent')
+    search_content='\"'+request.form.get('searchContent')+'\"'
     recipes=recipes_collection.find({"$text": {"$search": search_content}}, {'_txtscr': {'$meta': 'textScore'}}).sort([('_txtscr', {'$meta':'textScore'})])
     return render_template("search_results.html", recipes=recipes)
-    
+ 
 @app.route('/add_recipe')
 def add_recipe():
     return render_template("add_recipe.html")
@@ -77,6 +77,10 @@ def show_recipe(recipe_id):
 def delete_recipe(recipe_id):
     recipes_collection.delete_one({'_id': ObjectId(recipe_id)})
     return redirect(url_for('get_recipes'))
+
+@app.route('/like_recipe/<recipe_id>')
+def like_recipe(recipe_id):
+    return render_template("show_recipe.html", recipe=recipes_collection.update( {'_id': ObjectId(recipe_id)}, { '$inc': { 'recipeUpvotes': 1} } ))
 
 @app.route('/favourites')
 def favourites():
