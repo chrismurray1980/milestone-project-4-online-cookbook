@@ -5,6 +5,7 @@ from ming import mim, create_datastore
 from ming.odm import ThreadLocalODMSession, Mapper
 from ming.base import Cursor
 import os
+import json
 
 Mapper.ensure_all_indexes()
 
@@ -33,7 +34,18 @@ def search_results():
     search_content='\"'+request.form.get('searchContent')+'\"'
     recipes=recipes_collection.find({"$text": {"$search": search_content}}, {'_txtscr': {'$meta': 'textScore'}}).sort([('_txtscr', {'$meta':'textScore'})])
     return render_template("search_results.html", recipes=recipes)
- 
+
+@app.route('/advanced_search_results', methods=['POST'])
+def advanced_search_results():
+    select_array=['recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings', 'recipeDifficulty', 
+                  'recipePreparationTime', 'recipeCookingTime', 'recipeAllergen', 'recipeMainIngredient', 'recipeDietary']
+    advanced_search_array=[]
+    for value in select_array:
+        if request.form.get(value) != '':
+            advanced_search_array.append({value : request.form.get(value)})
+    recipes=recipes_collection.find({"$and": advanced_search_array})
+    return render_template("search_results.html", recipes=recipes)
+  
 @app.route('/add_recipe')
 def add_recipe():
     return render_template("add_recipe.html")

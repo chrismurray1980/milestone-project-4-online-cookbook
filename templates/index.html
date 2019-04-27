@@ -21,149 +21,153 @@
     <div class="col-12 search-container hidden" id='advanced-search-form'>
         <h4> Advanced Search:</h4>
     
-        <form>
-           <div class="form-group row"> 
-            <div class="col-6">
-                <div class="form-group row">
-                    <label class="col-10 offset-1 col-form-label" for="cuisine">Cuisine</label>
-                    <div class="col-10 offset-1 ">
-                        <select class="form-control cuisine-menu" id="recipeCuisine">
-                            <option>Please select</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <input type="hidden" class="form-control" name="recipeCuisine" placeholder="Please enter cuisine">
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group row">
-                    <label class="col-10 offset-1  col-form-label" for="CountryOfOrigin">Country of origin</label>
-                    <div class="col-10 offset-1 ">
-                        <select class="form-control countryOfOrigin-menu" id="recipeCountryOfOrigin">
-                            <option>Please select</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <input type="hidden" class="form-control" name="recipeCountryOfOrigin" placeholder="Please enter country of origin">
-                    </div>
-                </div>
-            </div>
-            </div>
-            
-            <div class="form-group row"> 
-            <div class="col-6">
+        <form id="advanced_search_form" class="form-inline my-2 my-lg-0" action="{{ url_for('advanced_search_results')}}" method="POST">
             <div class="form-group row">
-                <label class="col-10 offset-1 col-form-label" for="mealtime">Mealtime</label>
-                <div class="col-10 offset-1">
-                    <select class="form-control mealtime-menu" id="recipeMealTime">
-                  <option>Please select</option>
-                </select>
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-10 offset-1 col-form-label" for="cuisine">Cuisine</label>
+                        <div class="col-10 offset-1 ">
+                            <select class="form-control cuisine-menu" id="recipeCuisine">
+                                <option>Please select</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" class="form-control" name="recipeCuisine" placeholder="Please enter cuisine">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <input type="hidden" class="form-control" name="recipeMealTime" placeholder="Please enter mealtime">
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-10 offset-1  col-form-label" for="CountryOfOrigin">Country of origin</label>
+                        <div class="col-10 offset-1 ">
+                            <select class="form-control countryOfOrigin-menu" id="recipeCountryOfOrigin">
+                                <option>Please select</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" class="form-control" name="recipeCountryOfOrigin" placeholder="Please enter country of origin">
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group row">
-                    <label class="col-10 offset-1 col-form-label" for="servings">Number of servings</label>
-                    <div class="col-10 offset-1">
-                        <select class="form-control servings-menu" id="recipeServings">
+    
+            <div class="form-group row">
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-10 offset-1 col-form-label" for="mealtime">Mealtime</label>
+                        <div class="col-10 offset-1">
+                            <select class="form-control mealtime-menu" id="recipeMealTime">
                       <option>Please select</option>
                     </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" class="form-control" name="recipeMealTime" placeholder="Please enter mealtime">
+                        </div>
                     </div>
-                    <div class="col-sm-4">
-                        <input type="hidden" class="form-control" name="recipeServings" placeholder="Please enter number of servings">
+                </div>
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-10 offset-1 col-form-label" for="servings">Number of servings</label>
+                        <div class="col-10 offset-1">
+                            <select class="form-control servings-menu" id="recipeServings">
+                          <option>Please select</option>
+                        </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" class="form-control" name="recipeServings" placeholder="Please enter number of servings">
+                        </div>
                     </div>
                 </div>
             </div>
-            </div>
-            <div class="form-group row"> 
-            <div class="col-6">
             <div class="form-group row">
-                <label class="col-10 offset-1 col-form-label" for="difficulty">Difficulty</label>
-                <div class="col-10 offset-1">
-                    <select class="form-control difficulty-menu" id="recipeDifficulty">
-                  <option>Please select</option>
-                </select>
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-10 offset-1 col-form-label" for="difficulty">Difficulty</label>
+                        <div class="col-10 offset-1">
+                            <select class="form-control difficulty-menu" id="recipeDifficulty">
+                      <option>Please select</option>
+                    </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" class="form-control" name="recipeDifficulty" placeholder="Please enter difficulty">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <input type="hidden" class="form-control" name="recipeDifficulty" placeholder="Please enter difficulty">
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-10 offset-1  col-form-label" for="preparationtime">Preparation time</label>
+                        <div class="col-10 offset-1 ">
+                            <select class="form-control preparationtime-menu" id="recipePreparationTime">
+                      <option>Please select</option>
+                    </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" class="form-control" name="recipePreparationTime" placeholder="Please enter preparation time">
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-            <div class="col-6">
             <div class="form-group row">
-                <label class="col-10 offset-1  col-form-label" for="preparationtime">Preparation time</label>
-                <div class="col-10 offset-1 ">
-                    <select class="form-control preparationtime-menu" id="recipePreparationTime">
-                  <option>Please select</option>
-                </select>
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-10 offset-1 col-form-label" for="cookingtime">Cooking time</label>
+                        <div class="col-10 offset-1">
+                            <select class="form-control cookingtime-menu" id="recipeCookingTime">
+                      <option>Please select</option>
+                    </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" class="form-control" name="recipeCookingTime" placeholder="Please enter cooking time">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <input type="hidden" class="form-control" name="recipePreparationTime" placeholder="Please enter preparation time">
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-10 offset-1 col-form-label" for="mainIngredient">Main Ingredient</label>
+                        <div class="col-10 offset-1">
+                            <select class="form-control mainIngredient-menu" id="recipeMainIngredient">
+                      <option>Please select</option>
+                    </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" class="form-control" name="recipeMainIngredient" placeholder="Please enter main ingredient">
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-            </div>
-            <div class="form-group row"> 
-            <div class="col-6">
             <div class="form-group row">
-                <label class="col-10 offset-1 col-form-label" for="cookingtime">Cooking time</label>
-                <div class="col-10 offset-1">
-                    <select class="form-control cookingtime-menu" id="recipeCookingTime">
-                  <option>Please select</option>
-                </select>
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-10 offset-1 col-form-label" for="Dietary">Dietary</label>
+                        <div class="col-10 offset-1">
+                            <select multiple size="2" class="form-control dietary-menu" id="recipeDietary" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
+                      <option>Please select</option>
+                    </select>
+                        </div>
+                        <div class="col-10 offset-1">
+                            <input type="hidden" class="form-control" name="recipeDietary" placeholder="Please enter dietary requirements">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <input type="hidden" class="form-control" name="recipeCookingTime" placeholder="Please enter cooking time">
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-10 offset-1 col-form-label" for="Allergen">Allergens</label>
+                        <div class="col-10 offset-1">
+                            <select multiple size="2" class="form-control allergens-menu" id="recipeAllergen" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
+                        <option>Please select</option>
+                    </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" class="form-control" name="recipeAllergen" placeholder="Please enter any allergens present">
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-            <div class="col-6">
             <div class="form-group row">
-                <label class="col-10 offset-1 col-form-label" for="mainIngredient">Main Ingredient</label>
-                <div class="col-10 offset-1">
-                    <select class="form-control mainIngredient-menu" id="recipeMainIngredient">
-                  <option>Please select</option>
-                </select>
-                </div>
-                <div class="col-sm-4">
-                    <input type="hidden" class="form-control" name="recipeMainIngredient" placeholder="Please enter main ingredient">
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary recipe_button" id="add-recipe-submit">Submit</button>
                 </div>
             </div>
-            </div>
-            </div>
-            <div class="form-group row"> 
-            <div class="col-6">
-            <div class="form-group row">
-                <label class="col-10 offset-1 col-form-label" for="Dietary">Dietary</label>
-                <div class="col-10 offset-1">
-                    <select multiple size="2" class="form-control dietary-menu" id="recipeDietary" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
-                  <option>Please select</option>
-                </select>
-                </div>
-                <div class="col-10 offset-1">
-                    <input type="hidden" class="form-control" name="recipeDietary" placeholder="Please enter dietary requirements">
-                </div>
-            </div>
-            </div>
-            <div class="col-6">
-            <div class="form-group row">
-                <label class="col-10 offset-1 col-form-label" for="Allergen">Allergens</label>
-                <div class="col-10 offset-1">
-                    <select multiple size="2" class="form-control allergens-menu" id="recipeAllergen" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
-                    <option>Please select</option>
-                </select>
-                </div>
-                <div class="col-sm-4">
-                    <input type="hidden" class="form-control" name="recipeAllergen" placeholder="Please enter any allergens present">
-                </div>
-            </div>
-            </div>
-            </div>
-            <button type="submit" class="btn btn-primary recipe_button" id="add-recipe-submit">Submit</button>
         </form>
     </div>
 {% endblock %}
