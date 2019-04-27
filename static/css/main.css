@@ -26,9 +26,7 @@
   height: 100px; }
 
 .search-container {
-  padding: 5% 0;
-  border-top: 1px solid #33567a;
-  border-bottom: 1px solid #33567a; }
+  padding: 5% 0; }
   .search-container h5 {
     text-align: center;
     line-height: 1.5; }
@@ -122,5 +120,18 @@
 
 .recipe-info {
   font-size: 20px; }
+
+#advanced-search {
+  margin-left: 5%; }
+
+#text-search {
+  margin-left: 20%; }
+
+#advanced-search-submit {
+  margin-left: -25%; }
+
+.text-align-centre h5 {
+  text-align: center;
+  padding: 5% 0; }
 
 /*# sourceMappingURL=main.css.map */

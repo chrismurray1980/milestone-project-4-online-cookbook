@@ -36,6 +36,12 @@ $(document).ready(function() {
     
     $('#advanced-search').click(function(){
         $('#advanced-search-form').toggleClass('hidden');
+        $('#search-form').toggleClass('hidden');
+    });
+    
+    $('#text-search').click(function(){
+        $('#advanced-search-form').toggleClass('hidden');
+        $('#search-form').toggleClass('hidden');
     });
 });
 
