@@ -34,7 +34,7 @@
                         <label class="col-10 offset-1 col-form-label" for="cuisine">Cuisine</label>
                         <div class="col-10 offset-1 ">
                             <select class="form-control cuisine-menu" id="recipeCuisine">
-                                <option>Please select</option>
+                                <option value=''>Please select</option>
                             </select>
                         </div>
                         <div class="col-sm-4">
@@ -47,7 +47,7 @@
                         <label class="col-10 offset-1  col-form-label" for="CountryOfOrigin">Country of origin</label>
                         <div class="col-10 offset-1 ">
                             <select class="form-control countryOfOrigin-menu" id="recipeCountryOfOrigin">
-                                <option>Please select</option>
+                                <option value=''>Please select</option>
                             </select>
                         </div>
                         <div class="col-sm-4">
@@ -62,7 +62,7 @@
                         <label class="col-10 offset-1 col-form-label" for="mealtime">Mealtime</label>
                         <div class="col-10 offset-1">
                             <select class="form-control mealtime-menu" id="recipeMealTime">
-                      <option>Please select</option>
+                      <option value=''>Please select</option>
                     </select>
                         </div>
                         <div class="col-sm-4">
@@ -75,7 +75,7 @@
                         <label class="col-10 offset-1 col-form-label" for="servings">Number of servings</label>
                         <div class="col-10 offset-1">
                             <select class="form-control servings-menu" id="recipeServings">
-                          <option>Please select</option>
+                          <option value=''>Please select</option>
                         </select>
                         </div>
                         <div class="col-sm-4">
@@ -90,7 +90,7 @@
                         <label class="col-10 offset-1 col-form-label" for="difficulty">Difficulty</label>
                         <div class="col-10 offset-1">
                             <select class="form-control difficulty-menu" id="recipeDifficulty">
-                      <option>Please select</option>
+                      <option value=''>Please select</option>
                     </select>
                         </div>
                         <div class="col-sm-4">
@@ -103,7 +103,7 @@
                         <label class="col-10 offset-1  col-form-label" for="preparationtime">Preparation time</label>
                         <div class="col-10 offset-1 ">
                             <select class="form-control preparationtime-menu" id="recipePreparationTime">
-                      <option>Please select</option>
+                      <option value=''>Please select</option>
                     </select>
                         </div>
                         <div class="col-sm-4">
@@ -118,7 +118,7 @@
                         <label class="col-10 offset-1 col-form-label" for="cookingtime">Cooking time</label>
                         <div class="col-10 offset-1">
                             <select class="form-control cookingtime-menu" id="recipeCookingTime">
-                      <option>Please select</option>
+                      <option value=''>Please select</option>
                     </select>
                         </div>
                         <div class="col-sm-4">
@@ -131,7 +131,7 @@
                         <label class="col-10 offset-1 col-form-label" for="mainIngredient">Main Ingredient</label>
                         <div class="col-10 offset-1">
                             <select class="form-control mainIngredient-menu" id="recipeMainIngredient">
-                      <option>Please select</option>
+                      <option value=''>Please select</option>
                     </select>
                         </div>
                         <div class="col-sm-4">
@@ -145,8 +145,8 @@
                     <div class="form-group row">
                         <label class="col-10 offset-1 col-form-label" for="Dietary">Dietary</label>
                         <div class="col-10 offset-1">
-                            <select multiple size="2" class="form-control dietary-menu" id="recipeDietary" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
-                      <option>Please select</option>
+                            <select multiple size="2" class="form-control dietary-menu multiple-select" id="recipeDietary" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
+                      <option value=''>Please select</option>
                     </select>
                         </div>
                         <div class="col-10 offset-1">
@@ -158,8 +158,8 @@
                     <div class="form-group row">
                         <label class="col-10 offset-1 col-form-label" for="Allergen">Allergens</label>
                         <div class="col-10 offset-1">
-                            <select multiple size="2" class="form-control allergens-menu" id="recipeAllergen" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
-                        <option>Please select</option>
+                            <select multiple size="2" class="form-control allergens-menu multiple-select" id="recipeAllergen" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
+                        <option value=''>Please select</option>
                     </select>
                         </div>
                         <div class="col-sm-4">
@@ -181,7 +181,7 @@
 {% block content_two %}
 <div class="row">
     
-    <div id="popularRecipeIndicators" class="carousel slide col-12" data-ride="carousel">
+    <div id="popularRecipeIndicators" class="carousel slide col-8 offset-2" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#popularRecipeIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#popularRecipeIndicators" data-slide-to="1"></li>
@@ -243,4 +243,30 @@
         </div>
         {% endfor %}
     </div>-->
+{% endblock %}
+
+{% block content_three %}
+    <a href="" class="waves-effect waves-light btn btn_small" id="get_Data"><button  class="btn btn-outline-info my-2 my-sm-0">Show recipe data</button></a>
+
+    <div>
+        <p id="data" class="hidden">{% for recipe in data %}{{ recipe }}{% endfor %}</p>
+    </div> 
+
+    <div id='recipe-country-of-origin-chart'></div>
+
+    <div><span>Recipes by country of origin</span></div>
+    
+    <div id='recipe-main-ingredient-chart'></div>
+
+    <div><span>Recipes by main ingredient</span></div>
+    
+    <div id='recipe-dietary-chart'></div>
+
+    <div><span>Recipes by dietary requirements</span></div>
+    
+    <div id='recipe-allergen-chart'></div>
+
+    <div><span>Recipes by allergens </span></div>
+    
+    
 {% endblock %}

@@ -18,11 +18,11 @@ class recipes(Document):
     recipeDifficulty = Field(str)
     recipePreparationTime = Field(str)
     recipeCookingTime = Field(str)
-    recipeAllergen = Field(str)
+    recipeAllergen = Field(schema.Array(str))
     recipeMainIngredient = Field(str)
     recipeIngredients = Field(str)
     recipeInstructions = Field(str)
-    recipeDietary= Field(str)
+    recipeDietary= Field(schema.Array(str))
     recipeUpvotes = Field(str)
     recipeImageLink = Field(str)
     

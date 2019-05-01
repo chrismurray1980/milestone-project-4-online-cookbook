@@ -1,4 +1,4 @@
-var $;
+/* global $*/
 
 var select_contents = {
     allergens: ["Dairy", "Fish", "Peanuts", "Shellfish", "Soya", "Tree Nuts",  "Wheat", "Other"],
@@ -22,13 +22,35 @@ $(document).ready(function() {
     
      $("select").change(function() {
         var select_id = $(this).attr("id");
-        if (select_id == "recipeDietary" || select_id == "recipeAllergen") {
-            $('input[name=' + select_id + ']').val($('#' + select_id.toString()).val().join(", "));
-        }
-        else {
+        if (select_id != "recipeDietary" && select_id != "recipeAllergen") {
             $('input[name=' + select_id + ']').val($('#' + select_id.toString()).val());
         }
     });
+     
+    var dietary_select_array=[], allergen_select_array=[]; 
+            
+    $(".multiple-select").click(function() {
+        var select_id = $(this).attr("id");
+        
+        if(select_id=='recipeDietary'){
+            dietary_select_array=$('#recipeDietary').val();
+            $('input[name=' + select_id + ']').val(dietary_select_array);
+        }
+        else if(select_id=='recipeAllergen'){
+            allergen_select_array=$('#recipeAllergen').val();
+            $('input[name=' + select_id + ']').val(allergen_select_array);
+        }
+        console.log(dietary_select_array);
+        console.log(allergen_select_array);
+        
+        /*if (select_id != "recipeDietary" && select_id != "recipeAllergen") {
+            $('input[name=' + select_id + ']').val($('#' + select_id.toString()).val());
+        }*/
+    });      
+             
+             
+             
+             
                     
     $('.carousel').carousel({
         interval: 5000
@@ -63,10 +85,3 @@ function add_options(option_object) {
     console.log(str);
 })();
 
-
-
-
-
-
-
-       

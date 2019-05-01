@@ -285,4 +285,8 @@ https://code.tutsplus.com/tutorials/full-text-search-in-mongodb--cms-24835 -----
 https://gist.github.com/cpatrick/5719077 ----text score----
 https://docs.mongodb.com/manual/reference/method/db.collection.find/ ---sort---
 https://docs.mongodb.com/manual/reference/operator/update/inc/index.html ---increment---
+https://stackoverflow.com/questions/13241878/convert-pymongo-cursor-to-json --json object from find results---
+
+
+
 

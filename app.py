@@ -1,11 +1,11 @@
-from flask import Flask, render_template, redirect, request, url_for
+import os
+from flask import Flask, render_template, redirect, request, url_for, jsonify
 from bson.objectid import ObjectId
-from models import recipes, users
+from bson.json_util import dumps
 from ming import mim, create_datastore
 from ming.odm import ThreadLocalODMSession, Mapper
 from ming.base import Cursor
-import os
-import json
+from models import recipes, users
 
 Mapper.ensure_all_indexes()
 
@@ -27,7 +27,7 @@ recipes_collection.create_index([("$**","text")])
 
 @app.route('/')
 def get_recipes():
-    return render_template("index.html", recipes=recipes_collection.find().sort([('recipeUpvotes', -1)]).sort([('recipeUpvotes', -1)]).limit( 5 ))
+    return render_template("index.html", recipes=recipes_collection.find().sort([('recipeUpvotes', -1)]).sort([('recipeUpvotes', -1)]).limit( 5 ), data=dumps(recipes_collection.find()))
 
 @app.route('/search_results', methods=['POST'])
 def search_results():
@@ -42,18 +42,46 @@ def advanced_search_results():
     advanced_search_array=[]
     for value in select_array:
         if request.form.get(value) != '':
-            advanced_search_array.append({value : request.form.get(value)})
+            if value =='recipeAllergen' or value =='recipeDietary':
+                value_text = request.form.get(value)
+                value_split_text = value_text.split(', ')
+                advanced_search_subset=[]
+                for i in value_split_text:
+                    advanced_search_subset.append(i)
+                advanced_search_array.append({value : { '$in': advanced_search_subset} })
+                print(advanced_search_array)
+            else:
+                advanced_search_array.append({value : request.form.get(value)})
     recipes=recipes_collection.find({"$and": advanced_search_array})
     return render_template("search_results.html", recipes=recipes)
-  
+    
 @app.route('/add_recipe')
 def add_recipe():
     return render_template("add_recipe.html")
     
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-   recipes_collection.insert_one(recipes.make(request.form.to_dict()))
-   return redirect(url_for('get_recipes'))
+    recipe_dietary_array=request.form.get('recipeDietary').split(',')
+    print(recipe_dietary_array)
+
+    recipes_collection.insert_one({
+        'recipeName':request.form.get('recipeName'),
+        'recipeAuthor':request.form.get('recipeAuthor'),
+        'recipeCuisine':request.form.get('recipeCuisine'),
+        'recipeCountryOfOrigin':request.form.get('recipeCountryOfOrigin'),
+        'recipeMealTime': request.form.get('recipeMealTime'),
+        'recipeServings': request.form.get('recipeServings'),
+        'recipeDifficulty': request.form.get('recipeDifficulty'),
+        'recipePreparationTime': request.form.get('recipePreparationTime'),
+        'recipeCookingTime': request.form.get('recipeCookingTime'),
+        'recipeAllergen': request.form.get('recipeAllergen').split(','),
+        'recipeMainIngredient': request.form.get('recipeMainIngredient'),
+        'recipeIngredients': request.form.get('recipeIngredients'),
+        'recipeInstructions': request.form.get('recipeInstructions'),
+        'recipeDietary': request.form.get('recipeDietary').split(','),
+        'recipeImageLink': request.form.get('recipeImageLink')
+    })
+    return redirect(url_for('get_recipes'))
 
 @app.route('/edit_delete_recipe/<recipe_id>')
 def edit_delete_recipe(recipe_id):
@@ -72,11 +100,11 @@ def update_recipe(recipe_id):
         'recipeDifficulty': request.form.get('recipeDifficulty'),
         'recipePreparationTime': request.form.get('recipePreparationTime'),
         'recipeCookingTime': request.form.get('recipeCookingTime'),
-        'recipeAllergen': request.form.get('recipeAllergen'),
+        'recipeAllergen': request.form.get('recipeAllergen').split(','),
         'recipeMainIngredient': request.form.get('recipeMainIngredient'),
         'recipeIngredients': request.form.get('recipeIngredients'),
         'recipeInstructions': request.form.get('recipeInstructions'),
-        'recipeDietary': request.form.get('recipeDietary'),
+        'recipeDietary': request.form.get('recipeDietary').split(','),
         'recipeImageLink': request.form.get('recipeImageLink')
     }}, upsert=True)
     return redirect(url_for('get_recipes'))
