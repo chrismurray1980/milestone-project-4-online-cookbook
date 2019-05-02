@@ -2,7 +2,7 @@
 
 var select_contents = {
     allergens: ["Dairy", "Fish", "Peanuts", "Shellfish", "Soya", "Tree Nuts",  "Wheat", "Other"],
-    cookingtime: ["5minutes", "10minutes", "15minutes", "20minutes", "30minutes", "45minutes", "1hour", "1.5hours", "2hours", "2.5hours"],
+    cookingtime: [5,10,15,20,30,45,60,90,120,150],
     countryOfOrigin: ["America", "Brazil", "China", "England", "France", "Germany", "India", "Ireland", "Italy", "Japan",
         "Mexico",  "Scotland", "Spain", "Thailand", "Other"],
     course: ["Starter", "Main", "Dessert"],
@@ -12,8 +12,8 @@ var select_contents = {
     dietary: ["Vegan", "Other"],
     mainIngredient: ["Beef", "Chicken", "Fish", "Pork", "Seafood", "Turkey", "Other"],
     mealtime: ["Breakfast", "Lunch", "Dinner", "Snack"],
-    preparationtime: ["5minutes", "10minutes", "15minutes", "20minutes", "30minutes", "45minutes", "1hour"],
-    servings: ["1", "2", "4", "6", "8"]
+    preparationtime: [5,10,15,20,30,45,60,90,120],
+    servings: [1,2,4,6,8]
 };
 
 $(document).ready(function() {
