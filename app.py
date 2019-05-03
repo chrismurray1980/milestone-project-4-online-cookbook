@@ -11,10 +11,7 @@ Mapper.ensure_all_indexes()
 
 def database_config_setup(filename):
     """Configure application to use either mongodb or mongo-in-memory db"""
-    if filename == "__main__":
-        database_config=os.getenv("MONGO_URI",'mongodb://localhost')
-    else:
-        database_config='mim://localhost/test'
+    database_config=os.getenv("MONGO_URI",'mongodb://localhost') if filename == "__main__" else 'mim://localhost/test'
     return database_config
 
 app = Flask(__name__)
@@ -37,17 +34,15 @@ def get_recipes():
 def search_results():
     """Display recipes returned from db based on text input"""
     search_content=search_text_formatting('searchContent')
-    recipes=recipes_collection.find({"$text": {"$search": 
-            search_content}}, {'_txtscr': {'$meta': 'textScore'}}).sort([('_txtscr', {'$meta':'textScore'})])
+    recipes=recipes_collection.find({"$text": {"$search": search_content}}, 
+                                    {'_txtscr': {'$meta': 'textScore'}}).sort([('_txtscr', {'$meta':'textScore'})])
     return render_template("search_results.html", recipes=recipes)
 
 @app.route('/advanced_search_results', methods=['POST'])
 def advanced_search_results():
     """Return recipes from mongodb based on advanced search fields"""
-    advanced_search_array=advanced_search_query_formatting(select_array)
-    #{"$and": advanced_search_array}
-    print(advanced_search_array)
-    recipes=recipes_collection.find({"$and": advanced_search_array}).sort([('recipeUpvotes', -1)]).limit( 10 )
+    advanced_search_list=advanced_search_query_formatting(select_list)
+    recipes=recipes_collection.find({"$and": advanced_search_list}).sort([('recipeUpvotes', -1)]).limit( 10 )
     return render_template("search_results.html", recipes=recipes)
     
 @app.route('/add_recipe')
@@ -179,13 +174,13 @@ def search_text_formatting(search_text):
     return formatted_search_text
     
 """id for input names""" 
-select_array=['recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings', 'recipeDifficulty', 
+select_list=['recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings', 'recipeDifficulty', 
                   'recipePreparationTime', 'recipeCookingTime', 'recipeAllergen', 'recipeMainIngredient', 'recipeDietary']
                   
-def advanced_search_query_formatting(array):
-    """obtain input values for select boxes and append to array for advanced search query"""
-    search_array=[]
-    for value in array:
+def advanced_search_query_formatting(list):
+    """obtain input values for select boxes and append to list for advanced search query"""
+    search_list=[]
+    for value in list:
         if request.form.get(value) != '':
             if value =='recipeAllergen' or value =='recipeDietary':
                 value_text = request.form.get(value)
@@ -193,28 +188,15 @@ def advanced_search_query_formatting(array):
                 search_subset=[]
                 for i in value_split_text:
                     search_subset.append(i)
-                search_array.append({value : { '$in': search_subset} })  
+                search_list.append({value : { '$in': search_subset} })  
             elif value=='recipePreparationTime' or value=='recipeCookingTime' or value=='recipeServings':
                 if request.form.get(value).isdigit()==True:
                     new_value=request.form.get(value)
                     print(type(int(new_value)))
-                    search_array.append({value: { '$lte': int(request.form.get(value))} })
+                    search_list.append({value: { '$lte': int(request.form.get(value))} })
             else:
-                search_array.append({value : request.form.get(value)})
-    return search_array
-    
-""" elif value=='recipePreparationTime' and request.form.get(value).isdigit()==True:
-                new_value=request.form.get(value)
-                print(type(int(new_value)))
-                search_array.append({value: { '$lte': int(request.form.get(value))} })
-            elif value=='recipeCookingTime' and request.form.get(value).isdigit()==True:
-                new_value=request.form.get(value)
-                print(type(int(new_value)))
-                search_array.append({value: { '$lte': int(request.form.get(value))} })    
-            elif value=='recipeServings' and request.form.get(value).isdigit()==True:
-                new_value=request.form.get(value)
-                print(type(int(new_value)))
-                search_array.append({value: { '$lte': int(request.form.get(value))} })  """
+                search_list.append({value : request.form.get(value)})
+    return search_list
        
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
