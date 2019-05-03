@@ -94,20 +94,19 @@ def favourites():
     """Open favourites page"""
     return render_template("favourites.html") 
 
-"""Assisting variables and functions"""
 
-def search_text_formatting(search_text):
-    """Correctly format string for text search of entire db"""
-    formatted_search_text='\"'+request.form.get(search_text)+'\"'
-    return formatted_search_text
-    
-"""id for input names""" 
+#Assisting variables and functions
 
 field_list=['recipeUpvotes', 'recipeName', 'recipeAuthor', 'recipeIngredients', 'recipeInstructions',
             'recipeImageLink', 'recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings',
             'recipeDifficulty', 'recipePreparationTime', 'recipeCookingTime', 'recipeAllergen', 'recipeDietary',
             'recipeMainIngredient']
-        
+            
+def search_text_formatting(search_text):
+    """Correctly format string for text search of entire db"""
+    formatted_search_text='\"'+request.form.get(search_text)+'\"'
+    return formatted_search_text
+       
 def advanced_search_query_formatting(list):
     """Obtain input values for select boxes and append to list for advanced search query"""
     search_list=[]

@@ -213,60 +213,29 @@
       </a>
     </div>
 </div>
-
-
-
-    
-    <!--<div class="row no-gutters">
-        {% for recipe in recipes %}
-        <div class="col-3 offset-1 recipe-image-container">
-            <img class="recipe-image" src={{recipe.recipeImageLink}} alt="Image unavailable">
-        </div>
-        <div class="col-6 offset-1">
-            <h4 class="recipe-name">{{recipe.recipeName}}</h4>
-            
-            <div class="row no-gutters">
-                <div class="col-6 recipe-info">
-                        <p><i class="material-icons">create</i>  {{recipe._id}}</p>
-                        <p><i class="material-icons">create</i>  {{recipe.recipeAuthor}}</p>
-                        <p><i class="material-icons">restaurant_menu</i> {{recipe.recipeCuisine}}</p>
-                        <p> <i class="material-icons">people</i>  {{recipe.recipeServings}} servings</p>
-                </div>
-                <div class="col-6 recipe-info">
-                        <p><i class="material-icons">schedule</i>  {{recipe.recipeCookingTime}}</p>
-                        <p><i class="material-icons">restaurant</i>  {{recipe.recipeDifficulty}}</p>
-                        <p><i class="material-icons">stars</i>  {{recipe.recipeUpvotes}}</p>
-                </div>
-                <a href="{{url_for('edit_delete_recipe', recipe_id=recipe._id)}}" class="waves-effect waves-light btn btn_small">Edit/delete recipe</a>
-                <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}" class="waves-effect waves-light btn btn_small">Show recipe</a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>-->
 {% endblock %}
 
 {% block content_three %}
     <a href="" class="waves-effect waves-light btn btn_small" id="get_Data"><button  class="btn btn-outline-info my-2 my-sm-0">Show recipe data</button></a>
-
-    <div>
-        <p id="data" class="hidden">{% for recipe in data %}{{ recipe }}{% endfor %}</p>
-    </div> 
-
-    <div id='recipe-country-of-origin-chart'></div>
-
-    <div><span>Recipes by country of origin</span></div>
+    <div id="recipe-data-plots" class="hidden">
+        <div>
+            <p id="data" class="hidden">{% for recipe in data %}{{ recipe }}{% endfor %}</p>
+        </div> 
     
-    <div id='recipe-main-ingredient-chart'></div>
-
-    <div><span>Recipes by main ingredient</span></div>
+        <div id='recipe-country-of-origin-chart'></div>
     
-    <div id='recipe-dietary-chart'></div>
-
-    <div><span>Recipes by dietary requirements</span></div>
+        <div><span>Recipes by country of origin</span></div>
+        
+        <div id='recipe-main-ingredient-chart'></div>
     
-    <div id='recipe-allergen-chart'></div>
-
-    <div><span>Recipes by allergens </span></div>
+        <div><span>Recipes by main ingredient</span></div>
+        
+        <div id='recipe-dietary-chart'></div>
     
+        <div><span>Recipes by dietary requirements</span></div>
+        
+        <div id='recipe-allergen-chart'></div>
     
+        <div><span>Recipes by allergens </span></div>
+    </div>
 {% endblock %}
