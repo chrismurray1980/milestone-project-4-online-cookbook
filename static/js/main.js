@@ -1,7 +1,7 @@
 /* global $*/
 
 var select_contents = {
-    allergens: ["Dairy", "Fish", "Peanuts", "Shellfish", "Soya", "Tree Nuts",  "Wheat", "Other"],
+    allergens: ["Dairy", "Fish", "Peanuts", "Shellfish", "Soya", "Tree-Nuts",  "Wheat", "Other"],
     cookingtime: [5,10,15,20,30,45,60,90,120,150],
     countryOfOrigin: ["America", "Brazil", "China", "England", "France", "Germany", "India", "Ireland", "Italy", "Japan",
         "Mexico",  "Scotland", "Spain", "Thailand", "Other"],
@@ -13,7 +13,7 @@ var select_contents = {
     mainIngredient: ["Beef", "Chicken", "Fish", "Pork", "Seafood", "Turkey", "Other"],
     mealtime: ["Breakfast", "Lunch", "Dinner", "Snack"],
     preparationtime: [5,10,15,20,30,45,60,90,120],
-    servings: [1,2,4,6,8]
+    servings: [1,2,4,6,8,10]
 };
 
 $(document).ready(function() {
@@ -26,22 +26,16 @@ $(document).ready(function() {
             $('input[name=' + select_id + ']').val($('#' + select_id.toString()).val());
         }
     });
-     
-    var dietary_select_array=[], allergen_select_array=[]; 
             
-    $(".multiple-select").click(function() {
+    $(".multiple-select").click(function() { 
         var select_id = $(this).attr("id");
         
         if(select_id=='recipeDietary'){
-            dietary_select_array=$('#recipeDietary').val();
-            $('input[name=' + select_id + ']').val(dietary_select_array);
+            $('input[name=' + select_id + ']').val($('#recipeDietary').val());
         }
         else if(select_id=='recipeAllergen'){
-            allergen_select_array=$('#recipeAllergen').val();
-            $('input[name=' + select_id + ']').val(allergen_select_array);
+            $('input[name=' + select_id + ']').val($('#recipeAllergen').val());
         }
-        console.log(dietary_select_array);
-        console.log(allergen_select_array);
         
         /*if (select_id != "recipeDietary" && select_id != "recipeAllergen") {
             $('input[name=' + select_id + ']').val($('#' + select_id.toString()).val());

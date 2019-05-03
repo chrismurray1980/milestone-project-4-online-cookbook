@@ -47,7 +47,7 @@ def advanced_search_results():
     advanced_search_array=advanced_search_query_formatting(select_array)
     #{"$and": advanced_search_array}
     print(advanced_search_array)
-    recipes=recipes_collection.find({"$and": advanced_search_array})
+    recipes=recipes_collection.find({"$and": advanced_search_array}).sort([('recipeUpvotes', -1)]).limit( 10 )
     return render_template("search_results.html", recipes=recipes)
     
 @app.route('/add_recipe')
@@ -58,21 +58,41 @@ def add_recipe():
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     """Insert recipe to db and display index.html"""
+    preparation_time=request.form.get('recipePreparationTime')
+    cooking_time=request.form.get('recipeCookingTime')
+    servings=request.form.get('recipeServings')
+    
+    if preparation_time.isdigit()==True:
+        preparation_time=int(preparation_time)
+    else:
+        preparation_time=0
+        
+    if cooking_time.isdigit()==True:
+        cooking_time=int(cooking_time)
+    else:
+        cooking_time=0
+    
+    if servings.isdigit()==True:
+        servings=int(servings)
+    else:
+        servings=0
+    
     recipes_collection.insert_one({
         'recipeName':request.form.get('recipeName'),
         'recipeAuthor':request.form.get('recipeAuthor'),
         'recipeCuisine':request.form.get('recipeCuisine'),
         'recipeCountryOfOrigin':request.form.get('recipeCountryOfOrigin'),
         'recipeMealTime': request.form.get('recipeMealTime'),
-        'recipeServings': request.form.get('recipeServings'),
+        'recipeServings': servings,
         'recipeDifficulty': request.form.get('recipeDifficulty'),
-        'recipePreparationTime': request.form.get('recipePreparationTime'),
-        'recipeCookingTime': request.form.get('recipeCookingTime'),
+        'recipePreparationTime': preparation_time,
+        'recipeCookingTime': cooking_time,
         'recipeAllergen': request.form.get('recipeAllergen').split(','),
         'recipeMainIngredient': request.form.get('recipeMainIngredient'),
         'recipeIngredients': request.form.get('recipeIngredients'),
         'recipeInstructions': request.form.get('recipeInstructions'),
         'recipeDietary': request.form.get('recipeDietary').split(','),
+        'recipeUpvotes':0,
         'recipeImageLink': request.form.get('recipeImageLink')
     })
     return redirect(url_for('get_recipes'))
@@ -86,16 +106,38 @@ def edit_delete_recipe(recipe_id):
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
     """Update specific document with form elements"""
+    preparation_time=request.form.get('recipePreparationTime')
+    cooking_time=request.form.get('recipeCookingTime')
+    servings=request.form.get('recipeServings')
+    
+    if preparation_time.isdigit()==True:
+        preparation_time=int(preparation_time)
+    else:
+        preparation_time=0
+        
+    if cooking_time.isdigit()==True:
+        cooking_time=int(cooking_time)
+    else:
+        cooking_time=0
+    
+    if servings.isdigit()==True:
+        servings=int(servings)
+    else:
+        servings=0
+    dietary=request.form.get('recipeDietary')   
+    #dietary=dietary.split(',')
+    print(dietary)
+    
     recipes_collection.update_one( {'_id': ObjectId(recipe_id)}, {"$set": {
         'recipeName':request.form.get('recipeName'),
         'recipeAuthor':request.form.get('recipeAuthor'),
         'recipeCuisine':request.form.get('recipeCuisine'),
         'recipeCountryOfOrigin':request.form.get('recipeCountryOfOrigin'),
         'recipeMealTime': request.form.get('recipeMealTime'),
-        'recipeServings': request.form.get('recipeServings'),
+        'recipeServings': servings,
         'recipeDifficulty': request.form.get('recipeDifficulty'),
-        'recipePreparationTime': request.form.get('recipePreparationTime'),
-        'recipeCookingTime': request.form.get('recipeCookingTime'),
+        'recipePreparationTime': preparation_time,
+        'recipeCookingTime': cooking_time,
         'recipeAllergen': request.form.get('recipeAllergen').split(','),
         'recipeMainIngredient': request.form.get('recipeMainIngredient'),
         'recipeIngredients': request.form.get('recipeIngredients'),
@@ -152,7 +194,16 @@ def advanced_search_query_formatting(array):
                 for i in value_split_text:
                     search_subset.append(i)
                 search_array.append({value : { '$in': search_subset} })  
-            elif value=='recipePreparationTime' and request.form.get(value).isdigit()==True:
+            elif value=='recipePreparationTime' or value=='recipeCookingTime' or value=='recipeServings':
+                if request.form.get(value).isdigit()==True:
+                    new_value=request.form.get(value)
+                    print(type(int(new_value)))
+                    search_array.append({value: { '$lte': int(request.form.get(value))} })
+            else:
+                search_array.append({value : request.form.get(value)})
+    return search_array
+    
+""" elif value=='recipePreparationTime' and request.form.get(value).isdigit()==True:
                 new_value=request.form.get(value)
                 print(type(int(new_value)))
                 search_array.append({value: { '$lte': int(request.form.get(value))} })
@@ -163,10 +214,7 @@ def advanced_search_query_formatting(array):
             elif value=='recipeServings' and request.form.get(value).isdigit()==True:
                 new_value=request.form.get(value)
                 print(type(int(new_value)))
-                search_array.append({value: { '$lte': int(request.form.get(value))} })    
-            else:
-                search_array.append({value : request.form.get(value)})
-    return search_array
+                search_array.append({value: { '$lte': int(request.form.get(value))} })  """
        
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
