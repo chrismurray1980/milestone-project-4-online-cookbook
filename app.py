@@ -41,7 +41,7 @@ def search_results():
 @app.route('/advanced_search_results', methods=['POST'])
 def advanced_search_results():
     """Return recipes from mongodb based on advanced search fields"""
-    advanced_search_list=advanced_search_query_formatting(select_list)
+    advanced_search_list=advanced_search_query_formatting(field_list[6:16])
     recipes=recipes_collection.find({"$and": advanced_search_list}).sort([('recipeUpvotes', -1)]).limit( 10 )
     return render_template("search_results.html", recipes=recipes)
     
@@ -57,20 +57,9 @@ def insert_recipe():
     cooking_time=request.form.get('recipeCookingTime')
     servings=request.form.get('recipeServings')
     
-    if preparation_time.isdigit()==True:
-        preparation_time=int(preparation_time)
-    else:
-        preparation_time=0
-        
-    if cooking_time.isdigit()==True:
-        cooking_time=int(cooking_time)
-    else:
-        cooking_time=0
-    
-    if servings.isdigit()==True:
-        servings=int(servings)
-    else:
-        servings=0
+    preparation_time=int(preparation_time) if preparation_time.isdigit()==True else 0
+    cooking_time=int(cooking_time) if cooking_time.isdigit()==True else 0
+    servings=int(servings) if servings.isdigit()==True else 0
     
     recipes_collection.insert_one({
         'recipeName':request.form.get('recipeName'),
@@ -105,20 +94,9 @@ def update_recipe(recipe_id):
     cooking_time=request.form.get('recipeCookingTime')
     servings=request.form.get('recipeServings')
     
-    if preparation_time.isdigit()==True:
-        preparation_time=int(preparation_time)
-    else:
-        preparation_time=0
-        
-    if cooking_time.isdigit()==True:
-        cooking_time=int(cooking_time)
-    else:
-        cooking_time=0
-    
-    if servings.isdigit()==True:
-        servings=int(servings)
-    else:
-        servings=0
+    preparation_time=int(preparation_time) if preparation_time.isdigit()==True else 0
+    cooking_time=int(cooking_time) if cooking_time.isdigit()==True else 0
+    servings=int(servings) if servings.isdigit()==True else 0
     dietary=request.form.get('recipeDietary')   
     #dietary=dietary.split(',')
     print(dietary)
@@ -174,11 +152,17 @@ def search_text_formatting(search_text):
     return formatted_search_text
     
 """id for input names""" 
-select_list=['recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings', 'recipeDifficulty', 
-                  'recipePreparationTime', 'recipeCookingTime', 'recipeAllergen', 'recipeMainIngredient', 'recipeDietary']
-                  
+
+field_list=['recipeUpvotes', 'recipeName', 'recipeAuthor', 'recipeIngredients', 'recipeInstructions',
+            'recipeImageLink', 'recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings',
+            'recipeDifficulty', 'recipePreparationTime', 'recipeCookingTime', 'recipeAllergen', 'recipeDietary',
+            'recipeMainIngredient']
+
+select_list=field_list[6:16]   
+print(field_list[6:16])
+        
 def advanced_search_query_formatting(list):
-    """obtain input values for select boxes and append to list for advanced search query"""
+    """Obtain input values for select boxes and append to list for advanced search query"""
     search_list=[]
     for value in list:
         if request.form.get(value) != '':
@@ -191,12 +175,25 @@ def advanced_search_query_formatting(list):
                 search_list.append({value : { '$in': search_subset} })  
             elif value=='recipePreparationTime' or value=='recipeCookingTime' or value=='recipeServings':
                 if request.form.get(value).isdigit()==True:
-                    new_value=request.form.get(value)
-                    print(type(int(new_value)))
                     search_list.append({value: { '$lte': int(request.form.get(value))} })
             else:
                 search_list.append({value : request.form.get(value)})
     return search_list
        
+def insert_update_db_format(list):
+    """Construct format of insert or update to be sent to db"""
+    field_input_dict={}
+    for field in list:
+        if field =='recipeAllergen' or field =='recipeDietary':
+            field_input_dict[field] = request.form.get(field).split(',')
+        elif field=='recipePreparationTime' or field=='recipeCookingTime' or field=='recipeServings':
+            field_value = request.form.get(field)
+            field_input_dict[field] = int(field_value) if field_value.isdigit()==True else 0
+        elif field =='recipeUpvotes' in list:
+            field_input_dict[field] = 0
+        else:
+            field_value = request.form.get(field)
+    return field_input_dict         
+     
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
