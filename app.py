@@ -41,7 +41,7 @@ def search_results():
 @app.route('/advanced_search_results', methods=['POST'])
 def advanced_search_results():
     """Return recipes from mongodb based on advanced search fields"""
-    advanced_search_list=advanced_search_query_formatting(field_list[6:16])
+    advanced_search_list=advanced_search_query_formatting(field_list[6:])
     recipes=recipes_collection.find({"$and": advanced_search_list}).sort([('recipeUpvotes', -1)]).limit( 10 )
     return render_template("search_results.html", recipes=recipes)
     
@@ -53,32 +53,8 @@ def add_recipe():
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     """Insert recipe to db and display index.html"""
-    preparation_time=request.form.get('recipePreparationTime')
-    cooking_time=request.form.get('recipeCookingTime')
-    servings=request.form.get('recipeServings')
-    
-    preparation_time=int(preparation_time) if preparation_time.isdigit()==True else 0
-    cooking_time=int(cooking_time) if cooking_time.isdigit()==True else 0
-    servings=int(servings) if servings.isdigit()==True else 0
-    
-    recipes_collection.insert_one({
-        'recipeName':request.form.get('recipeName'),
-        'recipeAuthor':request.form.get('recipeAuthor'),
-        'recipeCuisine':request.form.get('recipeCuisine'),
-        'recipeCountryOfOrigin':request.form.get('recipeCountryOfOrigin'),
-        'recipeMealTime': request.form.get('recipeMealTime'),
-        'recipeServings': servings,
-        'recipeDifficulty': request.form.get('recipeDifficulty'),
-        'recipePreparationTime': preparation_time,
-        'recipeCookingTime': cooking_time,
-        'recipeAllergen': request.form.get('recipeAllergen').split(','),
-        'recipeMainIngredient': request.form.get('recipeMainIngredient'),
-        'recipeIngredients': request.form.get('recipeIngredients'),
-        'recipeInstructions': request.form.get('recipeInstructions'),
-        'recipeDietary': request.form.get('recipeDietary').split(','),
-        'recipeUpvotes':0,
-        'recipeImageLink': request.form.get('recipeImageLink')
-    })
+    input_fields=insert_update_db_format(field_list)
+    recipes_collection.insert_one(input_fields)
     return redirect(url_for('get_recipes'))
 
 @app.route('/edit_delete_recipe/<recipe_id>')
@@ -90,34 +66,8 @@ def edit_delete_recipe(recipe_id):
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
     """Update specific document with form elements"""
-    preparation_time=request.form.get('recipePreparationTime')
-    cooking_time=request.form.get('recipeCookingTime')
-    servings=request.form.get('recipeServings')
-    
-    preparation_time=int(preparation_time) if preparation_time.isdigit()==True else 0
-    cooking_time=int(cooking_time) if cooking_time.isdigit()==True else 0
-    servings=int(servings) if servings.isdigit()==True else 0
-    dietary=request.form.get('recipeDietary')   
-    #dietary=dietary.split(',')
-    print(dietary)
-    
-    recipes_collection.update_one( {'_id': ObjectId(recipe_id)}, {"$set": {
-        'recipeName':request.form.get('recipeName'),
-        'recipeAuthor':request.form.get('recipeAuthor'),
-        'recipeCuisine':request.form.get('recipeCuisine'),
-        'recipeCountryOfOrigin':request.form.get('recipeCountryOfOrigin'),
-        'recipeMealTime': request.form.get('recipeMealTime'),
-        'recipeServings': servings,
-        'recipeDifficulty': request.form.get('recipeDifficulty'),
-        'recipePreparationTime': preparation_time,
-        'recipeCookingTime': cooking_time,
-        'recipeAllergen': request.form.get('recipeAllergen').split(','),
-        'recipeMainIngredient': request.form.get('recipeMainIngredient'),
-        'recipeIngredients': request.form.get('recipeIngredients'),
-        'recipeInstructions': request.form.get('recipeInstructions'),
-        'recipeDietary': request.form.get('recipeDietary').split(','),
-        'recipeImageLink': request.form.get('recipeImageLink')
-    }}, upsert=True)
+    update_fields=insert_update_db_format(field_list[1:])
+    recipes_collection.update_one( {'_id': ObjectId(recipe_id)}, {"$set": update_fields}, upsert=True)
     return redirect(url_for('get_recipes'))
 
 @app.route('/show_recipe/<recipe_id>')
@@ -157,9 +107,6 @@ field_list=['recipeUpvotes', 'recipeName', 'recipeAuthor', 'recipeIngredients', 
             'recipeImageLink', 'recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings',
             'recipeDifficulty', 'recipePreparationTime', 'recipeCookingTime', 'recipeAllergen', 'recipeDietary',
             'recipeMainIngredient']
-
-select_list=field_list[6:16]   
-print(field_list[6:16])
         
 def advanced_search_query_formatting(list):
     """Obtain input values for select boxes and append to list for advanced search query"""
@@ -192,7 +139,7 @@ def insert_update_db_format(list):
         elif field =='recipeUpvotes' in list:
             field_input_dict[field] = 0
         else:
-            field_value = request.form.get(field)
+            field_input_dict[field] = request.form.get(field)
     return field_input_dict         
      
 if __name__ == '__main__':
