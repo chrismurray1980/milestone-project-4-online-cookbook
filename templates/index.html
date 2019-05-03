@@ -7,7 +7,7 @@
                 <h5>Find a recipe:</h5>
             </div>
             <div class="col-6">
-                <form class="form-inline my-2 my-lg-0" action="{{ url_for('search_results')}}" method="POST">
+                <form class="form-inline my-2 my-lg-0" action="{{ url_for('search_results')}}" method="POST" autocomplete="off">
                     <input class="form-control mr-sm-2" type="search" placeholder="Please enter your search" name="searchContent" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
@@ -27,7 +27,7 @@
                 <button class="btn btn-outline-info my-2 my-sm-0" id="text-search" type="submit">Text search</button>
             </div>
         </div>
-        <form id="advanced_search_form" action="{{ url_for('advanced_search_results')}}" method="POST">
+        <form id="advanced_search_form" action="{{ url_for('advanced_search_results')}}" method="POST" autocomplete="off">
             <div class="form-group row">
                 <div class="col-6">
                     <div class="form-group row">
@@ -175,13 +175,15 @@
             </div>
         </form>
     </div>
+    
+    <hr width="75%">
 
 {% endblock %}
 
 {% block content_two %}
 <div class="row">
     
-    <div id="popularRecipeIndicators" class="carousel slide col-8 offset-2" data-ride="carousel">
+    <div id="popularRecipeIndicators" class="carousel slide col-10 offset-1" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#popularRecipeIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#popularRecipeIndicators" data-slide-to="1"></li>
@@ -213,29 +215,82 @@
       </a>
     </div>
 </div>
+
+<hr width="75%">
+
 {% endblock %}
 
 {% block content_three %}
-    <a href="" class="waves-effect waves-light btn btn_small" id="get_Data"><button  class="btn btn-outline-info my-2 my-sm-0">Show recipe data</button></a>
-    <div id="recipe-data-plots" class="hidden">
+    <button  id="get_Data" class="btn btn-outline-info my-2 my-sm-0">Show recipe data</button>
+    <div id="recipe-data-plots" class='hidden'>
         <div>
             <p id="data" class="hidden">{% for recipe in data %}{{ recipe }}{% endfor %}</p>
         </div> 
-    
-        <div id='recipe-country-of-origin-chart'></div>
-    
-        <div><span>Recipes by country of origin</span></div>
+        <div class="row no-gutters">
+            <div class="col-6  text-align-centre">
+                 <div class="row no-gutters">  
+                     <div class="col-12" id='recipe-cuisine-chart'></div>
+                     <div class="col-12">Recipes by country of origin</div>
+                 </div>
+            </div>
+            <div class="col-6">
+                 <div class="row no-gutters text-align-centre">  
+                     <div class="col-12" id='recipe-allergen-chart'></div>
+                     <div class="col-12">Recipes by allergens</div>
+                 </div>
+            </div>
+        </div>
         
-        <div id='recipe-main-ingredient-chart'></div>
-    
-        <div><span>Recipes by main ingredient</span></div>
+        <hr width="75%">
         
-        <div id='recipe-dietary-chart'></div>
-    
-        <div><span>Recipes by dietary requirements</span></div>
+        <div class="row no-gutters text-align-centre">
+            <div class="col-12">
+                <div class="col-12" id='recipe-main-ingredient-chart'></div>
+                <div class="col-12">Recipes by main ingredient</div>
+            </div>   
+        </div>
         
-        <div id='recipe-allergen-chart'></div>
-    
-        <div><span>Recipes by allergens </span></div>
+        <hr width="75%">
+        
+        <div class="row no-gutters text-align-centre">
+            <div class="col-6">
+                 <div class="row no-gutters">  
+                     <div class="col-12" id='recipe-dietary-chart'></div>
+                     <div class="col-12">Recipes by dietary requirements</div>
+                 </div>
+            </div>
+            <div class="col-6">
+                 <div class="row no-gutters text-align-centre">  
+                     <div class="col-12" id='recipe-country-of-origin-chart'></div>
+                     <div class="col-12">Recipes by country of origin</div>
+                 </div>
+            </div>
+        </div>
+        
+        <hr width="75%">
+        
+        <div class="row no-gutters text-align-centre">
+            <div class="col-12">
+                <div class="col-12" id='recipe-total-time-chart'></div>
+                <div class="col-12">Recipes by total time required</div>
+            </div>   
+        </div>
+        
+        <hr width="75%">
+        
+        <div class="row no-gutters">
+            <div class="col-6">
+                 <div class="row no-gutters text-align-centre">  
+                     <div class="col-12" id='recipe-servings-chart'></div>
+                     <div class="col-12">Recipes by number of servings</div>
+                 </div>
+            </div>
+            <div class="col-6">
+                 <div class="row no-gutters text-align-centre">  
+                     <div class="col-12" id='recipe-difficulty-chart'></div>
+                     <div class="col-12">Recipes by difficulty</div>
+                 </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

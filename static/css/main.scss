@@ -1,11 +1,10 @@
-.parallax {
+body {
   /* The image used */
   background-image: url("https://images.pexels.com/photos/207204/pexels-photo-207204.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
   background-size: cover;
   /* Set a specific height */
   height: auto;  
   width: 100%;
-  opacity: 0.8;
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
   background-position: center;
@@ -25,7 +24,7 @@
   object-fit: cover;
 }
 
-.pre-post-page-content-parallax { height: 100px;}
+//.pre-post-page-content-parallax { height: 100px;}
  
 .search-container {
   padding: 5% 0;
@@ -82,6 +81,9 @@
   border: 1px solid #33567a;
   //font-family: 'Lobster', cursive;
   color: #33567a;
+  background-color:white;
+  margin-top:100px;
+  margin-bottom:100px;
 }
 
 .material-icons{
@@ -159,7 +161,8 @@
   margin-left:-25%;
 }
 
-.text-align-centre h5 {
+.text-align-centre  {
     text-align:center;
-    padding: 5% 0;
+    
+    h5 { padding: 5% 0;}
    }

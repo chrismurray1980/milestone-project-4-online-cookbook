@@ -23,7 +23,7 @@ class recipes(Document):
     recipeIngredients = Field(schema.String)
     recipeInstructions = Field(schema.String)
     recipeDietary= Field(schema.Array(str))
-    recipeUpvotes = Field(int, if_missing=0)
+    recipeUpvotes = Field(int)
     recipeImageLink = Field(schema.String)
     
     
