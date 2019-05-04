@@ -131,7 +131,9 @@ def insert_update_db_format(list):
     field_input_dict={}
     for field in list:
         if field =='recipeAllergen' or field =='recipeDietary':
-            field_input_dict[field] = request.form.get(field).split(',')
+            field_value=request.form.get(field)
+            field_value=request.form.get(field) if field_value != '' else 'None'
+            field_input_dict[field] = field_value.split(',')
         elif field=='recipePreparationTime' or field=='recipeCookingTime' or field=='recipeServings':
             field_value = request.form.get(field)
             field_input_dict[field] = int(field_value) if field_value.isdigit()==True else 0
