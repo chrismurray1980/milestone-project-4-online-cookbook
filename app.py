@@ -25,75 +25,107 @@ recipes_collection.create_index([("$**","text")])
 
 @app.route('/')
 def get_recipes():
-    """Access recipes with largest number of upvotes and display index page"""
-    recipes=recipes_collection.find().sort([('recipeUpvotes', -1)]).sort([('recipeUpvotes', -1)]).limit( 5 )
-    data=dumps(recipes_collection.find())
-    return render_template("index.html", recipes=recipes, data=data)
-
+    try:
+        """Access recipes with largest number of upvotes and display index page"""
+        recipes=recipes_collection.find().sort([('recipeUpvotes', -1)]).sort([('recipeUpvotes', -1)]).limit( 5 )
+        data=dumps(recipes_collection.find())
+        return render_template("index.html", recipes=recipes, data=data)
+    except:
+        print("Error accessing database documents")
+        
 @app.route('/search_results', methods=['POST'])
 def search_results():
     """Display recipes returned from db based on text input"""
-    search_content=search_text_formatting('searchContent')
-    recipes=recipes_collection.find({"$text": {"$search": search_content}}, 
-                                    {'_txtscr': {'$meta': 'textScore'}}).sort([('_txtscr', {'$meta':'textScore'})])
-    return render_template("search_results.html", recipes=recipes)
-
+    try:
+        search_content=search_text_formatting('searchContent')
+        recipes=recipes_collection.find({"$text": {"$search": search_content}}, 
+                                        {'_txtscr': {'$meta': 'textScore'}}).sort([('_txtscr', {'$meta':'textScore'})])
+        return render_template("search_results.html", recipes=recipes)
+    except:
+            print("Error accessing database documents")
+            
 @app.route('/advanced_search_results', methods=['POST'])
 def advanced_search_results():
     """Return recipes from mongodb based on advanced search fields"""
-    advanced_search_list=advanced_search_query_formatting(field_list[6:])
-    recipes=recipes_collection.find({"$and": advanced_search_list}).sort([('recipeUpvotes', -1)]).limit( 10 )
-    return render_template("search_results.html", recipes=recipes)
-    
+    try:
+        advanced_search_list=advanced_search_query_formatting(field_list[6:])
+        recipes=recipes_collection.find({"$and": advanced_search_list}).sort([('recipeUpvotes', -1)]).limit( 10 )
+        return render_template("search_results.html", recipes=recipes)
+    except:
+        print("Error accessing database documents")
+        
 @app.route('/add_recipe')
 def add_recipe():
     """Display add recipe page"""
-    return render_template("add_recipe.html")
+    try:
+        return render_template("add_recipe.html")
+    except:
+        print("Error, could not render add recipe view")
     
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     """Insert recipe to db and display index.html"""
-    input_fields=insert_update_db_format(field_list)
-    recipes_collection.insert_one(input_fields)
-    return redirect(url_for('get_recipes'))
+    try:
+        input_fields=insert_update_db_format(field_list)
+        recipes_collection.insert_one(input_fields)
+        return redirect(url_for('get_recipes'))
+    except:
+        print("Error writing database document")
 
 @app.route('/edit_delete_recipe/<recipe_id>')
 def edit_delete_recipe(recipe_id):
     """Open edit/delete page for specific document"""
-    recipe=recipes_collection.find_one({"_id": ObjectId(recipe_id)})
-    return render_template("edit_delete_recipe.html", recipe=recipe)
-    
+    try:
+        recipe=recipes_collection.find_one({"_id": ObjectId(recipe_id)})
+        return render_template("edit_delete_recipe.html", recipe=recipe)
+    except:
+        print("Error accessing database documents")
+        
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
     """Update specific document with form elements"""
-    update_fields=insert_update_db_format(field_list[1:])
-    recipes_collection.update_one( {'_id': ObjectId(recipe_id)}, {"$set": update_fields}, upsert=True)
-    return redirect(url_for('get_recipes'))
+    try:
+        update_fields=insert_update_db_format(field_list[1:])
+        recipes_collection.update_one( {'_id': ObjectId(recipe_id)}, {"$set": update_fields}, upsert=True)
+        return redirect(url_for('get_recipes'))
+    except:
+        print("Error updating database document")
 
 @app.route('/show_recipe/<recipe_id>')
 def show_recipe(recipe_id):
     """Show recipe page of specific document"""
-    recipe=recipes_collection.find_one({"_id": ObjectId(recipe_id)})
-    return render_template("show_recipe.html", recipe=recipe)
+    try:
+        recipe=recipes_collection.find_one({"_id": ObjectId(recipe_id)})
+        return render_template("show_recipe.html", recipe=recipe)
+    except:
+        print("Error accessing database documents")
 
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
     """Delete specific document"""
-    recipes_collection.delete_one({'_id': ObjectId(recipe_id)})
-    return redirect(url_for('get_recipes'))
+    try:
+        recipes_collection.delete_one({'_id': ObjectId(recipe_id)})
+        return redirect(url_for('get_recipes'))
+    except:
+        print("Error accessing database documents")
 
 @app.route('/like_recipe/<recipe_id>')
 def like_recipe(recipe_id):
     """Add upvote to document when button clicked"""
-    recipes_collection.update( {'_id': ObjectId(recipe_id)}, { '$inc': { 'recipeUpvotes': 1} } )
-    recipe=recipes_collection.find_one({"_id": ObjectId(recipe_id)})
-    return render_template("show_recipe.html", recipe=recipe)
+    try:
+        recipes_collection.update( {'_id': ObjectId(recipe_id)}, { '$inc': { 'recipeUpvotes': 1} } )
+        recipe=recipes_collection.find_one({"_id": ObjectId(recipe_id)})
+        return render_template("show_recipe.html", recipe=recipe)
+    except:
+        print("Error accessing database documents")
 
 @app.route('/favourites')
 def favourites():
     """Open favourites page"""
-    return render_template("favourites.html") 
-
+    try:
+        return render_template("favourites.html") 
+    except:
+        print("Error, could not render favourites view")
 
 #Assisting variables and functions
 

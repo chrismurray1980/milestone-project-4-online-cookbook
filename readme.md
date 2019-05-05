@@ -288,5 +288,6 @@ https://docs.mongodb.com/manual/reference/operator/update/inc/index.html ---incr
 https://stackoverflow.com/questions/13241878/convert-pymongo-cursor-to-json --json object from find results---
 https://www.geeksforgeeks.org/python-add-new-keys-to-a-dictionary/  --dictionary--
 https://bl.ocks.org/emiguevara/4bd152a8828f6b31270702d97dc0133d ---plot.js----
+http://jsfiddle.net/PBrockmann/ma3wr55k  ----histogram-----
 
 

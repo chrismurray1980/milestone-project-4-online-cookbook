@@ -221,22 +221,23 @@
 {% endblock %}
 
 {% block content_three %}
-    <button  id="get_Data" class="btn btn-outline-info my-2 my-sm-0">Show recipe data</button>
-    <div id="recipe-data-plots" class='hidden'>
+    <button  id="get_Data" class="btn btn-outline-info my-2 my-sm-0">Show recipe data</button> 
+    <div id="recipe-data-plots" class='hidden'> 
+        <a href='javascript:dc.filterAll(); dc.renderAll();'>Reset All</a>
         <div>
             <p id="data" class="hidden">{% for recipe in data %}{{ recipe }}{% endfor %}</p>
         </div> 
         <div class="row no-gutters">
             <div class="col-6  text-align-centre">
                  <div class="row no-gutters">  
+                     <div class="col-12">Recipes by country of origin</div>
                      <div class="col-12" id='recipe-cuisine-chart'></div>
-                     <div class="col-12">Recipes by country of origin</div>
                  </div>
             </div>
             <div class="col-6">
                  <div class="row no-gutters text-align-centre">  
-                     <div class="col-12" id='recipe-allergen-chart'></div>
                      <div class="col-12">Recipes by allergens</div>
+                     <div class="col-12" id='recipe-allergen-chart'></div>
                  </div>
             </div>
         </div>
@@ -245,8 +246,8 @@
         
         <div class="row no-gutters text-align-centre">
             <div class="col-12">
-                <div class="col-12" id='recipe-main-ingredient-chart'></div>
                 <div class="col-12">Recipes by main ingredient</div>
+                <div class="col-12" id='recipe-main-ingredient-chart'></div>
             </div>   
         </div>
         
@@ -254,15 +255,15 @@
         
         <div class="row no-gutters text-align-centre">
             <div class="col-6">
-                 <div class="row no-gutters">  
+                 <div class="row no-gutters"> 
+                     <div class="col-12">Recipes by dietary requirements</div> 
                      <div class="col-12" id='recipe-dietary-chart'></div>
-                     <div class="col-12">Recipes by dietary requirements</div>
                  </div>
             </div>
             <div class="col-6">
-                 <div class="row no-gutters text-align-centre">  
-                     <div class="col-12" id='recipe-country-of-origin-chart'></div>
+                 <div class="row no-gutters text-align-centre"> 
                      <div class="col-12">Recipes by country of origin</div>
+                     <div class="col-12" id='recipe-country-of-origin-chart'></div>
                  </div>
             </div>
         </div>
@@ -271,9 +272,11 @@
         
         <div class="row no-gutters text-align-centre">
             <div class="col-12">
-                <div class="col-12" id='recipe-total-time-chart'></div>
                 <div class="col-12">Recipes by total time required</div>
-            </div>   
+                <div class="col-12" id='recipe-total-time-chart'>
+                    <a class='reset' href='javascript:total_time_chart.filterAll();dc.redrawAll();' style='display: none;'>
+                    reset</a>
+                </div>   
         </div>
         
         <hr width="75%">
@@ -281,14 +284,14 @@
         <div class="row no-gutters">
             <div class="col-6">
                  <div class="row no-gutters text-align-centre">  
-                     <div class="col-12" id='recipe-servings-chart'></div>
                      <div class="col-12">Recipes by number of servings</div>
+                     <div class="col-12" id='recipe-servings-chart'></div>
                  </div>
             </div>
             <div class="col-6">
                  <div class="row no-gutters text-align-centre">  
-                     <div class="col-12" id='recipe-difficulty-chart'></div>
                      <div class="col-12">Recipes by difficulty</div>
+                     <div class="col-12" id='recipe-difficulty-chart'></div>
                  </div>
             </div>
         </div>

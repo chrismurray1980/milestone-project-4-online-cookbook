@@ -58,23 +58,100 @@ main_ingredient_chart.width(400).height(400).margins({ top: 10, right: 50, botto
     .yAxis().ticks(5);
 
 //create bar chart of total time data   
-function remove_empty_bins(source_group) {
-    return {
-        all:function () {
-            return source_group.all().filter(function(d) {
-                return d.value != 0;
-            });
-        }
-    };
-}
 
-var total_time_dimension = ndx.dimension(function(d) { return d.recipePreparationTime+d.recipeCookingTime; });
-var total_time_group = remove_empty_bins(total_time_dimension.group());
+/*var total_time_dimension = ndx.dimension(function(d) { return d.recipePreparationTime+d.recipeCookingTime; });
+
+
+
+var total_time_group = total_time_dimension.group();
 
 total_time_chart.width(400).height(400).margins({ top: 10, right: 50, bottom: 30, left: 50 }).dimension(total_time_dimension)
     .group(total_time_group)
-    .x(d3.scale.linear().domain([20, 180]).range([20, 180])).xAxisLabel("Total time")
-    .yAxis().ticks(5);
-    
+    .x(d3.scale.linear().domain([50, 70]).range([50, 70])).xAxisLabel("Total time")
+    .yAxis().ticks(5);*/
+
+var time_range=[0, 200];
+var time_bin_width=30;
+var time_dimension = ndx.dimension(function(d) { return d.recipePreparationTime+d.recipeCookingTime; });
+var time_group = time_dimension.group(function(d) {
+ // Threshold
+  var time_threshold = d;
+  if (time_threshold <= time_range[0]) {time_threshold = time_range[0]}
+  if (time_threshold >= time_range[1]) time_threshold = time_range[1] - time_bin_width;
+  return time_bin_width * Math.floor(time_threshold / time_bin_width);
+});
+
+
+total_time_chart.width(400).height(400).margins({top: 10, right: 20, bottom: 30, left: 30})
+  .centerBar(false)
+  .elasticX(true)
+  .elasticY(true)
+  .dimension(time_dimension)
+  .group(time_group)
+  .x(d3.scale.linear().domain(time_range))
+  .xAxisLabel("Total time (minutes)")
+  .xUnits(dc.units.fp.precision(time_bin_width))
+  .round(function(d) {
+    return time_bin_width * Math.floor(d / time_bin_width);
+  })
+  .brushOn(true)
+  .yAxisLabel("Number of recipes")
+  .renderHorizontalGridLines(false);
+
+/*
+
+depthRange = [0., 5000.];
+depthBinWidth = 500.;
+depthDimension = filter.dimension(function(d) { return d.Depth; });
+depthGrouping = depthDimension.group(function(d) {
+  // Threshold
+  var depthThresholded = d;
+  if (depthThresholded <= depthRange[0]) {depthThresholded = depthRange[0]};
+  if (depthThresholded >= depthRange[1]) depthThresholded = depthRange[1] - depthBinWidth;
+  return depthBinWidth * Math.floor(depthThresholded / depthBinWidth);
+});
+
+//-----------------------------------
+depthChart = dc.barChart("#chart-depth");
+dataTable = dc.dataTable("#dataTable");
+
+//-----------------------------------
+depthChart
+  .width(380)
+  .height(200)
+  .margins({
+    top: 10,
+    right: 20,
+    bottom: 30,
+    left: 30
+  })
+  .centerBar(false)
+  .elasticY(true)
+  .dimension(depthDimension)
+  .group(depthGrouping)
+  .x(d3.scale.linear().domain(depthRange))
+  .xUnits(dc.units.fp.precision(depthBinWidth))
+  .round(function(d) {
+    return depthBinWidth * Math.floor(d / depthBinWidth)
+  })
+  .renderHorizontalGridLines(true);
+
+xAxis_depthChart = depthChart.xAxis();
+xAxis_depthChart.tickFormat(d3.format("d"));
+yAxis_depthChart = depthChart.yAxis();
+yAxis_depthChart.ticks(6).tickFormat(d3.format("d")).tickSubdivide(0); // tickSubdivide(0) should remove sub ticks but not
+
+//-----------------------------------
+dataTable
+  .dimension(depthDimension)
+  .group(function(d) {
+    return d.Id + "   " + d.Depth; // Data table does not use crossfilter group but rather a closure as a grouping function
+  })
+  .size(30);
+
+//-----------------------------------
+dc.renderAll();
+*/
+
 //render all charts on page
 dc.renderAll();
