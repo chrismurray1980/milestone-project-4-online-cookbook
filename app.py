@@ -34,9 +34,6 @@ def get_recipes():
     except:
         print("Error in accessing database documents")
      
-     
-     
-        
 @app.route('/search_results', methods=['POST'])
 def search_results():
     """Display recipes returned from db based on text input"""
