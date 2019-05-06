@@ -1,0 +1,152 @@
+{% extends "base.html" %} {% block title %} Edit/delete recipe {% endblock %} {% block content_two %}
+
+<h4> Please update or delete your recipe:</h4>
+
+<form action="{{ url_for('update_recipe', recipe_id=recipe._id) }}" method="POST" autocomplete="off">
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="name">Recipe name</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeName" placeholder="Please enter recipe name" value="{{recipe.recipeName}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="name">Recipe author</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeAuthor" placeholder="Please enter recipe author" value="{{recipe.recipeAuthor}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="cuisine">Cuisine</label>
+        <div class="col-sm-4">
+            <select class="form-control cuisine-menu" id="recipeCuisine">
+                <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeCuisine" value="{{recipe.recipeCuisine}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="CountryOfOrigin">Country of origin</label>
+        <div class="col-sm-4">
+            <select class="form-control countryOfOrigin-menu" id="recipeCountryOfOrigin">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeCountryOfOrigin" value="{{recipe.recipeCountryOfOrigin}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="mealtime">Mealtime</label>
+        <div class="col-sm-4">
+            <select class="form-control mealtime-menu" id="recipeMealTime">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeMealTime" value="{{recipe.recipeMealTime}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="servings">Number of servings</label>
+        <div class="col-sm-4">
+            <select class="form-control servings-menu" id="recipeServings">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeServings" value="{{recipe.recipeServings}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="difficulty">Difficulty</label>
+        <div class="col-sm-4">
+            <select class="form-control difficulty-menu" id="recipeDifficulty">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control"  name="recipeDifficulty" value="{{recipe.recipeDifficulty}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="preparationtime">Preparation time</label>
+        <div class="col-sm-4">
+            <select class="form-control preparationtime-menu" id="recipePreparationTime">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control"  name="recipePreparationTime" value="{{recipe.recipePreparationTime}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="cookingtime">Cooking time</label>
+        <div class="col-sm-4">
+            <select class="form-control cookingtime-menu" id="recipeCookingTime">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control"  name="recipeCookingTime" value="{{recipe.recipeCookingTime}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="mainIngredient">Main Ingredient</label>
+        <div class="col-sm-4">
+            <select class="form-control mainIngredient-menu" id="recipeMainIngredient">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control"  name="recipeMainIngredient" value="{{recipe.recipeMainIngredient}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="Dietary">Dietary</label>
+        <div class="col-sm-4">
+            <select multiple size="2" class="form-control dietary-menu multiple-select" id="recipeDietary" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control"  name="recipeDietary" value="{{recipe.recipeDietary|join(',')}}">
+        </div>
+    </div>    
+        
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="Allergen">Allergens</label>
+        <div class="col-sm-4">
+            <select multiple size="2" class="form-control allergens-menu multiple-select" id="recipeAllergen" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeAllergen" value="{{recipe.recipeAllergen|join(',')}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="ingredients">Ingredients</label>
+        <div class="col-sm-8">
+            <textarea class="form-control" name="recipeIngredients" rows="3">{{recipe.recipeIngredients}}</textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="instructions">Instructions</label>
+        <div class="col-sm-8">
+            <textarea class="form-control" name="recipeInstructions" rows="3">{{recipe.recipeInstructions}}</textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="image">Recipe image</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="recipeImageLink" placeholder="Please enter recipe image" value="{{recipe.recipeImageLink}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <button type="submit" class="col-sm-2 offset-6 btn btn-primary recipe_button" id="update-recipe-submit">Update recipe</button>
+    </div>
+</form>
+
+<a class="col-sm-2 offset-1 " href="{{url_for('delete_recipe', recipe_id=recipe._id)}}"><button type="submit" class="btn btn-primary recipe_button" id="delete-recipe-submit">Delete recipe</button></a>
+
+{% endblock %}

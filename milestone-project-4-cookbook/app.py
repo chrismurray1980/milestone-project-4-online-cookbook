@@ -32,10 +32,7 @@ def get_recipes():
         data=dumps(recipes_collection.find())
         return render_template("index.html", recipes=recipes, data=data)
     except:
-        print("Error in accessing database documents")
-     
-     
-     
+        print("Error accessing database documents")
         
 @app.route('/search_results', methods=['POST'])
 def search_results():
