@@ -11,7 +11,8 @@ Mapper.ensure_all_indexes()
 
 def database_config_setup(filename):
     """Configure application to use either mongodb or mongo-in-memory db"""
-    database_config=os.getenv("MONGO_URI",'mongodb://localhost') if filename == "__main__" else 'mim://localhost/test'
+    database_config=os.getenv("MONGO_URI",'mongodb://localhost') 
+    #if filename == "__main__" else 'mim://localhost/test'
     return database_config
 
 app = Flask(__name__)
