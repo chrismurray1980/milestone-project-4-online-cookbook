@@ -17,7 +17,7 @@ def database_config_setup(filename):
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'onlineCookbook'
-app.config["MONGO_URI"]=database_config_setup(__name__)    
+app.config["MONGO_URI"]=database_config_setup(__name__)
 session = ThreadLocalODMSession(bind=create_datastore(app.config["MONGO_URI"] ) )
 
 recipes_collection=session.db.recipes
@@ -177,4 +177,6 @@ def insert_update_db_format(list):
     return field_input_dict         
      
 if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
+    app.run(host=os.getenv("IP", "0.0.0.0"),port=int(os.getenv("PORT", "5000")), debug=True)
+    
+   # app.run(host=os.environ.get('IP'), port=int(os.environ.get('PORT')), debug=True)
