@@ -8,6 +8,8 @@ var difficulty_chart = dc.rowChart('#recipe-difficulty-chart');
 var main_ingredient_chart = dc.barChart('#recipe-main-ingredient-chart');
 var total_time_chart = dc.barChart('#recipe-total-time-chart');
 
+if ($('#data').text()!=''){
+
 var data = JSON.parse($('#data').text());
 var ndx = crossfilter(data);
 
@@ -131,3 +133,4 @@ total_time_chart
 
 //render all charts on page
 dc.renderAll();
+}

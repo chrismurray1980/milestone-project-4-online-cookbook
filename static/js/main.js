@@ -21,7 +21,6 @@ var select_contents = {
 $(document).ready(function() {
     
     add_options(select_contents);
-    format_function();
     
     $("select").change(function() {
         var select_id = $(this).attr("id");
@@ -55,6 +54,13 @@ $(document).ready(function() {
     $('#get_Data').click(function(){
         $('#recipe-data-plots').toggleClass('hidden');
     });
+    
+    if ($("#recipeIngredientsDisplay").length){
+    (function (){
+            var str = document.getElementById("recipeIngredientsDisplay").innerHTML;
+            document.getElementById("recipeIngredientsDisplay").innerHTML= str.replace(/(?:\r\n|\r|\n|\r\r|\n\n| {2}.| {3}.| {4}.| {5}.|, )/g, '<br>');
+    })();
+}
 });
 
 function add_options(option_object) {
@@ -67,14 +73,7 @@ function add_options(option_object) {
     }
 }
 
-function format_function(){
-    var href = document.location.href;
-    var lastPathSegment = document.location.href.substr(href.lastIndexOf('/') + 1);
-    if(lastPathSegment=='show_recipe'){
-        var str = document.getElementById("recipeIngredientsDisplay").innerHTML;
-        document.getElementById("recipeIngredientsDisplay").innerHTML= str.replace(/(?:\r\n|\r|\n|\r\r|\n\n| {2}.| {3}.| {4}.| {5}.|, )/g, '<br>');
-        }
-    }
+
 
 
 

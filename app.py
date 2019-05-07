@@ -11,7 +11,7 @@ Mapper.ensure_all_indexes()
 
 def database_config_setup(filename):
     """Configure application to use either mongodb or mongo-in-memory db"""
-    database_config=os.getenv("MONGO_URI",'mongodb://localhost') 
+    database_config = os.getenv("MONGO_URI",'mongodb://localhost') 
     #if filename == "__main__" else 'mim://localhost/test'
     return database_config
 
@@ -20,7 +20,7 @@ app.config["MONGO_DBNAME"] = 'onlineCookbook'
 app.config["MONGO_URI"]=database_config_setup(__name__)
 session = ThreadLocalODMSession(bind=create_datastore(app.config["MONGO_URI"] ) )
 
-recipes_collection=session.db.recipes
+recipes_collection = session.db.recipes
 recipes_collection.drop_index("$**_text")
 recipes_collection.create_index([("$**","text")])
 
@@ -28,9 +28,9 @@ recipes_collection.create_index([("$**","text")])
 def get_recipes():
     try:
         """Access recipes with largest number of upvotes and display index page"""
-        recipes=recipes_collection.find().sort([('recipeUpvotes', -1)]).sort([('recipeUpvotes', -1)]).limit( 5 )
-        data=dumps(recipes_collection.find())
-        return render_template("index.html", recipes=recipes, data=data)
+        recipes = recipes_collection.find().sort([('recipeUpvotes', -1)]).sort([('recipeUpvotes', -1)]).limit( 5 )
+        data = dumps(recipes_collection.find())
+        return render_template("index.html", recipes = recipes, data = data)
     except:
         print("Error in accessing database documents")
      
@@ -38,6 +38,7 @@ def get_recipes():
 def search_results():
     """Display recipes returned from db based on text input"""
     try:
+        # search_content = '"{}"'.format(request.form.get('searchContent'))
         search_content=search_text_formatting('searchContent')
         recipes=recipes_collection.find({"$text": {"$search": search_content}}, 
                                         {'_txtscr': {'$meta': 'textScore'}}).sort([('_txtscr', {'$meta':'textScore'})])
