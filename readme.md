@@ -289,5 +289,4 @@ https://stackoverflow.com/questions/13241878/convert-pymongo-cursor-to-json --js
 https://www.geeksforgeeks.org/python-add-new-keys-to-a-dictionary/  --dictionary--
 https://bl.ocks.org/emiguevara/4bd152a8828f6b31270702d97dc0133d ---plot.js----
 http://jsfiddle.net/PBrockmann/ma3wr55k  ----histogram-----
-
-
+https://stackoverflow.com/questions/5629805/disabling-enter-key-for-form --- prevent enter key default ---

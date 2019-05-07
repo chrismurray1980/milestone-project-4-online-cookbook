@@ -18,7 +18,7 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="cuisine">Cuisine</label>
         <div class="col-sm-4">
-            <select class="form-control cuisine-menu" id="recipeCuisine">
+            <select class="form-control cuisine-menu" name="recipeCuisine" id="recipeCuisine">
                 <option>Please select</option>
             </select>
         </div>
@@ -51,9 +51,7 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="servings">Number of servings</label>
         <div class="col-sm-4">
-            <select class="form-control servings-menu" id="recipeServings">
-              <option>Please select</option>
-            </select>
+            <input type="number" class="form-control"  id="recipeServings" placeholder="Please select" min="1" max="20">
         </div>
         <div class="col-sm-4">
             <input type="text" class="form-control" name="recipeServings" placeholder="Please enter number of servings">
@@ -73,9 +71,7 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="preparationtime">Preparation time</label>
         <div class="col-sm-4">
-            <select class="form-control preparationtime-menu" id="recipePreparationTime">
-              <option>Please select</option>
-            </select>
+            <input type="number" class="form-control"  id="recipePreparationTime" placeholder="Please select" min="1" max="200">
         </div>
         <div class="col-sm-4">
             <input type="text" class="form-control"  name="recipePreparationTime" placeholder="Please enter preparation time">
@@ -84,9 +80,7 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="cookingtime">Cooking time</label>
         <div class="col-sm-4">
-            <select class="form-control cookingtime-menu" id="recipeCookingTime">
-              <option>Please select</option>
-            </select>
+            <input type="number" class="form-control"  id="recipeCookingTime" placeholder="Please select" min="1" max="200">
         </div>
         <div class="col-sm-4">
             <input type="text" class="form-control"  name="recipeCookingTime" placeholder="Please enter cooking time">
