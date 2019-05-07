@@ -3,37 +3,46 @@
 
 var select_contents = {
     
-    allergens:       [ "Dairy", "Fish", "Peanuts", "Shellfish", "Soya", "Tree-Nuts",  "Wheat", "Other", "None" ],
+    allergens:       [ 'Dairy' , 'Fish' , 'Peanuts' , 'Shellfish' , 'Soya' , 'Tree-Nuts' ,  'Wheat' , 'Other' , 'None' ],
     
-    countryOfOrigin: [ "America", "Brazil", "China", "England", "France", "Germany", "India", 
-                      "Ireland", "Italy", "Japan", "Mexico",  "Scotland", "Spain", "Thailand", "Other" ],
+    countryOfOrigin: [ 'America' , 'Brazil' , 'China' , 'England' , 'France' , 'Germany' , 'India' , 
+                       'Ireland' , 'Italy' , 'Japan' , 'Mexico' ,  'Scotland' , 'Spain' , 'Thailand' , 'Other' ],
                       
-    course:          [ "Starter", "Main", "Dessert" ],
+    course:          [ 'Starter' , 'Main' , 'Dessert' ],
     
-    cuisine:         [ "American", "Brazilian", "Chinese", "English", "French", "German", "Indian", "Irish", 
-                      "Italian", "Japanese", "Mexican",  "Scottish", "Spanish", "Thai", "Other" ],
+    cuisine:         [ 'American' , 'Brazilian' , 'Chinese' , 'English' , 'French' , 'German' , 'Indian' , 'Irish' , 
+                       'Italian' , 'Japanese' , 'Mexican' ,  'Scottish' , 'Spanish' , 'Thai' , 'Other' ],
                       
-    dietary:         [ "Vegan", "Other", "None" ],
+    dietary:         [ 'Vegan' , 'Other' , 'None' ],
     
-    difficulty:      [ "Easy", "Intermediate", "Hard" ],
+    difficulty:      [ 'Easy' , 'Intermediate' , 'Hard' ],
     
-    mainIngredient:  [ "Beef", "Chicken", "Fish", "Pork", "Seafood", "Turkey", "Other" ],
+    mainIngredient:  [ 'Beef' , 'Chicken' , 'Fish' , 'Pork' , 'Seafood' , 'Turkey' , 'Other' ],
     
-    mealtime:        [ "Breakfast", "Lunch", "Dinner", "Snack" ],
+    mealtime:        [ 'Breakfast' , 'Lunch' , 'Dinner' , 'Snack' ],
     
 };
 
 
-var field_array = [ 'recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings', 'recipeDifficulty', 
-                    'recipePreparationTime', 'recipeCookingTime', 'recipeAllergen', 'recipeDietary', 'recipeMainIngredient' ];
+var field_array = [ 'recipeCuisine' , 
+                    'recipeCountryOfOrigin' , 
+                    'recipeMealTime' , 
+                    'recipeServings' , 
+                    'recipeDifficulty' , 
+                    'recipePreparationTime' , 
+                    'recipeCookingTime', 
+                    'recipeAllergen', 
+                    'recipeDietary', 
+                    'recipeMainIngredient' 
+                                        ];
 
 
-$(document).ready(function() {
+$( document ).ready( function() {
     
     
-    $(document).keypress(
+    $( document ).keypress(
         
-        function(event) {
+        function( event ) {
             
             if ( event.which == '13' ) {
                 
@@ -44,7 +53,7 @@ $(document).ready(function() {
     });
     
     
-    add_options(select_contents);
+    add_options( select_contents );
     
     
     if ( $( 'form' ).is( '#edit_delete_form' ) ){
@@ -55,17 +64,17 @@ $(document).ready(function() {
             
             var select_value = $( 'input[name=' + field_array[i] + ']' ).val();
             
-            $( name ).val( select_value ).attr( "selected", "selected" );
+            $( name ).val( select_value ).attr( 'selected', 'selected' );
             
         }
     }
     
     
-    $( "select" ).change( function() {
+    $( 'select' ).change( function() {
         
-        var select_id = $( this ).attr( "id" );
+        var select_id = $( this ).attr( 'id' );
         
-        if ( select_id != "recipeDietary" && select_id != "recipeAllergen" ) {
+        if ( select_id != 'recipeDietary' && select_id != 'recipeAllergen' ) {
             
             $( 'input[name=' + select_id + ']' ).val( $( '#' + select_id.toString() ).val() );
             
@@ -74,17 +83,18 @@ $(document).ready(function() {
     });
     
     
-    $( "input[type=number]" ).change( function() {
+    $( 'input[type=number]' ).change( function() {
         
-        var select_id = $( this ).attr( "id" );
-            $( 'input[name=' + select_id + ']' ).val( $( '#' + select_id.toString() ).val() );
+        var select_id = $( this ).attr( 'id' );
+        
+        $( 'input[name=' + select_id + ']' ).val( $( '#' + select_id.toString() ).val() );
             
     });
         
             
-    $( ".multiple-select" ).click( function() {
+    $( '.multiple-select' ).click( function() {
         
-        var select_id = $( this ).attr( "id" );
+        var select_id = $( this ).attr( 'id' );
         
         if ( select_id == 'recipeDietary' ) {
             
@@ -111,6 +121,7 @@ $(document).ready(function() {
         
     });
     
+    
     $( '#text-search' ).click( function(){
         
         $( '#advanced-search-form' ).toggleClass( 'hidden' );
@@ -127,13 +138,13 @@ $(document).ready(function() {
     });
     
     
-    if ( $( "#recipeIngredientsDisplay" ).length ){
+    if ( $( '#recipeIngredientsDisplay' ).length ){
         
         ( function (){
             
-                var str = document.getElementById( "recipeIngredientsDisplay" ).innerHTML;
+                var str = document.getElementById( 'recipeIngredientsDisplay' ).innerHTML;
                 
-                document.getElementById( "recipeIngredientsDisplay" ).innerHTML = str.replace( /(?:\r\n|\r|\n|\r\r|\n\n| {2}.| {3}.| {4}.| {5}.|, )/g, '<br>' );
+                document.getElementById( 'recipeIngredientsDisplay' ).innerHTML = str.replace( /(?:\r\n|\r|\n|\r\r|\n\n| {2}.| {3}.| {4}.| {5}.|, )/g, '<br>' );
                 
         })();
         
@@ -152,7 +163,7 @@ function add_options( option_object ) {
             
             var name = '.' + key.toString() + '-menu';
             
-            $(name).append("<option value="+value[i]+">" + value[i] + "</option>");
+            $(name).append('<option value='+value[i]+'>' + value[i] + '</option>');
             
         }
         
