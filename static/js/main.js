@@ -68,7 +68,6 @@ $( document ).ready( function() {
             if ( field_array[ i ] == 'recipeDietary' || field_array[ i ] == 'recipeAllergen' ){
             
                 checkbox_array = $( 'input[name=' + field_array[i] + ']' ).val().split( ',' );
-                console.log( checkbox_array );
                 
                 $.each( checkbox_array , function( i , value ) {
                 

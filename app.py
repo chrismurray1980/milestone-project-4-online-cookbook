@@ -131,9 +131,11 @@ def insert_recipe():
         
         input_fields = insert_update_db_format( field_list )
         
-        recipes_collection.insert_one( input_fields )
+        new_recipe = recipes_collection.insert_one( input_fields )
         
-        return redirect( url_for( 'get_recipes' ) )
+        recipe = recipes_collection.find_one( { '_id' : ObjectId( new_recipe.inserted_id ) } )
+        
+        return  render_template( 'show_recipe.html' , recipe = recipe )
         
     except:
         
@@ -171,7 +173,9 @@ def update_recipe( recipe_id ):
         
         recipes_collection.update_one( { '_id' : ObjectId( recipe_id ) } , { '$set' : update_fields }, upsert = True )
         
-        return redirect( url_for( 'get_recipes' ) )
+        recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
+        
+        return  render_template( 'show_recipe.html' , recipe = recipe )
         
     except:
         
