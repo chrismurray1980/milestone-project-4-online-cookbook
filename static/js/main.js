@@ -31,10 +31,13 @@ var field_array = [ 'recipeCuisine' ,
                     'recipeDifficulty' , 
                     'recipePreparationTime' , 
                     'recipeCookingTime', 
-                    'recipeAllergen', 
-                    'recipeDietary', 
+                    'recipeAllergen' , 
+                    'recipeDietary' , 
                     'recipeMainIngredient' 
                                         ];
+                                        
+                                        
+var dietary_array=[] , allergen_array = [];
 
 
 $( document ).ready( function() {
@@ -60,13 +63,33 @@ $( document ).ready( function() {
          
         for ( var i = 0;  i < field_array.length;  i++ ) {
             
-            var name = '#' + field_array[i];
+            var checkbox_array=[];
             
-            var select_value = $( 'input[name=' + field_array[i] + ']' ).val();
+            if ( field_array[ i ] == 'recipeDietary' || field_array[ i ] == 'recipeAllergen' ){
             
-            $( name ).val( select_value ).attr( 'selected', 'selected' );
+                checkbox_array = $( 'input[name=' + field_array[i] + ']' ).val().split( ',' );
+                console.log( checkbox_array );
+                
+                $.each( checkbox_array , function( i , value ) {
+                
+                    $( 'input[value="' + value + '"]' ).prop( 'checked' , true );
+                
+                });
+                
+            }
+            
+            else{
+                
+                var name = '#' + field_array[i];
+                
+                var select_value = $( 'input[name=' + field_array[i] + ']' ).val();
+                
+                $( name ).val( select_value ).attr( 'selected', 'selected' );
+                
+            }
             
         }
+        
     }
     
     
@@ -90,25 +113,37 @@ $( document ).ready( function() {
         $( 'input[name=' + select_id + ']' ).val( $( '#' + select_id.toString() ).val() );
             
     });
+    
+    
+    $( '.dietary-checkbox' ).click( function() {
         
-            
-    $( '.multiple-select' ).click( function() {
+        dietary_array=[];
         
-        var select_id = $( this ).attr( 'id' );
+        $( 'input[name="Dietary"]:checked' ).each( function(){
+            
+            dietary_array.push(this.value);
+            
+        });
         
-        if ( select_id == 'recipeDietary' ) {
-            
-            $( 'input[name=' + select_id + ']' ).val( $( '#recipeDietary' ).val() );
-            
-        }
-        else if ( select_id == 'recipeAllergen' ) {
-            
-            $( 'input[name=' + select_id + ']' ).val( $( '#recipeAllergen' ).val() );
-            
-        }
+        $( 'input[name=recipeDietary]' ).val( dietary_array.join( ',' ) );
         
-    }); 
-       
+    });
+    
+    
+    $( '.allergen-checkbox' ).click( function() {
+        
+        allergen_array=[];
+        
+        $( 'input[name="Allergen"]:checked' ).each( function(){
+            
+            allergen_array.push(this.value);
+            
+        });
+        
+        $( 'input[name=recipeAllergen]' ).val( allergen_array.join( ',' ) );
+        
+    });
+    
                 
     $( '.carousel' ).carousel( { interval: 5000 } );
     

@@ -100,8 +100,9 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="Dietary">Dietary</label>
         <div class="col-sm-4">
-            <select multiple size="2" class="form-control dietary-menu multiple-select" id="recipeDietary" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
-            </select>
+            <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegan'> Vegan<br>
+            <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-other'> Dietary-other<br>
+            <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-none'> Dietary-none
         </div>
         <div class="col-sm-4">
             <input type="text" class="form-control"  name="recipeDietary" value="{{recipe.recipeDietary|join(',')}}">
@@ -111,8 +112,15 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="Allergen">Allergens</label>
         <div class="col-sm-4">
-            <select multiple size="2" class="form-control allergens-menu multiple-select" id="recipeAllergen" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
-            </select>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox"  id="recipeAllergen0"  value='Dairy'> Dairy<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen1" value='Fish'> Fish<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen2" value='Peanuts'> Peanuts<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen3" value='Shellfish'> Shellfish<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen4" value='Soya'> Soya<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen5" value='Tree-Nuts'> Tree-Nuts<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen6" value='Wheat'> Wheat<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox"  id="recipeAllergen7"value='Allergen-other'> Allergen-other<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen8" value='Allergen-none'> Allergen-none
         </div>
         <div class="col-sm-4">
             <input type="text" class="form-control" name="recipeAllergen" value="{{recipe.recipeAllergen|join(',')}}">
