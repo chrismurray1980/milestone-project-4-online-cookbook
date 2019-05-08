@@ -141,7 +141,7 @@ $( document ).ready( function() {
             
             $( '.add-recipe-ingredients' ).append(
             
-            '<textarea class="form-control" rows="1" placeholder="Please enter ingredient">' + ingredients_array[ i ] + '</textarea>'
+            '<textarea class="form-control ingredient-text" rows="1" placeholder="Please enter ingredient">' + ingredients_array[ i ] + '</textarea>'
             );
             
             //$( 'input[id=ingredient-text]' ).value( instructions_array[ i ] );
@@ -160,7 +160,7 @@ $( document ).ready( function() {
             
             $( '.add-recipe-instructions' ).append(
             
-            '<textarea class="form-control" rows="1" placeholder="Please enter instructions">' + instructions_array[ i ] + '</textarea>'
+            '<textarea class="form-control instruction-text" rows="1" placeholder="Please enter instructions">' + instructions_array[ i ] + '</textarea>'
             );
             
             //$( 'input[id=ingredient-text]' ).value( instructions_array[ i ] );
@@ -254,7 +254,7 @@ $( document ).ready( function() {
         
         $( '.add-recipe-ingredients' ).append(
             
-            '<textarea class="form-control" rows="1" id="ingredient-text" placeholder="Please enter ingredient"></textarea>'
+            '<textarea class="form-control ingredient-text" rows="1" id="ingredient-text" placeholder="Please enter ingredient"></textarea>'
             
         );
         
@@ -273,7 +273,7 @@ $( document ).ready( function() {
         
         $( '.add-recipe-instructions' ).append(
             
-            '<textarea class="form-control" rows="1" id="instruction-text" placeholder="Please enter instruction"></textarea>'
+            '<textarea class="form-control instruction-text" rows="1" placeholder="Please enter instruction"></textarea>'
             
         );
         
@@ -332,7 +332,7 @@ $( document ).ready( function() {
         
         ingredient_values = '';
             
-        $( 'textarea[id=ingredient-text]' ).each( function() {
+        $( '.ingredient-text' ).each( function() {
             
             ingredient_values = ingredient_values + $( this ).val() + '\r\n' ;
             
@@ -351,7 +351,7 @@ $( document ).ready( function() {
         
         instruction_values = '';
     
-        $( ' textarea[id=instruction-text]' ).each( function() {
+        $( '.instruction-text' ).each( function() {
                 
             instruction_values = instruction_values + $( this ).val() + '\r\n' ;
             
