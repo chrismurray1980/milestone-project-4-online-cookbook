@@ -292,3 +292,4 @@ http://jsfiddle.net/PBrockmann/ma3wr55k  ----histogram-----
 https://stackoverflow.com/questions/5629805/disabling-enter-key-for-form --- prevent enter key default ---
 https://stackoverflow.com/questions/27264504/how-to-getchecked-values-and-remove-unchecked-in-array ---checkbox array----
 https://stackoverflow.com/questions/31012129/selector-not-in-jquery-not-working ---exclude id from search form----
+https://www.encodedna.com/2013/07/dynamically-add-remove-textbox-control-using-jquery.htm  ---add remove text inputs---

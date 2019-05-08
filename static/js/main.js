@@ -7,7 +7,7 @@
 
 var select_contents = {
     
-    ingredient_countryOfOrigin: [ 'America' , 'Brazil' , 'China' , 'England' , 'France' , 'Germany' , 'India' , 
+    countryOfOrigin: [ 'America' , 'Brazil' , 'China' , 'England' , 'France' , 'Germany' , 'India' , 
                        'Ireland' , 'Italy' , 'Japan' , 'Mexico' ,  'Scotland' , 'Spain' , 'Thailand' , 'Other' ],
                       
     course:          [ 'Starter' , 'Main' , 'Dessert' ],
@@ -26,7 +26,9 @@ var select_contents = {
 
 // create field array to add db content to edit/delete form fields
 
-var field_array = [ 'recipeCuisine' , 
+var field_array = [ 
+    
+                    'recipeCuisine' , 
                     'recipeingredient_countryOfOrigin' , 
                     'recipeMealTime' , 
                     'recipeServings' , 
@@ -36,14 +38,20 @@ var field_array = [ 'recipeCuisine' ,
                     'recipeAllergen' , 
                     'recipeDietary' , 
                     'recipeMainIngredient' 
-                                        ];
+                
+                ];
                                         
                                         
-var dietary_array=[] , allergen_array = []; // create empty array variables for checkboxes
+var dietary_array  = [] , 
+    allergen_array = [] ; // create empty array variables for checkboxes
 
-var ingredient_count = 0 , instruction_count = 0;
 
-var ingredient_values = '' , instruction_values = '';
+// variables for ingredients and instructions textboxes
+
+var ingredient_count   = 0  , 
+    instruction_count  = 0  , 
+    ingredient_values  = '' , 
+    instruction_values = '' ; 
 
 
 // add options to select dropdowns function definition
@@ -92,7 +100,7 @@ $( document ).ready( function() {
     add_options( select_contents ); // add select options to form dropdowns
     
     
-    // add values to dropdowns and checkboxes from db
+    // add values to dropdowns, checkboxes and text inputs from db
     
     if ( $( 'form' ).is( '#edit_delete_form' ) ){
          
@@ -123,6 +131,57 @@ $( document ).ready( function() {
             }
             
         }
+        
+        
+        var ingredients_array = $( 'textarea[name=recipeIngredients]' ).val().split('\n');
+        
+        console.log( ingredients_array );
+        
+        for ( i = 0 ; i < ingredients_array.length ; i++ ){
+            
+            $( '.add-recipe-ingredients' ).append(
+            
+            '<textarea class="form-control" rows="1" placeholder="Please enter ingredient">' + ingredients_array[ i ] + '</textarea>'
+            );
+            
+            //$( 'input[id=ingredient-text]' ).value( instructions_array[ i ] );
+        
+            $( 'input[id=ingredient-confirm-button]' ).removeClass( 'hidden' );
+            
+            console.log( ingredients_array[ i ] );
+            
+        }
+        
+        var instructions_array = $( 'textarea[name=recipeInstructions]' ).val().split('\n');
+        
+        console.log( instructions_array );
+        
+        for ( i = 0 ; i < instructions_array.length ; i++ ){
+            
+            $( '.add-recipe-instructions' ).append(
+            
+            '<textarea class="form-control" rows="1" placeholder="Please enter instructions">' + instructions_array[ i ] + '</textarea>'
+            );
+            
+            //$( 'input[id=ingredient-text]' ).value( instructions_array[ i ] );
+        
+            $( 'input[id=instruction-confirm-button]' ).removeClass( 'hidden' );
+            
+            console.log( instructions_array[i] );
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
     }
     
@@ -187,131 +246,124 @@ $( document ).ready( function() {
     });
     
     
-    
-    
+    // add ingredient textarea on button click
     
     $( 'input[class=add-ingredient-button]' ).click( function() {
  
-            ingredient_count = ingredient_count + 1;
+        ingredient_count = ingredient_count + 1;
+        
+        $( '.add-recipe-ingredients' ).append(
             
-            $('.add-recipe-ingredients').append(
-                
-                '<input type="text" class="form-control" id="ingredient-text" placeholder="Please enter ingredient">'
-                
-            );
+            '<textarea class="form-control" rows="1" id="ingredient-text" placeholder="Please enter ingredient"></textarea>'
             
-            $( 'input[id=ingredient-confirm-button]' ).removeClass('hidden');
-            
-            ingredient_values = '';
-            
-            console.log('added');
-            
-            console.log(ingredient_count);
+        );
+        
+        $( 'input[id=ingredient-confirm-button]' ).removeClass( 'hidden' );
+        
+        ingredient_values = '';
+
     });
+    
+    
+    // add instructions text box on button click
     
     $( 'input[class=add-instruction-button]' ).click( function() {
  
-            instruction_count = instruction_count + 1;
+        instruction_count = instruction_count + 1;
+        
+        $( '.add-recipe-instructions' ).append(
             
-            $('.add-recipe-instructions').append(
-                
-                '<input type="text" class="form-control" id="instruction-text" placeholder="Please enter instruction">'
-                
-            );
+            '<textarea class="form-control" rows="1" id="instruction-text" placeholder="Please enter instruction"></textarea>'
             
-            $( 'input[id=instruction-confirm-button]' ).removeClass('hidden');
-            
-            instruction_values = '';
-            
-            console.log('added');
-            
-            console.log(instruction_count);
+        );
+        
+        $( 'input[id=instruction-confirm-button]' ).removeClass( 'hidden' );
+        
+        instruction_values = '';
+        
     });
 
     
-    
+    // remove ingredient text box on button click
     
     $( 'input[class=remove-ingredient-button]' ).click( function() {
 
-            ingredient_count = ingredient_count - 1;
+        ingredient_count = ingredient_count - 1;
+    
+        $( '.add-recipe-ingredients' ).children().last().remove();
         
-            $('.add-recipe-ingredients').children().last().remove();
-            console.log('remove');
-            console.log(ingredient_count);
+        if ( ingredient_count == 0 ){
             
-            if ( ingredient_count == 0 ){
-            $( 'input[id=ingredient-confirm-button]' ).addClass('hidden');
+            $( 'input[id=ingredient-confirm-button]' ).addClass( 'hidden' );
             
             ingredient_values = '';
             
-            $('textarea[name=recipeIngredients]').val('');
-            
-            }
+            $( 'textarea[name=recipeIngredients]' ).val( '' );
+        
+        }
             
     });
-
+    
+    
+    // remove instruction text box on button click
+    
     $( 'input[class=remove-instruction-button]' ).click( function() {
 
-            instruction_count = instruction_count - 1;
+        instruction_count = instruction_count - 1;
+    
+        $( '.add-recipe-instructions' ).children().last().remove();
         
-            $('.add-recipe-instructions').children().last().remove();
-            console.log('remove');
-            console.log(instruction_count);
+        if ( instruction_count == 0 ){
             
-            if ( instruction_count == 0 ){
-            $( 'input[id=instruction-confirm-button]' ).addClass('hidden');
+            $( 'input[id=instruction-confirm-button]' ).addClass( 'hidden' );
             
             instruction_values = '';
             
-            $('textarea[name=recipeInstructions]').val('');
-            }
+            $( 'textarea[name=recipeInstructions]' ).val( '' );
+            
+        }
             
     });
 
  
- 
+    // confirm ingredients button
  
     $( 'input[id=ingredient-confirm-button]' ).click( function() {
         
-        
-            ingredient_values = '';
-                
-            $('input[id=ingredient-text]').each(function() {
-                
-                ingredient_values = ingredient_values + $(this).val() + '\r\n' ;
-                
-                ingredient_count=0;
-                
-            });
-             
-             $('textarea[name=recipeIngredients]').val( ingredient_values.substring(0, ingredient_values.length-2));
-             console.log(ingredient_values);
+        ingredient_values = '';
+            
+        $( 'textarea[id=ingredient-text]' ).each( function() {
+            
+            ingredient_values = ingredient_values + $( this ).val() + '\r\n' ;
+            
+            ingredient_count = 0;
+            
+        });
+         
+        $( 'textarea[name=recipeIngredients]' ).val( ingredient_values.substring( 0 , ingredient_values.length-2 ) );
   
     });
     
-     $( 'input[id=instruction-confirm-button]' ).click( function() {
+    
+    // confirm instructions button
+    
+    $( 'input[id=instruction-confirm-button]' ).click( function() {
         
-        
-            instruction_values = '';
-        
-            $('input[id=instruction-text]').each(function() {
-                    
-                    
-                    instruction_values = instruction_values + $(this).val() + '\r\n' ;
-                    
-                    instruction_count=0;
-                    
-             });
-     
-     $('textarea[name=recipeInstructions]').val( instruction_values.substring(0, instruction_values.length-2));
-     console.log(instruction_values);
+        instruction_values = '';
+    
+        $( ' textarea[id=instruction-text]' ).each( function() {
+                
+            instruction_values = instruction_values + $( this ).val() + '\r\n' ;
+            
+            instruction_count=0;
+                
+         });
+ 
+        $( 'textarea[name=recipeInstructions]' ).val( instruction_values.substring( 0 , instruction_values.length-2 ) );
   
     });
 
-    
-    
-    
-    
+
     // define carousel change interval
     
     $( '.carousel' ).carousel( { interval: 5000 } );
