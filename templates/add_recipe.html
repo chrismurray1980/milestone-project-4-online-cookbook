@@ -126,18 +126,35 @@
             <input type="text" class="form-control" name="recipeAllergen" placeholder="Please enter any allergens present">
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row recipe-ingredients">
         <label class="col-sm-2 offset-1 col-form-label" for="ingredients">Ingredients</label>
+            <input type="button" class="add-ingredient-button" value="Add ingredient">
+            <input type="button" class="remove-ingredient-button" value="Remove ingredient">
+        
+        <div class="col-sm-8 add-recipe-ingredients"></div>
         <div class="col-sm-8">
-            <textarea class="form-control" name="recipeIngredients" name="recipeIngredients" rows="3" placeholder="Please enter recipe ingredients"></textarea>
+            <input type="button" id='ingredient-confirm-button' class='hidden' value="Confirm ingredients">
+        </div>
+        
+        <div class="col-sm-8">
+            <textarea class="form-control" name="recipeIngredients" rows="3" placeholder="Please enter recipe ingredients"></textarea>
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row recipe-instructions">
         <label class="col-sm-2 offset-1 col-form-label" for="instructions">Instructions</label>
+            <input type="button" class="add-instruction-button" value="Add instruction">
+            <input type="button" class="remove-instruction-button" value="Remove instruction">
+        
+        <div class="col-sm-8 add-recipe-instructions"></div>
         <div class="col-sm-8">
-            <textarea class="form-control" name="recipeInstructions" placeholder="Please enter recipe instructions" rows="3"></textarea>
+            <input type="button" id='instruction-confirm-button' class='hidden' value="Confirm instruction">
+        </div>
+        
+        <div class="col-sm-8">
+            <textarea class="form-control" name="recipeInstructions" rows="3" placeholder="Please enter recipe instructions"></textarea>
         </div>
     </div>
+    
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="image">Recipe image</label>
         <div class="col-sm-8">
