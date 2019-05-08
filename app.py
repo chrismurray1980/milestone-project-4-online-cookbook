@@ -1,25 +1,27 @@
 import os
 
-from flask import Flask, render_template, redirect, request, url_for, jsonify
+from flask              import Flask, render_template , redirect , request , url_for , jsonify
 
-from bson.objectid import ObjectId
+from bson.objectid      import ObjectId
 
-from bson.json_util import dumps
+from bson.json_util     import dumps
 
-from ming import mim, create_datastore
+from ming               import mim, create_datastore
 
-from ming.odm import ThreadLocalODMSession, Mapper
+from ming.odm           import ThreadLocalODMSession , Mapper
 
-from ming.base import Cursor
+from ming.base          import Cursor
 
-from models import recipes, users
+from models             import recipes , users
 
 
+""" Ensure all indexes """
 Mapper.ensure_all_indexes()
 
 
 def database_config_setup( filename ):
-    """Configure application to use either mongodb or mongo-in-memory db"""
+    
+    """ Configure application to use either mongodb or mongo-in-memory db """
     
     database_config = os.getenv( 'MONGO_URI', 'mongodb://localhost' ) if filename == '__main__' else 'mim://localhost/test'
    
@@ -47,7 +49,7 @@ recipes_collection.create_index( [ ( '$**' , 'text' ) ] )
 
 def get_recipes():
     
-    """Access recipes with largest number of upvotes and display index page""" 
+    """ Access recipes with largest number of upvotes and display index page """ 
     
     try:
         
@@ -67,7 +69,7 @@ def get_recipes():
 
 def search_results():
     
-    """Display recipes returned from db based on text input"""
+    """ Display recipes returned from db based on text input """
     
     try:
         # search_content = '"{}"'.format(request.form.get('searchContent'))
@@ -89,7 +91,7 @@ def search_results():
 
 def advanced_search_results():
     
-    """Return recipes from mongodb based on advanced search fields"""
+    """ Return recipes from mongodb based on advanced search fields """
     
     try:
         
@@ -109,7 +111,7 @@ def advanced_search_results():
 
 def add_recipe():
     
-    """Display add recipe page"""
+    """ Display add recipe page """
     
     try:
         
@@ -125,7 +127,7 @@ def add_recipe():
 
 def insert_recipe():
     
-    """Insert recipe to db and display index.html"""
+    """ Insert recipe to db and display index.html """
     
     try:
         
@@ -147,7 +149,7 @@ def insert_recipe():
 
 def edit_delete_recipe( recipe_id ):
     
-    """Open edit/delete page for specific document"""
+    """ Open edit/delete page for specific document """
     
     try:
         
@@ -165,7 +167,7 @@ def edit_delete_recipe( recipe_id ):
 
 def update_recipe( recipe_id ):
     
-    """Update specific document with form elements"""
+    """ Update specific document with form elements """
     
     try:
         
@@ -187,7 +189,7 @@ def update_recipe( recipe_id ):
 
 def show_recipe( recipe_id ):
     
-    """Show recipe page of specific document"""
+    """ Show recipe page of specific document """
     
     try:
         
@@ -205,7 +207,7 @@ def show_recipe( recipe_id ):
 
 def delete_recipe( recipe_id ):
     
-    """Delete specific document"""
+    """ Delete specific document """
     
     try:
         
@@ -223,7 +225,7 @@ def delete_recipe( recipe_id ):
 
 def like_recipe( recipe_id ):
     
-    """Add upvote to document when button clicked"""
+    """ Add upvote to document when button clicked """
     
     try:
         
@@ -243,7 +245,7 @@ def like_recipe( recipe_id ):
 
 def favourites():
     
-    """Open favourites page"""
+    """ Open favourites page """
     
     try:
         
@@ -255,7 +257,7 @@ def favourites():
         
         
 
-#Assisting variables and functions
+# Assisting variables and functions
 
 field_list = [ 'recipeUpvotes', 'recipeName', 'recipeAuthor', 'recipeIngredients', 'recipeInstructions', 'recipeImageLink', 
                'recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings', 'recipeDifficulty', 'recipePreparationTime', 
@@ -265,7 +267,7 @@ field_list = [ 'recipeUpvotes', 'recipeName', 'recipeAuthor', 'recipeIngredients
             
 def search_text_formatting( search_text ):
     
-    """Correctly format string for text search of entire db"""
+    """ Correctly format string for text search of entire db """
     
     formatted_search_text = '\"' + request.form.get( search_text ) + '\"'
     
@@ -275,7 +277,7 @@ def search_text_formatting( search_text ):
        
 def advanced_search_query_formatting( list ):
     
-    """Obtain input values for select boxes and append to list for advanced search query"""
+    """ Obtain input values for select boxes and append to list for advanced search query """
     
     search_list = []
     
@@ -313,7 +315,7 @@ def advanced_search_query_formatting( list ):
        
 def insert_update_db_format( list ):
     
-    """Construct format of insert or update to be sent to db"""
+    """ Construct format of insert or update to be sent to db """
     
     field_input_dict = {}
     

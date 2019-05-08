@@ -3,6 +3,9 @@
 */
 
 
+
+// Create plot variable names
+
 var cuisine_chart = dc.pieChart( '#recipe-cuisine-chart' );
 
 var country_of_origin_chart = dc.pieChart( '#recipe-country-of-origin-chart' );
@@ -20,11 +23,13 @@ var main_ingredient_chart = dc.barChart( '#recipe-main-ingredient-chart' );
 var total_time_chart = dc.barChart('#recipe-total-time-chart');
 
 
+// check if plot data from index.html is empty
+
 if ( $( '#data' ).text() != '' ){
 
-  var data = JSON.parse( $( '#data' ).text() );
+  var data = JSON.parse( $( '#data' ).text() );  // import plot data from index.html 
   
-  var ndx = crossfilter( data );
+  var ndx = crossfilter( data ); // create crossfilter from data
   
   
   // create pie chart of cuisine data
@@ -255,11 +260,10 @@ if ( $( '#data' ).text() != '' ){
     .yAxis()
     
     .ticks( 5 );
-  
-  
-  //render all charts on page
-  
-  dc.renderAll();
+    
+    
+    
+  dc.renderAll(); // render all charts on page
   
 }
 

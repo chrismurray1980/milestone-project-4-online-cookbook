@@ -1,9 +1,11 @@
-/* global $*/
+/* 
+    global $
+*/
 
+
+// create contents for select dropdowns 
 
 var select_contents = {
-    
-    allergens:       [ 'Dairy' , 'Fish' , 'Peanuts' , 'Shellfish' , 'Soya' , 'Tree-Nuts' ,  'Wheat' , 'Other' , 'None' ],
     
     countryOfOrigin: [ 'America' , 'Brazil' , 'China' , 'England' , 'France' , 'Germany' , 'India' , 
                        'Ireland' , 'Italy' , 'Japan' , 'Mexico' ,  'Scotland' , 'Spain' , 'Thailand' , 'Other' ],
@@ -12,8 +14,6 @@ var select_contents = {
     
     cuisine:         [ 'American' , 'Brazilian' , 'Chinese' , 'English' , 'French' , 'German' , 'Indian' , 'Irish' , 
                        'Italian' , 'Japanese' , 'Mexican' ,  'Scottish' , 'Spanish' , 'Thai' , 'Other' ],
-                      
-    dietary:         [ 'Vegan' , 'Other' , 'None' ],
     
     difficulty:      [ 'Easy' , 'Intermediate' , 'Hard' ],
     
@@ -23,6 +23,8 @@ var select_contents = {
     
 };
 
+
+// create field array to add db content to edit/delete form fields
 
 var field_array = [ 'recipeCuisine' , 
                     'recipeCountryOfOrigin' , 
@@ -37,13 +39,38 @@ var field_array = [ 'recipeCuisine' ,
                                         ];
                                         
                                         
-var dietary_array=[] , allergen_array = [];
+var dietary_array=[] , allergen_array = []; // create empty array variables for checkboxes
 
+
+// add options to select dropdowns function definition
+
+function add_options( option_object ) {
+    
+    for ( const entry of Object.entries( option_object ) ) {
+        
+        var i, key = entry[0], value = entry[1];
+        
+        for ( i = 0; i < value.length; i++ ) {
+            
+            var name = '.' + key.toString() + '-menu';
+            
+            $(name).append('<option value='+value[i]+'>' + value[i] + '</option>');
+            
+        }
+        
+    }
+    
+}
+
+
+// await document readiness
 
 $( document ).ready( function() {
     
     
-    $( document ).keypress(
+    // stop enter key submitting forms on press other than text-search-form
+    
+    $( 'form:not( #text-search-form )' ).keypress(
         
         function( event ) {
             
@@ -53,11 +80,31 @@ $( document ).ready( function() {
                 
             }
             
-    });
+        }
+        
+    );
+    
+    /*if ($( 'form' ).not( '#text-search-form' )){
+        
+        $( 'form' ).keypress(
+        
+            function( event ) {
+                
+                if ( event.which == '13' ) {
+                    
+                    event.preventDefault();
+                    
+                }
+                
+            });
+        
+        }*/
     
     
-    add_options( select_contents );
+    add_options( select_contents ); // add select options to form dropdowns
     
+    
+    // add values to dropdowns and checkboxes from db
     
     if ( $( 'form' ).is( '#edit_delete_form' ) ){
          
@@ -92,6 +139,8 @@ $( document ).ready( function() {
     }
     
     
+    // append select value to submission input text box for db submission
+    
     $( 'select' ).change( function() {
         
         var select_id = $( this ).attr( 'id' );
@@ -105,6 +154,8 @@ $( document ).ready( function() {
     });
     
     
+    // append number value to submission input text box for db submission
+    
     $( 'input[type=number]' ).change( function() {
         
         var select_id = $( this ).attr( 'id' );
@@ -113,6 +164,8 @@ $( document ).ready( function() {
             
     });
     
+    
+    // append checkbox value to submission input text box for db submission
     
     $( '.dietary-checkbox' ).click( function() {
         
@@ -129,6 +182,8 @@ $( document ).ready( function() {
     });
     
     
+    // append checkbox value to submission input text box for db submission
+    
     $( '.allergen-checkbox' ).click( function() {
         
         allergen_array=[];
@@ -143,9 +198,13 @@ $( document ).ready( function() {
         
     });
     
-                
+    
+    // define carousel change interval
+    
     $( '.carousel' ).carousel( { interval: 5000 } );
     
+    
+    // toggle show advanced search
     
     $( '#advanced-search' ).click( function(){
         
@@ -156,6 +215,8 @@ $( document ).ready( function() {
     });
     
     
+    // toggle show search text form
+    
     $( '#text-search' ).click( function(){
         
         $( '#advanced-search-form' ).toggleClass( 'hidden' );
@@ -165,6 +226,8 @@ $( document ).ready( function() {
     });
     
     
+    // toggle show data plots
+    
     $( '#get_Data' ).click( function(){
         
         $( '#recipe-data-plots' ).toggleClass( 'hidden' );
@@ -172,7 +235,11 @@ $( document ).ready( function() {
     });
     
     
+    // check if page is showing recipe ingredients
+    
     if ( $( '#recipeIngredientsDisplay' ).length ){
+        
+        // run iffy to format ingredients text
         
         ( function (){
             
@@ -185,23 +252,3 @@ $( document ).ready( function() {
     }
     
 });
-
-
-function add_options( option_object ) {
-    
-    for ( const entry of Object.entries( option_object ) ) {
-        
-        var i, key = entry[0], value = entry[1];
-        
-        for ( i = 0; i < value.length; i++ ) {
-            
-            var name = '.' + key.toString() + '-menu';
-            
-            $(name).append('<option value='+value[i]+'>' + value[i] + '</option>');
-            
-        }
-        
-    }
-    
-}
-
