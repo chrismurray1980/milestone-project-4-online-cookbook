@@ -51,7 +51,7 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="servings">Number of servings</label>
         <div class="col-sm-4">
-            <input type="number" class="form-control"  id="recipeServings" min="1" max="20">
+            <input type="number" class="form-control"  id="recipeServings" min="0" max="20">
         </div>
         <div class="col-sm-4">
             <input type="text" class="form-control" name="recipeServings" value="{{recipe.recipeServings}}">
@@ -71,7 +71,7 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="preparationtime">Preparation time</label>
         <div class="col-sm-4">
-            <input type="number" class="form-control"  id="recipePreparationTime" min="1" max="200">
+            <input type="number" class="form-control"  id="recipePreparationTime" min="0" max="200" step="5">
         </div>
         <div class="col-sm-4">
             <input type="text" class="form-control"  name="recipePreparationTime" value="{{recipe.recipePreparationTime}}">
@@ -80,7 +80,7 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="cookingtime">Cooking time</label>
         <div class="col-sm-4">
-            <input type="number" class="form-control"  id="recipeCookingTime" min="1" max="200">
+            <input type="number" class="form-control"  id="recipeCookingTime" min="0" max="200" step="10">
         </div>
         <div class="col-sm-4">
             <input type="text" class="form-control"  name="recipeCookingTime" value="{{recipe.recipeCookingTime}}">
@@ -112,15 +112,15 @@
     <div class="form-group row">
         <label class="col-sm-2 offset-1 col-form-label" for="Allergen">Allergens</label>
         <div class="col-sm-4">
-            <input type="checkbox" name="Allergen" class="allergen-checkbox"  id="recipeAllergen0"  value='Dairy'> Dairy<br>
-            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen1" value='Fish'> Fish<br>
-            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen2" value='Peanuts'> Peanuts<br>
-            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen3" value='Shellfish'> Shellfish<br>
-            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen4" value='Soya'> Soya<br>
-            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen5" value='Tree-Nuts'> Tree-Nuts<br>
-            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen6" value='Wheat'> Wheat<br>
-            <input type="checkbox" name="Allergen" class="allergen-checkbox"  id="recipeAllergen7"value='Allergen-other'> Allergen-other<br>
-            <input type="checkbox" name="Allergen" class="allergen-checkbox" id="recipeAllergen8" value='Allergen-none'> Allergen-none
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Dairy'> Dairy<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Fish'> Fish<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Peanuts'> Peanuts<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Shellfish'> Shellfish<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Soya'> Soya<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Tree-Nuts'> Tree-Nuts<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Wheat'> Wheat<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-other'> Allergen-other<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-none'> Allergen-none
         </div>
         <div class="col-sm-4">
             <input type="text" class="form-control" name="recipeAllergen" value="{{recipe.recipeAllergen|join(',')}}">

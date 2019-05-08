@@ -73,9 +73,7 @@
                     <div class="form-group row">
                         <label class="col-10 offset-1 col-form-label" for="servings">Number of servings</label>
                         <div class="col-10 offset-1">
-                            <select class="form-control servings-menu" id="recipeServings">
-                          <option value=''>Please select</option>
-                        </select>
+                            <input type="number" class="form-control"  id="recipeServings" placeholder="Please select" min="0" max="20">
                         </div>
                         <div class="col-sm-4">
                             <input type="hidden" class="form-control" name="recipeServings" placeholder="Please enter number of servings">
@@ -101,9 +99,7 @@
                     <div class="form-group row">
                         <label class="col-10 offset-1  col-form-label" for="preparationtime">Preparation time</label>
                         <div class="col-10 offset-1 ">
-                            <select class="form-control preparationtime-menu" id="recipePreparationTime">
-                      <option value=''>Please select</option>
-                    </select>
+                            <input type="number" class="form-control"  id="recipePreparationTime" placeholder="Please select" min="0" max="200" step="5">
                         </div>
                         <div class="col-sm-4">
                             <input type="hidden" class="form-control" name="recipePreparationTime" placeholder="Please enter preparation time">
@@ -116,9 +112,7 @@
                     <div class="form-group row">
                         <label class="col-10 offset-1 col-form-label" for="cookingtime">Cooking time</label>
                         <div class="col-10 offset-1">
-                            <select class="form-control cookingtime-menu" id="recipeCookingTime">
-                      <option value=''>Please select</option>
-                    </select>
+                            <input type="number" class="form-control"  id="recipeCookingTime" placeholder="Please select" min="0" max="200" step="10">
                         </div>
                         <div class="col-sm-4">
                             <input type="hidden" class="form-control" name="recipeCookingTime" placeholder="Please enter cooking time">
@@ -144,9 +138,9 @@
                     <div class="form-group row">
                         <label class="col-10 offset-1 col-form-label" for="Dietary">Dietary</label>
                         <div class="col-10 offset-1">
-                            <select multiple size="2" class="form-control dietary-menu multiple-select" id="recipeDietary" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
-                      <option value=''>Please select</option>
-                    </select>
+                            <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegan'> Vegan<br>
+                            <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-other'> Dietary-other<br>
+                            <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-none'> Dietary-none
                         </div>
                         <div class="col-10 offset-1">
                             <input type="hidden" class="form-control" name="recipeDietary" placeholder="Please enter dietary requirements">
@@ -157,9 +151,15 @@
                     <div class="form-group row">
                         <label class="col-10 offset-1 col-form-label" for="Allergen">Allergens</label>
                         <div class="col-10 offset-1">
-                            <select multiple size="2" class="form-control allergens-menu multiple-select" id="recipeAllergen" data-toggle="tooltip" data-placement="top" title="Hold CTRL to multi-select">
-                        <option value=''>Please select</option>
-                    </select>
+                            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Dairy'> Dairy<br>
+                            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Fish'> Fish<br>
+                            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Peanuts'> Peanuts<br>
+                            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Shellfish'> Shellfish<br>
+                            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Soya'> Soya<br>
+                            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Tree-Nuts'> Tree-Nuts<br>
+                            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Wheat'> Wheat<br>
+                            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-other'> Allergen-other<br>
+                            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-none'> Allergen-none
                         </div>
                         <div class="col-sm-4">
                             <input type="hidden" class="form-control" name="recipeAllergen" placeholder="Please enter any allergens present">
