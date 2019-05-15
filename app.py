@@ -4,7 +4,7 @@ from flask              import Flask, render_template , redirect , request , url
 
 from bson.objectid      import ObjectId
 
-from bson.json_util     import dumps
+from bson.json_util     import dumps 
 
 from ming               import mim, create_datastore
 
@@ -14,6 +14,7 @@ from ming.base          import Cursor
 
 from models             import recipes , users
 
+import ast
 
 
 # Configure application to use either mongodb or mongo-in-memory db 
@@ -23,8 +24,6 @@ def database_config_setup( filename ):
     database_config = os.getenv( 'MONGO_URI', 'mongodb://localhost' ) if filename == '__main__' else 'mim://localhost/test'
    
     return database_config
-
-
 
 app = Flask(__name__) # Create flask app
 
@@ -68,13 +67,13 @@ def get_recipes():
 
 # Post search text and redirect to search results page
 
-@app.route('/search', methods=['POST'])
+@app.route( '/search' , methods = [ 'POST' ] )
 
 def search():
     
     try:
         
-        return redirect(url_for('search_results', search_content = request.form[ 'searchContent' ] ) )
+        return redirect( url_for( 'search_results' , search_content = request.form[ 'searchContent' ] ) )
 
     except:
         
@@ -100,26 +99,45 @@ def search_results( search_content ):
     except:
         
             print( 'Error accessing database documents' )
+
+
+
+# Post advanced search values and redirect to search results page
+
+@app.route( '/advanced_search' , methods = [ 'POST' ] )
+
+def advanced_search():
+    
+    
+    
+    try:
+        advanced_search_list = advanced_search_query_formatting( field_list[ 6: ] )
+        print (advanced_search_list)
+        
+        return redirect( url_for( 'advanced_search_results' , advanced_search_list = advanced_search_list  ) )
+    except:
+        
+        print( 'Error, could not retrieve advanced search input' )  
             
-      
+            
       
 # Return recipes from mongodb based on advanced search fields 
 
-@app.route( '/advanced_search_results' , methods = [ 'GET' ] )
+@app.route( '/advanced_search_results/<advanced_search_list>' )
 
-def advanced_search_results():
+def advanced_search_results(advanced_search_list):
     
-    try:
-        
-        advanced_search_list = advanced_search_query_formatting( field_list[ 6: ] )
-        
-        recipes = recipes_collection.find( { '$and' : advanced_search_list } ).sort( [ ( 'recipeUpvotes' , -1 ) ] ).limit( 10 )
+    #try:
+        bums = ast.literal_eval(advanced_search_list)
+        #advanced_search_list = advanced_search_query_formatting( field_list[ 6: ] )
+        print(type(bums))
+        recipes = recipes_collection.find( { '$and' : bums } ).sort( [ ( 'recipeUpvotes' , -1 ) ] ).limit( 10 )
         
         return render_template( 'search_results.html' , recipes = recipes )
         
-    except:
+    #except:
         
-        print( 'Error accessing database documents' )
+        #print( 'Error accessing database documents' )
         
     
 
