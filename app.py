@@ -1,5 +1,7 @@
 import os
 
+import ast
+
 from flask              import Flask, render_template , redirect , request , url_for , jsonify
 
 from bson.objectid      import ObjectId
@@ -14,7 +16,6 @@ from ming.base          import Cursor
 
 from models             import recipes , users
 
-import ast
 
 
 # Configure application to use either mongodb or mongo-in-memory db 
@@ -24,28 +25,30 @@ def database_config_setup( filename ):
     database_config = os.getenv( 'MONGO_URI', 'mongodb://localhost' ) if filename == '__main__' else 'mim://localhost/test'
    
     return database_config
+    
+    
 
-app = Flask(__name__) # Create flask app
+app = Flask(__name__)                                                                   # Create flask app
 
-app.config[ 'MONGO_DBNAME' ] = 'onlineCookbook' # Define db name
+app.config[ 'MONGO_DBNAME' ] = 'onlineCookbook'                                         # Define db name
 
-app.config[ 'MONGO_URI' ] = database_config_setup( __name__ ) # Define db URI
+app.config[ 'MONGO_URI' ] = database_config_setup( __name__ )                           # Define db URI
 
 session = ThreadLocalODMSession( bind = create_datastore( app.config[ 'MONGO_URI' ] ) ) # Create db session
 
 
 
-recipes_collection = session.db.recipes # Set recipe variable
+recipes_collection = session.db.recipes                                                 # Set recipe variable
 
-Mapper.ensure_all_indexes() # Ensure all indexes
+Mapper.ensure_all_indexes()                                                             # Ensure all indexes
 
-recipes_collection.drop_index( '$**_text' ) # Drop search index
+recipes_collection.drop_index( '$**_text' )                                             # Drop search index
 
-recipes_collection.create_index( [ ( '$**' , 'text' ) ] ) # Create search index
+recipes_collection.create_index( [ ( '$**' , 'text' ) ] )                               # Create search index
 
 
 
-# Access recipes with largest number of upvotes and display index page  
+# Access recipes with largest number of upvotes, convert all data to json string and display index page  
 
 @app.route( '/' )
 
@@ -77,11 +80,11 @@ def search():
 
     except:
         
-            print( 'Error, could not retrieve text search input' )
+        print( 'Error, could not retrieve text search input' )
             
             
  
-# Display recipes returned from db based on text input 
+# Display recipes returned from db based upon text input 
 
 @app.route( '/search_results/<search_content>' )
 
@@ -108,36 +111,35 @@ def search_results( search_content ):
 
 def advanced_search():
     
-    
-    
     try:
-        advanced_search_list = advanced_search_query_formatting( field_list[ 6: ] )
-        print (advanced_search_list)
         
-        return redirect( url_for( 'advanced_search_results' , advanced_search_list = advanced_search_list  ) )
+        advanced_search_list = advanced_search_query_formatting( field_list[ 6: ] )
+        
+        return redirect( url_for( 'advanced_search_results' , advanced_search_list = advanced_search_list ) )
+        
     except:
         
         print( 'Error, could not retrieve advanced search input' )  
             
             
       
-# Return recipes from mongodb based on advanced search fields 
+# Return recipes from db based on advanced search fields 
 
 @app.route( '/advanced_search_results/<advanced_search_list>' )
 
 def advanced_search_results(advanced_search_list):
     
-    #try:
-        bums = ast.literal_eval(advanced_search_list)
-        #advanced_search_list = advanced_search_query_formatting( field_list[ 6: ] )
-        print(type(bums))
-        recipes = recipes_collection.find( { '$and' : bums } ).sort( [ ( 'recipeUpvotes' , -1 ) ] ).limit( 10 )
+    try:
+        
+        advanced_search_list = ast.literal_eval( advanced_search_list )
+        
+        recipes = recipes_collection.find( { '$and' : advanced_search_list } ).sort( [ ( 'recipeUpvotes' , -1 ) ] ).limit( 10 )
         
         return render_template( 'search_results.html' , recipes = recipes )
         
-    #except:
+    except:
         
-        #print( 'Error accessing database documents' )
+        print( 'Error accessing database documents' )
         
     
 
@@ -372,4 +374,4 @@ def insert_update_db_format( list ):
      
 if __name__  ==  '__main__':
     
-    app.run( host = os.environ.get( 'IP' ), port = int( os.environ.get( 'PORT' ) ), debug = True )
+    app.run( host = os.environ.get( 'IP' ), port = int( os.environ.get( 'PORT' ) ), debug = False )

@@ -1,12 +1,14 @@
 import unittest
 
-from flask_testing  import TestCase
+from flask_testing      import TestCase
 
-from app            import app , session, recipes_collection
+from app                import app , session, recipes_collection
 
-from models         import recipes , users
+from models             import recipes , users
 
-from bson.objectid  import ObjectId
+from bson.objectid      import ObjectId
+
+from bson.json_util     import dumps 
 
 
 
@@ -30,10 +32,16 @@ class FlaskTestCase( TestCase ):
     
     def setUp( self ):
         
-        objectId = ObjectId( '0123456789ab0123456789ab' )
+        objectId_1 = ObjectId( '0123456789ab0123456789ab' )
         
-        recipes_collection.insert_one( recipes.make( dict( _id=objectId , recipeName = 'test this document' , recipeUpvotes = 15 ) ) )
+        objectId_2 = ObjectId( '0123456789ab0123456789ad' )
         
+        recipes_collection.insert_one( recipes.make( dict( _id=objectId_1 , recipeName = 'test this document' , recipeUpvotes = 15 , recipeCuisine = 'Mexican' ) ) )
+        
+        recipes_collection.insert_one( recipes.make( dict( _id=objectId_2 , recipeName = 'test another document' , recipeUpvotes = 15 , recipeCuisine = 'Italian' ) ) )
+    
+    
+    
     
     # Tear down test setup 
     
@@ -45,11 +53,13 @@ class FlaskTestCase( TestCase ):
         
          
     
-    # Ensure index page loads and contains recipe data 
+    # Ensure index page loads, contains recipe data and converts cursor to json string
     
     def test_get_recipes( self ):
         
         response = self.client.get( '/' , follow_redirects = True )
+        
+        data = dumps( recipes_collection.find() )
         
         self.assert200( response )
         
@@ -57,7 +67,10 @@ class FlaskTestCase( TestCase ):
         
         self.assertIn( b'test this document' , response.data )
         
-        self.assertEqual( recipes_collection.count() , 1 )
+        self.assertEqual( recipes_collection.count() , 2 )
+        
+        self.assertTrue( type( data ) , 'str' )
+
 
 
     # Ensure search results page loads and contains recipe data 
@@ -70,11 +83,9 @@ class FlaskTestCase( TestCase ):
         
         for document in data: 
             
-            return document['recipeName']
+            return document[ 'recipeName' ]
             
-        response = self.client.get( '/search_results/test this document' , follow_redirects = True , data = document['recipeName'])
-
-        self.assertTemplateUsed( 'search_results.html' )
+        response = self.client.get( '/search_results/test this document' , follow_redirects = True , data = document[ 'recipeName' ])
         
         self.assert200( response )
         
@@ -82,9 +93,31 @@ class FlaskTestCase( TestCase ):
         
         self.assertIn( b'test this document' , response.data )
         
-        self.assertEqual( recipes_collection.count() , 1 )
+        self.assertEqual( recipes_collection.count() , 2 )
 
+
+
+    # Ensure search results page loads and contains recipe data 
+        
+    def test_advanced_search( self ):
+        
+        data = recipes_collection.find( { 'recipeCuisine' : 'Italian' } )
+        
+        for document in data: 
             
+            return document[ 'recipeCuisine' ]
+        
+        response = self.client.get( "/search_results/[{'recipeCuisine': 'Italian'}]" , follow_redirects = True , data =  document[ 'recipeCuisine' ] )  
+        
+        self.assert200( response )
+        
+        self.assertTemplateUsed( 'search_results.html' )
+        
+        self.assertIn( b'Italian' , response.data )
+        
+        self.assertEqual( recipes_collection.count() , 2 )
+        
+        
             
     # Ensure add_recipe page loads correctly 
     
@@ -98,7 +131,7 @@ class FlaskTestCase( TestCase ):
         
         
     
-    # Ensure insert recipe works correctly and index page is then rendered
+    # Ensure insert recipe works correctly and show_recipe page is then rendered
     
     def test_insert_recipe( self ): 
         
@@ -114,7 +147,7 @@ class FlaskTestCase( TestCase ):
         
         self.assertIn( b'test insert document' , response.data )
         
-        self.assertEqual( recipes_collection.count() , 2 )
+        self.assertEqual( recipes_collection.count() , 3 )
         
         
     
@@ -132,7 +165,7 @@ class FlaskTestCase( TestCase ):
         
         
     
-    #Ensure recipe is updated and index page is rendered
+    #Ensure recipe is updated and show_recipe page is rendered
     
     def test_update_recipe( self ):
         
@@ -146,7 +179,7 @@ class FlaskTestCase( TestCase ):
         
         self.assertIn( b'This has been updated' , response.data )
         
-        self.assertEqual( recipes_collection.count() , 1 )
+        self.assertEqual( recipes_collection.count() , 2 )
         
         
     
@@ -176,7 +209,7 @@ class FlaskTestCase( TestCase ):
         
         self.assertTemplateUsed( 'index.html' )
         
-        self.assertEqual( recipes_collection.count() , 0 )
+        self.assertEqual( recipes_collection.count() , 1 )
         
         
     
