@@ -51,7 +51,15 @@ class FlaskTestCase( TestCase ):
         
         session.clear()
         
+    
          
+    # Test database used
+    
+    def test_database( self ):
+        
+        self.assertTrue( app.config[ 'MONGO_URI' ] , 'mim://localhost/test' )
+    
+    
     
     # Ensure index page loads, contains recipe data and converts cursor to json string
     
@@ -97,7 +105,7 @@ class FlaskTestCase( TestCase ):
 
 
 
-    # Ensure search results page loads and contains recipe data 
+    # Ensure search results page loads and contains recipe data for advanced search
         
     def test_advanced_search( self ):
         

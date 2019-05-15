@@ -19,7 +19,7 @@ var select_contents = {
     
     mainIngredient:  [ 'Beef' , 'Chicken' , 'Fish' , 'Pork' , 'Seafood' , 'Turkey' , 'Ingredient-other' ],
     
-    mealtime:        [ 'Breakfast' , 'Lunch' , 'Dinner' , 'Snack' , 'Brunch' ],
+    mealtime:        [ 'Breakfast' , 'Brunch' , 'Lunch' , 'Dinner' , 'Dessert' , 'Snack' ],
     
 };
 
