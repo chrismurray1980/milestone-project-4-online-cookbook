@@ -15,41 +15,42 @@ from ming.base          import Cursor
 from models             import recipes , users
 
 
-""" Ensure all indexes """
-Mapper.ensure_all_indexes()
 
+# Configure application to use either mongodb or mongo-in-memory db 
 
 def database_config_setup( filename ):
-    
-    """ Configure application to use either mongodb or mongo-in-memory db """
     
     database_config = os.getenv( 'MONGO_URI', 'mongodb://localhost' ) if filename == '__main__' else 'mim://localhost/test'
    
     return database_config
 
 
-app = Flask(__name__)
 
-app.config[ 'MONGO_DBNAME' ] = 'onlineCookbook'
+app = Flask(__name__) # Create flask app
 
-app.config[ 'MONGO_URI' ] = database_config_setup( __name__ )
+app.config[ 'MONGO_DBNAME' ] = 'onlineCookbook' # Define db name
 
-session = ThreadLocalODMSession( bind = create_datastore( app.config[ 'MONGO_URI' ] ) )
+app.config[ 'MONGO_URI' ] = database_config_setup( __name__ ) # Define db URI
 
-
-recipes_collection = session.db.recipes
-
-recipes_collection.drop_index( '$**_text' )
-
-recipes_collection.create_index( [ ( '$**' , 'text' ) ] )
+session = ThreadLocalODMSession( bind = create_datastore( app.config[ 'MONGO_URI' ] ) ) # Create db session
 
 
+
+recipes_collection = session.db.recipes # Set recipe variable
+
+Mapper.ensure_all_indexes() # Ensure all indexes
+
+recipes_collection.drop_index( '$**_text' ) # Drop search index
+
+recipes_collection.create_index( [ ( '$**' , 'text' ) ] ) # Create search index
+
+
+
+# Access recipes with largest number of upvotes and display index page  
 
 @app.route( '/' )
 
 def get_recipes():
-    
-    """ Access recipes with largest number of upvotes and display index page """ 
     
     try:
         
@@ -62,21 +63,36 @@ def get_recipes():
     except:
         
         print( 'Error in accessing database documents' )
- 
- 
-     
-@app.route( '/search_results' , methods = [ 'POST' ] )
 
-def search_results():
-    
-    """ Display recipes returned from db based on text input """
+
+
+# Post search text and redirect to search results page
+
+@app.route('/search', methods=['POST'])
+
+def search():
     
     try:
-        # search_content = '"{}"'.format(request.form.get('searchContent'))
         
-        search_content = search_text_formatting( 'searchContent' )
+        return redirect(url_for('search_results', search_content = request.form[ 'searchContent' ] ) )
+
+    except:
         
-        recipes = recipes_collection.find( { '$text' : { '$search' : search_content } } , 
+            print( 'Error, could not retrieve text search input' )
+            
+            
+ 
+# Display recipes returned from db based on text input 
+
+@app.route( '/search_results/<search_content>' )
+
+def search_results( search_content ):
+    
+    try:
+
+        search_text = '{}{}{}'.format( '\"' , search_content , '\"' ) 
+        
+        recipes = recipes_collection.find( { '$text' : { '$search' : search_text } } , 
                                            { '_txtscr' : { '$meta' : 'textScore' } } ).sort( [ ( '_txtscr', { '$meta' : 'textScore' } ) ] )
                                         
         return render_template( 'search_results.html' , recipes = recipes )
@@ -86,12 +102,12 @@ def search_results():
             print( 'Error accessing database documents' )
             
       
-            
-@app.route( '/advanced_search_results' , methods = [ 'POST' ] )
+      
+# Return recipes from mongodb based on advanced search fields 
+
+@app.route( '/advanced_search_results' , methods = [ 'GET' ] )
 
 def advanced_search_results():
-    
-    """ Return recipes from mongodb based on advanced search fields """
     
     try:
         
@@ -106,12 +122,12 @@ def advanced_search_results():
         print( 'Error accessing database documents' )
         
     
-        
+
+# Display add recipe page 
+
 @app.route( '/add_recipe' )
 
 def add_recipe():
-    
-    """ Display add recipe page """
     
     try:
         
@@ -122,12 +138,12 @@ def add_recipe():
         print( 'Error, could not render add recipe view' )
     
     
-    
+ 
+# Insert recipe to db and display index.html 
+ 
 @app.route( '/insert_recipe' , methods = [ 'POST' ] )
 
 def insert_recipe():
-    
-    """ Insert recipe to db and display index.html """
     
     try:
         
@@ -145,11 +161,11 @@ def insert_recipe():
 
 
 
+# Open edit/delete page for specific document 
+
 @app.route( '/edit_delete_recipe/<recipe_id>' )
 
 def edit_delete_recipe( recipe_id ):
-    
-    """ Open edit/delete page for specific document """
     
     try:
         
@@ -162,12 +178,12 @@ def edit_delete_recipe( recipe_id ):
         print( 'Error accessing database documents' )
         
         
-        
+
+# Update specific document with form elements 
+
 @app.route( '/update_recipe/<recipe_id>' , methods = [ 'POST' ] )
 
 def update_recipe( recipe_id ):
-    
-    """ Update specific document with form elements """
     
     try:
         
@@ -185,11 +201,11 @@ def update_recipe( recipe_id ):
         
         
 
+# Show recipe page of specific document 
+
 @app.route( '/show_recipe/<recipe_id>' )
 
 def show_recipe( recipe_id ):
-    
-    """ Show recipe page of specific document """
     
     try:
         
@@ -203,11 +219,11 @@ def show_recipe( recipe_id ):
         
         
 
+# Delete specific document 
+
 @app.route( '/delete_recipe/<recipe_id>' )
 
 def delete_recipe( recipe_id ):
-    
-    """ Delete specific document """
     
     try:
         
@@ -221,11 +237,11 @@ def delete_recipe( recipe_id ):
         
         
 
+# Add upvote to document when button clicked 
+
 @app.route( '/like_recipe/<recipe_id>' )
 
 def like_recipe( recipe_id ):
-    
-    """ Add upvote to document when button clicked """
     
     try:
         
@@ -241,11 +257,11 @@ def like_recipe( recipe_id ):
 
 
 
+# Open favourites page 
+
 @app.route( '/favourites' )
 
 def favourites():
-    
-    """ Open favourites page """
     
     try:
         
@@ -264,30 +280,20 @@ field_list = [ 'recipeUpvotes', 'recipeName', 'recipeAuthor', 'recipeIngredients
                'recipeCookingTime', 'recipeAllergen', 'recipeDietary', 'recipeMainIngredient' ]
      
         
-            
-def search_text_formatting( search_text ):
-    
-    """ Correctly format string for text search of entire db """
-    
-    formatted_search_text = '\"' + request.form.get( search_text ) + '\"'
-    
-    return formatted_search_text
-       
-       
-       
+
+# Obtain input values for select boxes and append to list for advanced search query 
+
 def advanced_search_query_formatting( list ):
-    
-    """ Obtain input values for select boxes and append to list for advanced search query """
     
     search_list = []
     
     for value in list:
         
-        if request.form.get( value ) != '':
+        if request.form[ value ] != '':
             
             if value == 'recipeAllergen' or value == 'recipeDietary':
                 
-                value_text = request.form.get( value )
+                value_text = request.form[ value ]
                 
                 value_split_text = value_text.split( ', ' )
                 
@@ -301,21 +307,21 @@ def advanced_search_query_formatting( list ):
                 
             elif value == 'recipePreparationTime' or value == 'recipeCookingTime' or value == 'recipeServings':
                 
-                if request.form.get( value ).isdigit() == True:
+                if request.form[ value ].isdigit() == True:
                     
-                    search_list.append( { value: { '$lte' : int( request.form.get( value ) ) } } )
+                    search_list.append( { value: { '$lte' : int( request.form[ value ] ) } } )
                     
             else:
                 
-                search_list.append( { value : request.form.get( value ) } )
+                search_list.append( { value : request.form[ value ] } )
                 
     return search_list
        
        
-       
+
+# Construct format of insert or update to be sent to db 
+
 def insert_update_db_format( list ):
-    
-    """ Construct format of insert or update to be sent to db """
     
     field_input_dict = {}
     
@@ -323,15 +329,15 @@ def insert_update_db_format( list ):
         
         if field == 'recipeAllergen' or field == 'recipeDietary':
             
-            field_value = request.form.get( field )
+            field_value = request.form[ field ]
             
-            field_value = request.form.get( field ) if field_value != '' else 'None'
+            field_value = request.form[ field ] if field_value != '' else 'None'
             
             field_input_dict[ field ] = field_value.split( ',' )
             
         elif field == 'recipePreparationTime' or field == 'recipeCookingTime' or field == 'recipeServings':
             
-            field_value = request.form.get( field )
+            field_value = request.form[ field ]
             
             field_input_dict[ field ] = int( field_value ) if field_value.isdigit() == True else 0
             
@@ -340,7 +346,7 @@ def insert_update_db_format( list ):
             field_input_dict[ field ] = 0
             
         else:
-            field_input_dict[ field ] = request.form.get( field )
+            field_input_dict[ field ] = request.form[ field ]
             
     return field_input_dict         
      

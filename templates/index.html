@@ -7,7 +7,7 @@
                 <h5>Find a recipe:</h5>
             </div>
             <div class="col-6">
-                <form class="form-inline my-2 my-lg-0" action="{{ url_for('search_results')}}" method="POST" autocomplete="off" id='text-search-form'>
+                <form class="form-inline my-2 my-lg-0" action="{{ url_for('search')}}" method="POST" autocomplete="off" id='text-search-form'>
                     <input class="form-control mr-sm-2" type="search" placeholder="Please enter your search" name="searchContent" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
@@ -112,7 +112,7 @@
                     <div class="form-group row">
                         <label class="col-10 offset-1 col-form-label" for="cookingtime">Cooking time</label>
                         <div class="col-10 offset-1">
-                            <input type="number" class="form-control"  id="recipeCookingTime" placeholder="Please select" min="0" max="200" step="10">
+                            <input type="number" class="form-control"  id="recipeCookingTime" placeholder="Please select" min="0" max="200" step="5">
                         </div>
                         <div class="col-sm-4">
                             <input type="hidden" class="form-control" name="recipeCookingTime" placeholder="Please enter cooking time">

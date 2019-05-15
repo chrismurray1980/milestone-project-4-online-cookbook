@@ -8,18 +8,18 @@
 var select_contents = {
     
     countryOfOrigin: [ 'America' , 'Brazil' , 'China' , 'England' , 'France' , 'Germany' , 'India' , 
-                       'Ireland' , 'Italy' , 'Japan' , 'Mexico' ,  'Scotland' , 'Spain' , 'Thailand' , 'Other' ],
+                       'Ireland' , 'Italy' , 'Japan' , 'Mexico' ,  'Scotland' , 'Spain' , 'Thailand' , 'Origin-other', 'Origin-unknown' ],
                       
     course:          [ 'Starter' , 'Main' , 'Dessert' ],
     
     cuisine:         [ 'American' , 'Brazilian' , 'Chinese' , 'English' , 'French' , 'German' , 'Indian' , 'Irish' , 
-                       'Italian' , 'Japanese' , 'Mexican' ,  'Scottish' , 'Spanish' , 'Thai' , 'Other' ],
+                       'Italian' , 'Japanese' , 'Mexican' ,  'Scottish' , 'Spanish' , 'Thai' , 'Cusine-other', 'Cuisine-unknown' ],
     
     difficulty:      [ 'Easy' , 'Intermediate' , 'Hard' ],
     
-    mainIngredient:  [ 'Beef' , 'Chicken' , 'Fish' , 'Pork' , 'Seafood' , 'Turkey' , 'Other' ],
+    mainIngredient:  [ 'Beef' , 'Chicken' , 'Fish' , 'Pork' , 'Seafood' , 'Turkey' , 'Ingredient-other' ],
     
-    mealtime:        [ 'Breakfast' , 'Lunch' , 'Dinner' , 'Snack' ],
+    mealtime:        [ 'Breakfast' , 'Lunch' , 'Dinner' , 'Snack' , 'Brunch' ],
     
 };
 
@@ -217,7 +217,7 @@ $( document ).ready( function() {
     
     // confirm ingredients button and append value to submission input textarea for db submission
  
-    $( 'input[id=ingredient-confirm-button]' ).click( function() {
+    $( '.ingredient-confirm-button' ).click( function() {
         
         ingredient_values = '';
             
@@ -234,7 +234,7 @@ $( document ).ready( function() {
     
     // confirm instructions button and append value to submission input textarea for db submission
     
-    $( 'input[id=instruction-confirm-button]' ).click( function() {
+    $( '.instruction-confirm-button' ).click( function() {
         
         instruction_values = '';
     
@@ -251,7 +251,7 @@ $( document ).ready( function() {
     
     // add ingredient textarea on button click
     
-    $( 'input[class=add-ingredient-button]' ).click( function() {
+    $( '.add-ingredient-button' ).click( function() {
         
         ingredient_count = ingredient_count + 1;
         
@@ -261,13 +261,13 @@ $( document ).ready( function() {
             
             '<textarea class="form-control ingredient-text" rows="1" placeholder="Please enter ingredient"></textarea>' +
             
-            '<input type="button" class="remove-ingredient-button" value="Remove ingredient">' +
+            '<button class="btn btn-danger my-2 my-sm-0 remove-ingredient-button" type="button">X</button>' +
             
             '</div>'
             
         );
         
-        $( 'input[id=ingredient-confirm-button]' ).removeClass( 'hidden' );
+        $( '.ingredient-confirm-button' ).removeClass( 'hidden' );
         
         ingredient_values = '';
 
@@ -276,7 +276,7 @@ $( document ).ready( function() {
     
     // add instructions textarea on button click
     
-    $( 'input[class=add-instruction-button]' ).click( function() {
+    $( '.add-instruction-button' ).click( function() {
  
         instruction_count = instruction_count + 1;
         
@@ -287,13 +287,13 @@ $( document ).ready( function() {
             
             '<textarea class="form-control instruction-text" rows="1" placeholder="Please enter instruction"></textarea>' +
             
-            '<input type="button" class="remove-instruction-button" value="Remove instruction">' +
+            '<button class="btn btn-danger my-2 my-sm-0 remove-instruction-button" type="button">X</button>' +
             
             '</div>'
             
         );
         
-        $( 'input[id=instruction-confirm-button]' ).removeClass( 'hidden' );
+        $( '.instruction-confirm-button' ).removeClass( 'hidden' );
         
         instruction_values = '';
         
@@ -310,7 +310,7 @@ $( document ).ready( function() {
         
         if ( ingredient_count == 0 ){
             
-            $( 'input[id=ingredient-confirm-button]' ).addClass( 'hidden' );
+            $( '.ingredient-confirm-button' ).addClass( 'hidden' );
             
             ingredient_values = '';
             
@@ -331,7 +331,7 @@ $( document ).ready( function() {
         
         if ( instruction_count == 0 ){
             
-            $( 'input[id=instruction-confirm-button]' ).addClass( 'hidden' );
+            $( '.instruction-confirm-button' ).addClass( 'hidden' );
             
             instruction_values = '';
             
@@ -393,7 +393,7 @@ $( document ).ready( function() {
             
             '<textarea class="form-control ingredient-text" rows="1" placeholder="Please enter ingredient">' + ingredients_array[ i ] + '</textarea>' +
             
-            '<input type="button" class="remove-instruction-button" value="Remove instruction">' +
+            '<button class="btn btn-danger my-2 my-sm-0 remove-ingredient-button" type="button">X</button>'+
             
             '</div>'
             
@@ -419,7 +419,7 @@ $( document ).ready( function() {
             
             '<textarea class="form-control instruction-text" rows="1" placeholder="Please enter instructions">' + instructions_array[ i ] + '</textarea>' +
             
-            '<input type="button" class="remove-instruction-button" value="Remove instruction">' +
+            '<button class="btn btn-danger my-2 my-sm-0 remove-instruction-button" type="button">X</button>' +
             
             '</div>'
             
