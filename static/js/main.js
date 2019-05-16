@@ -78,7 +78,7 @@ function add_options( option_object ) {
 // await document readiness
 
 $( document ).ready( function() {
-    
+
     
     // stop enter key submitting forms on press other than text-search-form
     
@@ -428,6 +428,12 @@ $( document ).ready( function() {
             $( 'input[id=instruction-confirm-button]' ).removeClass( 'hidden' );
             
         }
+        
+        var image_link_value = $( 'input[name="recipeImageLink"]' ).val().slice( 25 );
+        
+        console.log(image_link_value);
+        $( 'input[name="recipeImageLink"]' ).val(image_link_value);
+        
         
     }
     

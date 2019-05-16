@@ -294,3 +294,5 @@ https://stackoverflow.com/questions/27264504/how-to-getchecked-values-and-remove
 https://stackoverflow.com/questions/31012129/selector-not-in-jquery-not-working ---exclude id from search form----
 https://www.encodedna.com/2013/07/dynamically-add-remove-textbox-control-using-jquery.htm  ---add remove text inputs---
 https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary ----string to dict----
+http://flask.pocoo.org/docs/1.0/patterns/fileuploads/  ---use flask uploads---
+
