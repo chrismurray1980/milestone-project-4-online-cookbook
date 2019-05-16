@@ -303,7 +303,8 @@ def favourites():
 field_list = [ 'recipeUpvotes', 'recipeName', 'recipeAuthor', 'recipeIngredients', 'recipeInstructions', 'recipeImageLink', 
                'recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings', 'recipeDifficulty', 'recipePreparationTime', 
                'recipeCookingTime', 'recipeAllergen', 'recipeDietary', 'recipeMainIngredient' ]
-     
+  
+
         
 
 # Ensure uploaded image type is of allowed type
@@ -382,14 +383,13 @@ def insert_update_db_format( list ):
             
             file = request.files[ 'file' ]
 
-            if file and allowed_file( file.filename ):
+            if file != '' and allowed_file( file.filename ):
                 
                 filename = secure_filename( file.filename )
-                print(filename)
                 
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                file.save( os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename ) )
                 
-            field_input_dict[ field ] = os.path.join( app.config[ 'UPLOAD_FOLDER' ], filename )
+                field_input_dict[ field ] = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
             
         else:
             

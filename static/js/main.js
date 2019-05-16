@@ -79,7 +79,7 @@ function add_options( option_object ) {
 
 $( document ).ready( function() {
 
-    
+  
     // stop enter key submitting forms on press other than text-search-form
     
     $( 'form:not( #text-search-form )' ).keypress(
@@ -429,10 +429,10 @@ $( document ).ready( function() {
             
         }
         
-        var image_link_value = $( 'input[name="recipeImageLink"]' ).val().slice( 25 );
-        
-        console.log(image_link_value);
-        $( 'input[name="recipeImageLink"]' ).val(image_link_value);
+
+        $('input[name="recipeImageLink"]').val(
+            $('input[name="recipeImageLink"]').val().slice(26)
+        );
         
         
     }
