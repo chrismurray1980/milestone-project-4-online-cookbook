@@ -2,7 +2,7 @@ import os
 
 import ast
 
-from flask              import Flask, flash , render_template , redirect , request , url_for , jsonify , send_from_directory
+from flask              import Flask, render_template , redirect , request , url_for , jsonify , session as user_session, flash
 
 from bson.objectid      import ObjectId
 
@@ -16,9 +16,11 @@ from ming.base          import Cursor
 
 from models             import recipes , users
 
+from werkzeug.utils     import secure_filename
+
+from werkzeug.security  import generate_password_hash , check_password_hash
 
 
-from werkzeug.utils import secure_filename
 
 # Configure application to use either mongodb or mongo-in-memory db 
 
@@ -36,20 +38,25 @@ app.config[ 'MONGO_DBNAME' ] = 'onlineCookbook'                                 
 
 app.config[ 'MONGO_URI' ] = database_config_setup( __name__ )                           # Define db URI
 
-app.config[ 'UPLOAD_FOLDER' ] = os.getenv( 'UPLOAD_FOLDER' )
+app.config[ 'UPLOAD_FOLDER' ] = os.getenv( 'UPLOAD_FOLDER' )                            # Create image upload path
 
-allowed_file_extensions = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+app.config[ 'SECRET_KEY' ] = os.getenv( 'SECRET_KEY' )                                  # Secret key for session
 
 session = ThreadLocalODMSession( bind = create_datastore( app.config[ 'MONGO_URI' ] ) ) # Create db session
 
-    
 recipes_collection = session.db.recipes                                                 # Set recipe variable
+
+users_collection = session.db.users                                                     # Set user variable
 
 index_mapper = Mapper.ensure_all_indexes()                                              # Ensure all indexes
 
 drop_index = recipes_collection.drop_index( '$**_text' )                                # Drop search index
 
 create_index = recipes_collection.create_index( [ ( '$**' , 'text' ) ] )                # Create search index
+
+
+
+""" RECIPE ROUTES """
 
 
 
@@ -295,10 +302,158 @@ def favourites():
     except:
         
         print( 'Error, could not render favourites view' )
-        
-        
 
-# Assisting variables and functions
+
+
+""" USER ROUTES """
+
+
+
+# Check user login details from login form
+
+@app.route( '/login' , methods = [ 'POST' ] )
+
+def login():
+    
+	form = request.form.to_dict()
+	
+	user_in_db = users_collection.find_one( { 'email' : form[ 'email' ] } )
+	
+	user_session.pop( '_flashes' , None )
+	
+	# Check for user in database
+	
+	if user_in_db:
+	    
+		# If passwords match 
+		
+		if check_password_hash( user_in_db[ 'password' ] , form[ 'user_password' ] ):
+		    
+			# Login user
+			
+			user_session[ 'user' ] = form[ 'email' ]
+
+			flash( 'You are now logged in!' )
+			
+			return redirect( url_for( 'get_recipes' ) )
+			
+		else:
+		    
+			flash( 'Incorrect login details' )
+			
+			return redirect( url_for( 'get_recipes' ) )
+			
+	else:
+		
+		flash( 'Please register!' )
+		
+		return redirect( url_for( 'register' ) )
+		
+		
+
+# Register new user 
+
+@app.route( '/register' , methods = [ 'GET' , 'POST' ] )
+
+def register():
+    
+	# Check if user is logged in
+	
+	if 'user' in user_session:
+	    
+		flash( 'You are currently signed in!' )
+		
+		return redirect( url_for( 'get_recipes' ) )
+		
+	if request.method == 'POST':
+	    
+		form = request.form.to_dict()
+		
+		# Check if the password and retyped password match
+		
+		if form[ 'user_password' ] == form[ 'retyped_user_password' ]:
+		    
+			# If so try to find the user in db
+			user = users_collection.find_one({"username" : form['username']})
+			if user:
+				#                                                     flash(f"{form['username']} already exists!")
+				return redirect(url_for('register'))
+			# If user does not exist register new user
+			else:				
+				# Hash password
+				hash_pass = generate_password_hash(form['user_password'])
+				#Create new user with hashed password
+				users_collection.insert_one(
+					{
+						'username': form['username'],
+						'email': form['email'],
+						'password': hash_pass
+					}
+				)
+				# Check if user is actualy saved
+				user_in_db = users_collection.find_one({"username": form['username']})
+				if user_in_db:
+					# Log user in (add to session)
+					user_session['user'] = user_in_db['username']
+					return redirect(url_for('profile', user=user_in_db['username']))
+				else:
+					flash("There was a problem savaing your profile")
+					return redirect(url_for('register'))
+
+		else:
+			flash("Passwords dont match!")
+			return redirect(url_for('register'))
+		
+	return render_template("register.html")
+
+
+
+# Log out user
+
+@app.route( '/logout' )
+
+def logout():
+    
+	# Clear user session
+	
+	user_session.clear()
+	
+	flash( 'You have been logged out!' )
+	
+	return redirect( url_for( 'get_recipes' ) )
+
+
+
+# Profile Page
+@app.route('/profile/<user>')
+def profile(user): 
+	# Check if user is logged in
+	if 'user' in user_session:
+		# If so get the user and pass him to template for now
+		user_in_db = users_collection.find_one({"username": user})
+		return render_template('profile.html', user=user_in_db)
+	else:
+		flash("You must be logged in!")
+		return redirect(url_for('index'))
+
+# Admin area
+@app.route('/admin')
+def admin():
+	if 'user' in user_session:
+		if user_session['user'] == "admin":
+			return render_template('admin.html')
+		else:
+			flash('Only Admins can access this page!')
+			return redirect(url_for('index'))
+	else:
+		flash('You must be logged')
+		return redirect(url_for('get_recipes'))
+
+
+
+""" ASSISTING VARIABLES AND FUNCTIONS """
+
+
 
 field_list = [ 'recipeUpvotes', 'recipeName', 'recipeAuthor', 'recipeIngredients', 'recipeInstructions', 'recipeImageLink', 
                'recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings', 'recipeDifficulty', 'recipePreparationTime', 
@@ -306,12 +461,11 @@ field_list = [ 'recipeUpvotes', 'recipeName', 'recipeAuthor', 'recipeIngredients
   
 
         
-
 # Ensure uploaded image type is of allowed type
 	
 def allowed_file( filename ):
     
-    return '.' in filename and filename.rsplit( '.' , 1 )[ 1 ].lower() in set( [ 'txt' , 'png' , 'jpg' , 'jpeg' , 'JPG' ] )
+    return '.' in filename and filename.rsplit( '.' , 1 )[ 1 ].lower() in set( [  'png' , 'jpg' , 'jpeg' ] )
 
 
 
@@ -401,4 +555,5 @@ def insert_update_db_format( list ):
      
 if __name__  ==  '__main__':
     
-    app.run( host = os.environ.get( 'IP' ), port = int( os.environ.get( 'PORT' ) ), debug = True )
+    app.run( host = os.environ.get( 'IP' ) , port = int( os.environ.get( 'PORT' ) ) , debug = True )
+

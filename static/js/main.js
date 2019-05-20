@@ -43,14 +43,18 @@ var field_array = [
                                         
                                         
 var dietary_array  = [] , 
+
     allergen_array = [] ; // create empty array variables for checkboxes
 
 
 // variables for ingredients and instructions textboxes
 
 var ingredient_count   = 0  , 
+
     instruction_count  = 0  , 
+    
     ingredient_values  = '' , 
+    
     instruction_values = '' ; 
 
 
@@ -429,12 +433,15 @@ $( document ).ready( function() {
             
         }
         
-
-        $('input[name="recipeImageLink"]').val(
-            $('input[name="recipeImageLink"]').val().slice(26)
+        
+        // Deconstruct image filepath to show only file name
+        
+        $( 'input[name="recipeImageLink"]' ).val(
+            
+            $( 'input[name="recipeImageLink"]' ).val().slice( 26 )
+            
         );
-        
-        
+    
     }
     
 });
