@@ -1,0 +1,168 @@
+{% extends "base.html" %} {% block title %} Add recipe {% endblock %} {% block content_two %}
+
+<h4> Please enter a new recipe here:</h4>
+
+<form action="{{ url_for('insert_recipe') }}" method="POST" autocomplete="off" id='add_recipe_form' enctype = "multipart/form-data">
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="name">Recipe name</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeName" placeholder="Please enter recipe name">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="author">Recipe author</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeAuthor" placeholder="Please enter recipe author">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="cuisine">Cuisine</label>
+        <div class="col-sm-4">
+            <select class="form-control cuisine-menu" name="recipeCuisine" id="recipeCuisine">
+                <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeCuisine" placeholder="Please enter cuisine">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="CountryOfOrigin">Country of origin</label>
+        <div class="col-sm-4">
+            <select class="form-control countryOfOrigin-menu" id="recipeCountryOfOrigin">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeCountryOfOrigin" placeholder="Please enter country of origin">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="mealtime">Mealtime</label>
+        <div class="col-sm-4">
+            <select class="form-control mealtime-menu" id="recipeMealTime">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeMealTime" placeholder="Please enter mealtime">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="servings">Number of servings</label>
+        <div class="col-sm-4">
+            <input type="number" class="form-control"  id="recipeServings" placeholder="Please select" min="0" max="20">
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeServings" placeholder="Please enter number of servings">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="difficulty">Difficulty</label>
+        <div class="col-sm-4">
+            <select class="form-control difficulty-menu" id="recipeDifficulty">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control"  name="recipeDifficulty" placeholder="Please enter difficulty">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="preparationtime">Preparation time</label>
+        <div class="col-sm-4">
+            <input type="number" class="form-control"  id="recipePreparationTime" placeholder="Please select" min="0" max="200" step="5">
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control"  name="recipePreparationTime" placeholder="Please enter preparation time">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="cookingtime">Cooking time</label>
+        <div class="col-sm-4">
+            <input type="number" class="form-control"  id="recipeCookingTime" placeholder="Please select" min="0" max="200" step="5">
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control"  name="recipeCookingTime" placeholder="Please enter cooking time">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="mainIngredient">Main Ingredient</label>
+        <div class="col-sm-4">
+            <select class="form-control mainIngredient-menu" id="recipeMainIngredient">
+              <option>Please select</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control"  name="recipeMainIngredient" placeholder="Please enter main ingredient">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="Dietary">Dietary</label>
+        <div class="col-sm-4">
+            <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegan'> Vegan<br>
+            <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-other'> Dietary-other<br>
+            <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-none'> Dietary-none<br>
+            <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-unknown'> Dietary-unknown
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control"  name="recipeDietary" placeholder="Please enter dietary requirements">
+        </div>
+    </div>    
+        
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="Allergen">Allergens</label>
+        <div class="col-sm-4">
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Dairy'> Dairy<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Fish'> Fish<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Peanuts'> Peanuts<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Shellfish'> Shellfish<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Soya'> Soya<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Tree Nuts'> Tree Nuts<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Wheat'> Wheat<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-other'> Allergen-other<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-none'> Allergen-none<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-unknown'> Allergen-unknown
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="recipeAllergen" placeholder="Please enter any allergens present">
+        </div>
+    </div>
+    
+    <div class="form-group row recipe-ingredients">
+        <label class="col-sm-2 offset-1 col-form-label" for="ingredients">Ingredients</label>
+        <div class="col-sm-8 add-recipe-ingredients"></div> 
+        <div class="col-sm-8">
+            <button class="btn btn-info my-2 my-sm-0 add-ingredient-button" type="button">Add ingredient</button>
+            <button class="btn btn-success my-2 my-sm-0 ingredient-confirm-button hidden" type="button">Confirm ingredients</button>
+        </div>
+        <div class="col-sm-8">
+            <textarea class="form-control" name="recipeIngredients" rows="3" placeholder="Please enter recipe ingredients"></textarea>
+        </div>
+    </div>
+    
+    
+    <div class="form-group row recipe-instructions">
+        <label class="col-sm-2 offset-1 col-form-label" for="instructions">Instructions</label>
+        <div class="col-sm-8 add-recipe-instructions"></div>
+        <div class="col-sm-8">
+            <button class="btn btn-info my-2 my-sm-0 add-instruction-button" type="button">Add instruction</button>
+            <button class="btn btn-success my-2 my-sm-0 instruction-confirm-button hidden" type="button">Confirm instructions</button>
+        </div>
+        <div class="col-sm-8">
+            <textarea class="form-control hidden" name="recipeInstructions" rows="3" placeholder="Please enter recipe instructions"></textarea>
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <label class="col-sm-2 offset-1 col-form-label" for="image">Recipe image</label>
+        <div class="col-sm-8">
+            <input type = "file" name = "file" / value = 'file'>
+            <input type="text" class="form-control" name="recipeImageLink" placeholder="Please enter recipe image">
+        </div>
+    </div>
+</form>
+
+
+<button type="submit" class="btn btn-primary recipe_button" id="add-recipe-submit" form = 'add_recipe_form' >Submit</button>
+{% endblock %}

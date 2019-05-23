@@ -1,0 +1,3 @@
+graft cookbook/templates
+
+graft cookbook/static

@@ -1,8 +1,12 @@
+from cookbook import app , session , recipes_collection , users_collection
+
 import os
 
 import ast
 
 from flask              import Flask, render_template , redirect , request , url_for , jsonify , session as user_session, flash
+
+#import boto3
 
 from bson.objectid      import ObjectId
 
@@ -23,37 +27,6 @@ from werkzeug.security  import generate_password_hash , check_password_hash
 
 
 # Configure application to use either mongodb or mongo-in-memory db 
-
-def database_config_setup( filename ):
-    
-    database_config = os.getenv( 'MONGO_URI', 'mongodb://localhost' ) if filename == '__main__' else 'mim://localhost/test'
-   
-    return database_config
-
-
-
-app = Flask(__name__)                                                                   # Create flask app
-
-app.config[ 'MONGO_DBNAME' ] = 'onlineCookbook'                                         # Define db name
-
-app.config[ 'MONGO_URI' ] = database_config_setup( __name__ )                           # Define db URI
-
-app.config[ 'UPLOAD_FOLDER' ] = os.getenv( 'UPLOAD_FOLDER' )                            # Create image upload path
-
-app.config[ 'SECRET_KEY' ] = os.getenv( 'SECRET_KEY' )                                  # Secret key for session
-
-session = ThreadLocalODMSession( bind = create_datastore( app.config[ 'MONGO_URI' ] ) ) # Create db session
-
-recipes_collection = session.db.recipes                                                 # Set recipe variable
-
-users_collection = session.db.users                                                     # Set user variable
-
-index_mapper = Mapper.ensure_all_indexes()                                              # Ensure all indexes
-
-drop_index = recipes_collection.drop_index( '$**_text' )                                # Drop search index
-
-create_index = recipes_collection.create_index( [ ( '$**' , 'text' ) ] )                # Create search index
-
 
 
 """ RECIPE ROUTES """
@@ -543,16 +516,19 @@ def insert_update_db_format( list ):
                 
                 file.save( os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename ) )
                 
-                field_input_dict[ field ] = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
-            
+                #field_input_dict[ field ] = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
+                
+                image_url = '{}{}'.format( 'https://s3-eu-west-1.amazonaws.com/online-cookbook-recipe-image-bucket-cm2480/' , filename )
+                print(image_url)
+                #save_image_to_s3( filename )
+                
+                
+                field_input_dict[ field ] = image_url
+               
+                
+                
         else:
             
             field_input_dict[ field ] = request.form[ field ]
             
     return field_input_dict         
-     
-     
-     
-if __name__  ==  '__main__':
-    
-    app.run( host = os.environ.get( 'IP' ) , port = int( os.environ.get( 'PORT' ) ) , debug = True )
