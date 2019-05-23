@@ -1,6 +1,7 @@
 from ming import Document, Field, schema, Session
 from ming.odm import Mapper
 
+
 session = Session()
 
 class recipes(Document):

@@ -441,6 +441,13 @@ $( document ).ready( function() {
             $( 'input[name="recipeImageLink"]' ).val().slice( 26 )
             
         );
+        
+        // Remove image link from current image field upon delete
+        
+       /* $( '.remove-image-button' ).click( function() {
+            
+            $( 'input[name="recipeImageLink"]' ).val() == '';
+        } ); */
     
     }
     
