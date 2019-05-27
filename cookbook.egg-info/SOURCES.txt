@@ -12,6 +12,7 @@ cookbook/static/css/main.css
 cookbook/static/css/main.css.map
 cookbook/static/css/main.scss
 cookbook/static/css/.sass-cache/b0f9992724e4e8d2a63b4a5fd5fb36c4beaf92ce/main.scssc
+cookbook/static/img/recipe_images/39329191.jpeg
 cookbook/static/img/recipe_images/img0026.jpeg
 cookbook/static/img/wireframes/add_recipe_page.jpg
 cookbook/static/img/wireframes/add_user_page.jpg

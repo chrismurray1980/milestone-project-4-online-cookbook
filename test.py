@@ -2,7 +2,7 @@ import unittest
 
 from flask_testing      import TestCase
 
-from app                import app , session, recipes_collection
+from app               import app , session, recipes_collection
 
 from models             import recipes , users
 
