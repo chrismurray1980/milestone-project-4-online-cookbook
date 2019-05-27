@@ -4,6 +4,10 @@ import ast
 
 from flask              import Flask, render_template , redirect , request , url_for , jsonify , session as user_session, flash
 
+from flask_s3 import FlaskS3
+
+import boto3, botocore
+
 from bson.objectid      import ObjectId
 
 from bson.json_util     import dumps 
@@ -42,6 +46,28 @@ app.config[ 'UPLOAD_FOLDER' ] = os.getenv( 'UPLOAD_FOLDER' )                    
 
 app.config[ 'SECRET_KEY' ] = os.getenv( 'SECRET_KEY' )                                  # Secret key for session
 
+app.config['S3_BUCKET']= os.environ.get("S3_BUCKET")
+app.config['S3_KEY'] = os.environ.get("S3_ACCESS_KEY")
+app.config['S3_SECRET']= os.environ.get("S3_SECRET_ACCESS_KEY")
+
+S3_LOCATION= 'http://{}.s3-eu-west-1.amazonaws.com/'.format(app.config['S3_BUCKET'])
+s3 = boto3.resource(
+   "s3",
+   aws_access_key_id=app.config['S3_KEY'],
+   aws_secret_access_key=app.config['S3_SECRET']
+)
+
+image_bucket = s3.Bucket(app.config['S3_BUCKET'])
+
+"""
+for bucket in s3.buckets.all():
+    print(bucket.name)
+
+for key in image_bucket.objects.all():
+    image_name = key.key
+    save_location = app.config[ 'UPLOAD_FOLDER' ]+key.key
+    image_bucket.download_file(image_name, save_location)
+"""
 session = ThreadLocalODMSession( bind = create_datastore( app.config[ 'MONGO_URI' ]  ) ) # Create db session
 
 recipes_collection = session.db.recipes                                                 # Set recipe variable
@@ -55,14 +81,6 @@ drop_index = recipes_collection.drop_index( '$**_text' )                        
 create_index = recipes_collection.create_index( [ ( '$**' , 'text' ) ] )                # Create search index
 
 
-
-recipes=session.db.recipes.find()
-
-for doc in recipes:
-    print(doc)
-
-
-print(app.config['UPLOAD_FOLDER'])
 """ RECIPE ROUTES """
 
 
@@ -250,7 +268,7 @@ def show_recipe( recipe_id ):
         
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
         
-        return render_template( 'show_recipe.html' , recipe = recipe )
+        return render_template( 'show_recipe.html' , recipe = recipe  )
         
     except:
         
@@ -511,6 +529,32 @@ def advanced_search_query_formatting( list ):
                 search_list.append( { value : request.form[ value ] } )
                 
     return search_list
+
+
+
+def upload_file_to_s3(file, bucket_name, acl="public-read"):
+
+    try:
+
+        s3.upload_fileobj(
+            file,
+            bucket_name,
+            file.filename,
+            ExtraArgs={
+                "ACL": acl,
+                "ContentType": file.content_type
+            }
+        )
+        
+        image_url = "{}{}".format(app.config["S3_LOCATION"], file.filename)
+        return image_url
+
+    except Exception as e:
+        # This is a catch all exception, edit this part to fit your needs.
+        print("Something Happened: ", e)
+        return e
+
+
        
        
 
@@ -550,7 +594,20 @@ def insert_update_db_format( list ):
                 
                 file.save( os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename ) )
                 
+                file = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
+
+                image_bucket.Object(filename).put(Body=file)
+                
+                save_location = app.config[ 'UPLOAD_FOLDER' ]+filename
+                image_bucket.download_file(image_name, save_location)
+                
+                #print(image_url)
+                
+                print(file)
+                #upload_file_to_s3(file, image_bucket , acl="public-read")
+                
                 field_input_dict[ field ] = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
+                #s3://online-cookbook-recipe-image-bucket-cm2480/recipe-image-legacy-id--52738_10.jpg
             
         else:
             
