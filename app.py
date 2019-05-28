@@ -1,4 +1,3 @@
-from flask_login import login_required
 """ MODULE IMPORT """
 
 
@@ -8,6 +7,7 @@ import boto3
 import botocore
 import flask
 from flask              import Flask, render_template , redirect , request , url_for , jsonify , session as user_session, flash
+from flask_login        import LoginManager, current_user, login_required, login_user, logout_user, UserMixin, confirm_login, fresh_login_required
 from bson.objectid      import ObjectId
 from bson.json_util     import dumps 
 from ming               import mim, create_datastore
@@ -16,6 +16,10 @@ from ming.base          import Cursor
 from models             import recipes , users
 from werkzeug.utils     import secure_filename
 from werkzeug.security  import generate_password_hash , check_password_hash
+from werkzeug.urls      import url_parse
+
+
+
 
 
 """ APPLICATION CONFIGURATION """
@@ -62,6 +66,27 @@ users_collection              = session.db.users                                
 index_mapper                  = Mapper.ensure_all_indexes()                                                    # Ensure all indexes
 drop_index                    = recipes_collection.drop_index( '$**_text' )                                    # Drop search index
 create_index                  = recipes_collection.create_index( [ ( '$**' , 'text' ) ] )                      # Create search index
+
+
+""" LOGIN MANAGER """
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+class User(UserMixin):
+  def __init__(self,id):
+    self.id = id
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User(user_id)
+    
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    if 'login' not in request.path:
+        user_session['next_url'] = request.path
+    return redirect(url_for('login'))
 
 
 """ RECIPE ROUTES """
@@ -136,6 +161,7 @@ def insert_recipe():
 
 # Open edit/delete page for specific document 
 @app.route( '/edit_delete_recipe/<recipe_id>' )
+@login_required
 def edit_delete_recipe( recipe_id ):
     try:
         recipe = recipes_collection.find_one( { '_id' : ObjectId (recipe_id ) } )
@@ -174,6 +200,7 @@ def delete_recipe( recipe_id ):
         
 # Add upvote to document when button clicked 
 @app.route( '/like_recipe/<recipe_id>' )
+@login_required
 def like_recipe( recipe_id ):
     try:
         recipes_collection.update( { '_id' : ObjectId( recipe_id ) } , { '$inc' : { 'recipeUpvotes': 1 } } )
@@ -184,6 +211,7 @@ def like_recipe( recipe_id ):
 
 # Open favourites page 
 @app.route( '/favourites' )
+@login_required
 def favourites():
     try:
         return render_template( 'favourites.html' ) 
@@ -192,25 +220,6 @@ def favourites():
 
 
 """ USER ROUTES """
-from flask_login import (LoginManager, current_user, login_required,
-                            login_user, logout_user, UserMixin,
-                            confirm_login, fresh_login_required)
-from werkzeug.urls import url_parse
-from werkzeug.security import check_password_hash
-
-
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
-
-class User(UserMixin):
-  def __init__(self,id):
-    self.id = id
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User(user_id)
 
 @app.route( '/login')
 def login():
@@ -236,14 +245,15 @@ def submit_login():
 			user_session[ 'user' ] = form[ 'email' ]
 
 			flash( 'You are now logged in!' )
-			
-			return redirect( url_for( 'get_recipes' ) )
+			next_page=user_session.get('next_url')
+			return redirect(next_page) if next_page else redirect(url_for('get_recipes'))
+			#return redirect( url_for( 'get_recipes' ) )
 			
 		else:
 		    
 			flash( 'Incorrect login details' )
 			
-			return redirect( url_for( 'get_recipes' ) )
+			return redirect( url_for( 'login' ) )
 			
 	else:
 		

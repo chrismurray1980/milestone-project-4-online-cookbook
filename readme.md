@@ -298,6 +298,10 @@ http://flask.pocoo.org/docs/1.0/patterns/fileuploads/  ---use flask uploads---
 https://github.com/MiroslavSvec/DCD_lead --user routes and templates---
 https://qiita.com/hengsokvisal/items/329924dd9e3f65dd48e7 --UPLOAD AND DOWNLOAD S3 ----
 https://boh717.github.io/post/flask-login-and-mongodb/  ---flask login with pymongo----
-
+https://stackoverflow.com/questions/48934625/objectid-object-has-no-attribute-is-active-flask-login ---m,ore login manager---
+https://infinidum.com/2018/08/18/making-a-simple-login-system-with-flask-login/ ---m,ore login manager---
+http://www.patricksoftwareblog.com/tag/flask-login/ ---flask_login---
+https://www.reddit.com/r/flask/comments/841ka3/questiondoubt_how_to_redirect_to_the_same_page/  ---last page redirect---
+https://www.tutorialspoint.com/flask/flask_sessions.htm ---FLASK SESSIONS---
 
 
