@@ -296,3 +296,4 @@ https://www.encodedna.com/2013/07/dynamically-add-remove-textbox-control-using-j
 https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary ----string to dict----
 http://flask.pocoo.org/docs/1.0/patterns/fileuploads/  ---use flask uploads---
 https://github.com/MiroslavSvec/DCD_lead --user routes and templates---
+https://qiita.com/hengsokvisal/items/329924dd9e3f65dd48e7 --UPLOAD AND DOWNLOAD S3 ----

@@ -1,378 +1,201 @@
+
+""" MODULE IMPORT """
+
 import os
-
-from PIL import Image
-
 import ast
-
-from flask              import Flask, render_template , redirect , request , url_for , jsonify , session as user_session, flash
-
-from flask_s3 import FlaskS3
-
 import boto3
-
 import botocore
-
+from flask              import Flask, render_template , redirect , request , url_for , jsonify , session as user_session, flash
 from bson.objectid      import ObjectId
-
 from bson.json_util     import dumps 
-
 from ming               import mim, create_datastore
-
 from ming.odm           import ThreadLocalODMSession , Mapper
-
 from ming.base          import Cursor
-
 from models             import recipes , users
-
 from werkzeug.utils     import secure_filename
-
 from werkzeug.security  import generate_password_hash , check_password_hash
 
 
+""" APPLICATION CONFIGURATION """
 
 # Configure application to use either mongodb or mongo-in-memory db 
-
 def database_config_setup( filename ):
-    
     database_config = os.getenv( 'MONGO_URI' ) if filename == '__main__' else 'mim://localhost/test'
-   
     return database_config
-
-print(os.getenv( 'MONGO_URI' ))
 
 app = Flask(__name__)                                                                   # Create flask app
 
-app.config[ 'MONGO_DBNAME' ] = 'onlineCookbook'                                         # Define db name
-
-app.config[ 'MONGO_URI' ] = database_config_setup( __name__ )                           # Define db URI
-
+app.config[ 'MONGO_DBNAME' ]  = 'onlineCookbook'                                         # Define db name
+app.config[ 'MONGO_URI' ]     = database_config_setup( __name__ )                           # Define db URI
 app.config[ 'UPLOAD_FOLDER' ] = os.getenv( 'UPLOAD_FOLDER' )                            # Create image upload path
+app.config[ 'SECRET_KEY' ]    = os.getenv( 'SECRET_KEY' )                                  # Secret key for session
 
-app.config[ 'SECRET_KEY' ] = os.getenv( 'SECRET_KEY' )                                  # Secret key for session
 
-app.config['S3_BUCKET']= os.environ.get("S3_BUCKET")
-app.config['S3_KEY'] = os.environ.get("S3_ACCESS_KEY")
-app.config['S3_SECRET']= os.environ.get("S3_SECRET_ACCESS_KEY")
+"""S3 CONFIGURATION """
 
-S3_LOCATION= 'http://{}.s3-eu-west-1.amazonaws.com/'.format(app.config['S3_BUCKET'])
+app.config[ 'S3_BUCKET' ]     = os.environ.get( 'S3_BUCKET' )
+app.config[ 'S3_KEY' ]        = os.environ.get( 'S3_ACCESS_KEY' )
+app.config[ 'S3_SECRET' ]     = os.environ.get( 'S3_SECRET_ACCESS_KEY' )
 
-"""
-s3 = boto3.resource(
-   "s3",
-   aws_access_key_id=app.config['S3_KEY'],
-   aws_secret_access_key=app.config['S3_SECRET']
-)
-"""
+s3_upload                     = boto3.client( 's3' )
+s3_resource                   = boto3.resource( 's3' )
+image_bucket                  = s3_resource.Bucket( app.config[ 'S3_BUCKET' ] )
 
-#image_bucket = s3.Bucket(app.config['S3_BUCKET'])
+# Download file from S3
+def download_s3_file( file ):
+    if os.path.isfile( app.config[ 'UPLOAD_FOLDER' ] + file ) == False:
+        s3_resource.Bucket( app.config[ 'S3_BUCKET' ] ).download_file( file, app.config[ 'UPLOAD_FOLDER' ] + file )
 
-"""
-for bucket in s3.buckets.all():
-    print(bucket.name)
-
-def download_s3_image_to_folder():
-    for key in image_bucket.objects.all():
-        image_name = key.key
-        if os.path.isfile(app.config[ 'UPLOAD_FOLDER' ]+image_name) == False:
-            save_location = app.config[ 'UPLOAD_FOLDER' ]+key.key
-            image_bucket.download_file(image_name, save_location)
-
-#download_s3_image_to_folder()
-
+# Download recipe images from S3 into local folder        
 for key in image_bucket.objects.all():
-    image_name = key.key    
-    image_location = os.path.isfile(app.config[ 'UPLOAD_FOLDER' ]+image_name)
-    print(image_location) 
-"""
-
-s3_upload = boto3.client('s3')
-s3_resource = boto3.resource('s3')
-#s3_upload.upload_file(app.config[ 'UPLOAD_FOLDER' ]+'img0026.jpeg', app.config['S3_BUCKET'] , 'img0026.jpeg')
-#s3.Bucket(app.config['S3_BUCKET']).download_file('recipe-image-legacy-id--52738_10.jpg', app.config[ 'UPLOAD_FOLDER' ]+'recipe-image-legacy-id--52738_10.jpg')
+    image_name = key.key
+    download_s3_file( image_name )
 
 
-#s3_resource = boto3.resource('s3')
-#s3_resource.Bucket(app.config['S3_BUCKET']).download_file('recipe-image-legacy-id--52738_10.jpg', app.config[ 'UPLOAD_FOLDER' ]+'recipe-image-legacy-id--52738_10.jpg')
+""" DATABASE CONNECTION """
 
-session = ThreadLocalODMSession( bind = create_datastore( app.config[ 'MONGO_URI' ]  ) ) # Create db session
-
-recipes_collection = session.db.recipes                                                 # Set recipe variable
-
-users_collection = session.db.users                                                     # Set user variable
-
-index_mapper = Mapper.ensure_all_indexes()                                              # Ensure all indexes
-
-drop_index = recipes_collection.drop_index( '$**_text' )                                # Drop search index
-
-create_index = recipes_collection.create_index( [ ( '$**' , 'text' ) ] )                # Create search index
+session                       = ThreadLocalODMSession( bind = create_datastore( app.config[ 'MONGO_URI' ]  ) ) # Create db session
+recipes_collection            = session.db.recipes                                                             # Set recipe variable
+users_collection              = session.db.users                                                               # Set user variable
+index_mapper                  = Mapper.ensure_all_indexes()                                                    # Ensure all indexes
+drop_index                    = recipes_collection.drop_index( '$**_text' )                                    # Drop search index
+create_index                  = recipes_collection.create_index( [ ( '$**' , 'text' ) ] )                      # Create search index
 
 
 """ RECIPE ROUTES """
 
-
-
 # Access recipes with largest number of upvotes, convert all data to json string and display index page  
-
 @app.route( '/' )
-
 def get_recipes():
-    
     try:
-        
         recipes = recipes_collection.find().sort( [ ( 'recipeUpvotes' , -1 ) ] ).sort( [ ( 'recipeUpvotes' , -1 ) ] ).limit( 5 )
-        
         data = dumps( recipes_collection.find() )
-        
         return render_template( 'index.html' , recipes = recipes , data = data )
-        
     except:
-        
         print( 'Error in accessing database documents' )
 
-
-
 # Post search text and redirect to search results page
-
 @app.route( '/search' , methods = [ 'POST' ] )
-
 def search():
-    
     try:
-        
         return redirect( url_for( 'search_results' , search_content = request.form[ 'searchContent' ] ) )
-
     except:
-        
-            print( 'Error, could not retrieve text search input' )
+        print( 'Error, could not retrieve text search input' )
             
-            
- 
 # Display recipes returned from db based upon text input 
-
 @app.route( '/search_results/<search_content>' )
-
 def search_results( search_content ):
-    
     try:
-
         search_text = '{}{}{}'.format( '\"' , search_content , '\"' ) 
-        
         recipes = recipes_collection.find( { '$text' : { '$search' : search_text } } , 
                                            { '_txtscr' : { '$meta' : 'textScore' } } ).sort( [ ( '_txtscr', { '$meta' : 'textScore' } ) ] )
-                                        
         return render_template( 'search_results.html' , recipes = recipes )
-        
     except:
-        
-            print( 'Error accessing database documents' )
-
-
+        print( 'Error accessing database documents' )
 
 # Post advanced search values and redirect to search results page
-
 @app.route( '/advanced_search' , methods = [ 'POST' ] )
-
 def advanced_search():
-    
     try:
-        
         advanced_search_list = advanced_search_query_formatting( field_list[ 6: ] )
-        
         return redirect( url_for( 'advanced_search_results' , advanced_search_list = advanced_search_list ) )
-        
     except:
-        
         print( 'Error, could not retrieve advanced search input' )  
-            
-            
-      
+
 # Return recipes from db based on advanced search fields 
-
 @app.route( '/advanced_search_results/<advanced_search_list>' )
-
 def advanced_search_results(advanced_search_list):
-    
     try:
-        
         advanced_search_list = ast.literal_eval( advanced_search_list )
-        
         recipes = recipes_collection.find( { '$and' : advanced_search_list } ).sort( [ ( 'recipeUpvotes' , -1 ) ] ).limit( 10 )
-        
         return render_template( 'search_results.html' , recipes = recipes )
-        
     except:
-        
         print( 'Error accessing database documents' )
-
-
 
 # Display add recipe page 
-
 @app.route( '/add_recipe' )
-
 def add_recipe():
-    
     try:
-        
         return render_template( 'add_recipe.html' )
-        
     except:
-        
         print( 'Error, could not render add recipe view' )
-    
-    
  
 # Insert recipe to db and display index.html 
- 
 @app.route( '/insert_recipe' , methods = [ 'POST' ] )
-
 def insert_recipe():
-    
     try:
-        
         input_fields = insert_update_db_format( field_list )
-        
         new_recipe = recipes_collection.insert_one( input_fields )
-        
         recipe = recipes_collection.find_one( { '_id' : ObjectId( new_recipe.inserted_id ) } )
-        
         return  render_template( 'show_recipe.html' , recipe = recipe )
-        
     except:
-        
         print( 'Error writing database document' )
 
-
-
 # Open edit/delete page for specific document 
-
 @app.route( '/edit_delete_recipe/<recipe_id>' )
-
 def edit_delete_recipe( recipe_id ):
-    
     try:
-        
         recipe = recipes_collection.find_one( { '_id' : ObjectId (recipe_id ) } )
-        
         return render_template( 'edit_delete_recipe.html' , recipe = recipe )
-        
     except:
-        
         print( 'Error accessing database documents' )
-        
-        
 
 # Update specific document with form elements 
-
 @app.route( '/update_recipe/<recipe_id>' , methods = [ 'POST' ] )
-
 def update_recipe( recipe_id ):
-    
     try:
-        
         update_fields = insert_update_db_format( field_list[ 1: ] )
-        
         recipes_collection.update_one( { '_id' : ObjectId( recipe_id ) } , { '$set' : update_fields }, upsert = True )
-        
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
-
-        
         return  render_template( 'show_recipe.html' , recipe = recipe )
-        
     except:
-        
         print( 'Error updating database document' )
         
-        
-
 # Show recipe page of specific document 
-
 @app.route( '/show_recipe/<recipe_id>' )
-
 def show_recipe( recipe_id ):
-    
     try:
-        
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
-        
         return render_template( 'show_recipe.html' , recipe = recipe  )
-        
     except:
-        
         print( 'Error accessing database documents' )
-        
-        
 
 # Delete specific document 
-
 @app.route( '/delete_recipe/<recipe_id>' )
-
 def delete_recipe( recipe_id ):
-    
     try:
-        
         recipes_collection.delete_one( { '_id' : ObjectId( recipe_id ) } )
-        
         return redirect( url_for( 'get_recipes' ) )
-        
     except:
-        
         print( 'Error accessing database documents' )
         
-        
-
 # Add upvote to document when button clicked 
-
 @app.route( '/like_recipe/<recipe_id>' )
-
 def like_recipe( recipe_id ):
-    
     try:
-        
         recipes_collection.update( { '_id' : ObjectId( recipe_id ) } , { '$inc' : { 'recipeUpvotes': 1 } } )
-        
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
-        
         return render_template( 'show_recipe.html' , recipe = recipe )
-        
     except:
-        
         print( 'Error accessing database documents' )
-
-
 
 # Open favourites page 
-
 @app.route( '/favourites' )
-
 def favourites():
-    
     try:
-        
         return render_template( 'favourites.html' ) 
-        
     except:
-        
         print( 'Error, could not render favourites view' )
-
 
 
 """ USER ROUTES """
 
-
-
 # Check user login details from login form
-
 @app.route( '/login' , methods = [ 'POST' ] )
-
 def login():
-    
 	form = request.form.to_dict()
-	
 	user_in_db = users_collection.find_one( { 'email' : form[ 'email' ] } )
-	
 	user_session.pop( '_flashes' , None )
-	
 	# Check for user in database
 	
 	if user_in_db:
@@ -559,31 +382,6 @@ def advanced_search_query_formatting( list ):
 
 
 
-def upload_file_to_s3(file, bucket_name, acl="public-read"):
-
-    try:
-
-        s3.upload_fileobj(
-            file,
-            bucket_name,
-            file.filename,
-            ExtraArgs={
-                "ACL": acl,
-                "ContentType": file.content_type
-            }
-        )
-        
-        image_url = "{}{}".format(app.config["S3_LOCATION"], file.filename)
-        return image_url
-
-    except Exception as e:
-        # This is a catch all exception, edit this part to fit your needs.
-        print("Something Happened: ", e)
-        return e
-
-
-       
-       
 
 # Construct format of insert or update to be sent to db 
 
@@ -612,25 +410,19 @@ def insert_update_db_format( list ):
             field_input_dict[ field ] = 0
             
         elif field == 'recipeImageLink':
-            
             file = request.files[ 'file' ]
-
             if file != '' and allowed_file( file.filename ):
-                
                 filename = secure_filename( file.filename )
-                
                 file.save( os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename ) )
                 
                 file = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
                 
-                s3_upload.upload_file(app.config[ 'UPLOAD_FOLDER' ]+filename, app.config['S3_BUCKET'] , filename)
+                s3_upload.upload_file( app.config[ 'UPLOAD_FOLDER' ] + filename, app.config['S3_BUCKET'] , filename )
+
+                
                 field_input_dict[ field ] = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
-                s3_resource.Bucket(app.config['S3_BUCKET']).download_file(filename, app.config[ 'UPLOAD_FOLDER' ]+filename)
-     
         else:
-            
             field_input_dict[ field ] = request.form[ field ]
-            
     return field_input_dict         
      
      
