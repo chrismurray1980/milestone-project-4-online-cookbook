@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content_one %}
+    <section class="container-fluid">
+	<div class="row">
+		<div class="card mx-auto">
+			<div class="card-body">
+				<form class="form-login" method="POST" action="{{ url_for('submit_login') }}">
+					<div class="form-group">
+						<label for="log-in-username">User name</label>
+						<input name="username" type="text" class="form-control" id="log-in-username">
+					</div>
+					<div class="form-group">
+						<label for="email">Email*</label>
+						<input name="email" type="email" class="form-control" id="email"  required>
+					</div>
+					<div class="form-group">
+						<label for="login-in-password">Password*</label>
+						<input class="form-control" name="user_password" type="password" id="sign-in-password" required>
+					</div>
+
+					<div class="form-group">
+						<p>
+							*Required field
+						</p>
+					</div>
+					<button class="btn btn-outline-success btn-lg btn-block" type="submit">login</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock content_one %}

@@ -1,7 +1,7 @@
+from flask_login import UserMixin
 from ming import Document, Field, schema, Session
 from ming.odm import Mapper
-
-
+    
 session = Session()
 
 class recipes(Document):
@@ -28,7 +28,7 @@ class recipes(Document):
     recipeImageLink = Field(schema.String)
     
     
-class users(Document):
+class users(UserMixin, Document):
     class __mongometa__:
         session = session
         name = 'user'

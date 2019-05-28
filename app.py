@@ -1,10 +1,12 @@
-
+from flask_login import login_required
 """ MODULE IMPORT """
+
 
 import os
 import ast
 import boto3
 import botocore
+import flask
 from flask              import Flask, render_template , redirect , request , url_for , jsonify , session as user_session, flash
 from bson.objectid      import ObjectId
 from bson.json_util     import dumps 
@@ -114,6 +116,7 @@ def advanced_search_results(advanced_search_list):
 
 # Display add recipe page 
 @app.route( '/add_recipe' )
+@login_required
 def add_recipe():
     try:
         return render_template( 'add_recipe.html' )
@@ -189,10 +192,33 @@ def favourites():
 
 
 """ USER ROUTES """
+from flask_login import (LoginManager, current_user, login_required,
+                            login_user, logout_user, UserMixin,
+                            confirm_login, fresh_login_required)
+from werkzeug.urls import url_parse
+from werkzeug.security import check_password_hash
+
+
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+class User(UserMixin):
+  def __init__(self,id):
+    self.id = id
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User(user_id)
+
+@app.route( '/login')
+def login():
+    return render_template( 'login.html')
 
 # Check user login details from login form
-@app.route( '/login' , methods = [ 'POST' ] )
-def login():
+@app.route( '/submit_login' , methods = [ 'POST' ] )
+def submit_login():
 	form = request.form.to_dict()
 	user_in_db = users_collection.find_one( { 'email' : form[ 'email' ] } )
 	user_session.pop( '_flashes' , None )
@@ -205,7 +231,8 @@ def login():
 		if check_password_hash( user_in_db[ 'password' ] , form[ 'user_password' ] ):
 		    
 			# Login user
-			
+			user_obj = User(user_in_db['_id'])
+			login_user(user_obj)
 			user_session[ 'user' ] = form[ 'email' ]
 
 			flash( 'You are now logged in!' )
@@ -221,10 +248,7 @@ def login():
 	else:
 		
 		flash( 'Please register!' )
-		
 		return redirect( url_for( 'register' ) )
-		
-		
 
 # Register new user 
 
