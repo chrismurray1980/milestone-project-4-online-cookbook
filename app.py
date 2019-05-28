@@ -1,12 +1,16 @@
 import os
 
+from PIL import Image
+
 import ast
 
 from flask              import Flask, render_template , redirect , request , url_for , jsonify , session as user_session, flash
 
 from flask_s3 import FlaskS3
 
-import boto3, botocore
+import boto3
+
+import botocore
 
 from bson.objectid      import ObjectId
 
@@ -51,23 +55,45 @@ app.config['S3_KEY'] = os.environ.get("S3_ACCESS_KEY")
 app.config['S3_SECRET']= os.environ.get("S3_SECRET_ACCESS_KEY")
 
 S3_LOCATION= 'http://{}.s3-eu-west-1.amazonaws.com/'.format(app.config['S3_BUCKET'])
+
+"""
 s3 = boto3.resource(
    "s3",
    aws_access_key_id=app.config['S3_KEY'],
    aws_secret_access_key=app.config['S3_SECRET']
 )
+"""
 
-image_bucket = s3.Bucket(app.config['S3_BUCKET'])
+#image_bucket = s3.Bucket(app.config['S3_BUCKET'])
 
 """
 for bucket in s3.buckets.all():
     print(bucket.name)
 
+def download_s3_image_to_folder():
+    for key in image_bucket.objects.all():
+        image_name = key.key
+        if os.path.isfile(app.config[ 'UPLOAD_FOLDER' ]+image_name) == False:
+            save_location = app.config[ 'UPLOAD_FOLDER' ]+key.key
+            image_bucket.download_file(image_name, save_location)
+
+#download_s3_image_to_folder()
+
 for key in image_bucket.objects.all():
-    image_name = key.key
-    save_location = app.config[ 'UPLOAD_FOLDER' ]+key.key
-    image_bucket.download_file(image_name, save_location)
+    image_name = key.key    
+    image_location = os.path.isfile(app.config[ 'UPLOAD_FOLDER' ]+image_name)
+    print(image_location) 
 """
+
+s3_upload = boto3.client('s3')
+s3_resource = boto3.resource('s3')
+#s3_upload.upload_file(app.config[ 'UPLOAD_FOLDER' ]+'img0026.jpeg', app.config['S3_BUCKET'] , 'img0026.jpeg')
+#s3.Bucket(app.config['S3_BUCKET']).download_file('recipe-image-legacy-id--52738_10.jpg', app.config[ 'UPLOAD_FOLDER' ]+'recipe-image-legacy-id--52738_10.jpg')
+
+
+#s3_resource = boto3.resource('s3')
+#s3_resource.Bucket(app.config['S3_BUCKET']).download_file('recipe-image-legacy-id--52738_10.jpg', app.config[ 'UPLOAD_FOLDER' ]+'recipe-image-legacy-id--52738_10.jpg')
+
 session = ThreadLocalODMSession( bind = create_datastore( app.config[ 'MONGO_URI' ]  ) ) # Create db session
 
 recipes_collection = session.db.recipes                                                 # Set recipe variable
@@ -249,6 +275,7 @@ def update_recipe( recipe_id ):
         recipes_collection.update_one( { '_id' : ObjectId( recipe_id ) } , { '$set' : update_fields }, upsert = True )
         
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
+
         
         return  render_template( 'show_recipe.html' , recipe = recipe )
         
@@ -595,20 +622,11 @@ def insert_update_db_format( list ):
                 file.save( os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename ) )
                 
                 file = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
-
-                image_bucket.Object(filename).put(Body=file)
                 
-                save_location = app.config[ 'UPLOAD_FOLDER' ]+filename
-                image_bucket.download_file(image_name, save_location)
-                
-                #print(image_url)
-                
-                print(file)
-                #upload_file_to_s3(file, image_bucket , acl="public-read")
-                
+                s3_upload.upload_file(app.config[ 'UPLOAD_FOLDER' ]+filename, app.config['S3_BUCKET'] , filename)
                 field_input_dict[ field ] = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
-                #s3://online-cookbook-recipe-image-bucket-cm2480/recipe-image-legacy-id--52738_10.jpg
-            
+                s3_resource.Bucket(app.config['S3_BUCKET']).download_file(filename, app.config[ 'UPLOAD_FOLDER' ]+filename)
+     
         else:
             
             field_input_dict[ field ] = request.form[ field ]
