@@ -26,7 +26,7 @@ class recipes(Document):
     recipeDietary= Field(schema.Array(str))
     recipeUpvotes = Field(int)
     recipeImageLink = Field(schema.String)
-    
+    recipeEmail = Field(schema.String)
     
 class users(UserMixin, Document):
     class __mongometa__:
