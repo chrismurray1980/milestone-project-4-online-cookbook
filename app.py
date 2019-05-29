@@ -236,7 +236,8 @@ def delete_recipe( recipe_id ):
         return redirect( url_for( 'get_recipes' ) )
     except:
         print( 'Error accessing database documents' )
-        
+
+       
 
 # Add upvote to document when button clicked 
 
@@ -244,7 +245,13 @@ def delete_recipe( recipe_id ):
 @login_required
 def like_recipe( recipe_id ):
     try:
-        recipes_collection.update( { '_id' : ObjectId( recipe_id ) } , { '$inc' : { 'recipeUpvotes': 1 } } )
+        user_favourites=users_collection.find( { 'email': user_session[ 'user' ], 'favourite_recipes': ObjectId( recipe_id )} )
+        print(user_favourites.count())
+        if user_favourites.count() != 0:
+            flash( 'This recipe has already been added to your favourites list' )
+        else:
+            recipes_collection.update( { '_id' : ObjectId( recipe_id ) } , { '$inc' : { 'recipeUpvotes': 1 } } )
+            users_collection.update({ 'email': user_session[ 'user' ] },{ '$addToSet': { 'favourite_recipes': ObjectId( recipe_id ) } }, upsert = True)
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
         return render_template( 'show_recipe.html' , recipe = recipe )
     except:
@@ -257,7 +264,15 @@ def like_recipe( recipe_id ):
 @login_required
 def favourites():
     try:
-        return render_template( 'favourites.html' ) 
+        favourites_list = []
+        user_favourites = users_collection.find( {'email': user_session[ 'user' ] }, { 'favourite_recipes' } )
+        for recipe in user_favourites:
+            for recipe_id in recipe['favourite_recipes']:
+                favourites_list.append(recipe_id)
+        print(favourites_list)
+        recipes=recipes_collection.find( { '_id' : { '$in' : favourites_list } } )   
+        print(recipes)
+        return render_template( 'favourites.html', recipes=recipes ) 
     except:
         print( 'Error, could not render favourites view' )
 

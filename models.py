@@ -37,8 +37,7 @@ class users(UserMixin, Document):
     user_name = Field(str)
     email = Field(str)
     password = Field(str)
-    my_recipes = Field(str)
-    favourite_recipes = Field(str)
+    favourite_recipes = Field(schema.Array(str))
     my_filters = Field(str)
 
 Mapper.compile_all()
