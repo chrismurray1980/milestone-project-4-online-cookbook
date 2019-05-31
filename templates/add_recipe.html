@@ -1,5 +1,4 @@
 {% extends "base.html" %} {% block title %} Add recipe {% endblock %} {% block content_two %}
-
 <div class="row no-gutters">
 	<div class="col-12 text-align-centre">
 		<h4 class="add-recipe-page-heading">
@@ -11,13 +10,13 @@
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="name">Recipe name:</label>
         <div class="col-5">
-            <input type="text" class="form-control" name="recipeName" placeholder="Please enter recipe name">
+            <input type="text" class="form-control text-align-centre" name="recipeName" placeholder="Please enter recipe name">
         </div>
     </div>
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="author">Recipe author:</label>
         <div class="col-5">
-            <input type="text" class="form-control" name="recipeAuthor" placeholder="Please enter recipe author">
+            <input type="text" class="form-control text-align-centre" name="recipeAuthor" placeholder="Please enter recipe author">
         </div>
     </div>
     <div class="form-group row">
@@ -50,7 +49,7 @@
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="servings">Servings:</label>
         <div class="col-5">
-            <input type="number" class="form-control"  id="recipeServings" placeholder="Please select" min="0" max="20">
+            <input type="number" class="form-control text-align-centre"  id="recipeServings" placeholder="Please select" min="0" max="20">
         </div>
         <input type="hidden" class="form-control" name="recipeServings" placeholder="Please enter number of servings">
     </div>
@@ -66,14 +65,14 @@
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="preparationtime">Preparation time:</label>
         <div class="col-5">
-            <input type="number" class="form-control"  id="recipePreparationTime" placeholder="Please select" min="0" max="200" step="5">
+            <input type="number" class="form-control text-align-centre"  id="recipePreparationTime" placeholder="Please select" min="0" max="200" step="5">
         </div>
         <input type="hidden" class="form-control"  name="recipePreparationTime" placeholder="Please enter preparation time">
     </div>
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="cookingtime">Cooking time:</label>
         <div class="col-5">
-            <input type="number" class="form-control"  id="recipeCookingTime" placeholder="Please select" min="0" max="200" step="5">
+            <input type="number" class="form-control text-align-centre"  id="recipeCookingTime" placeholder="Please select" min="0" max="200" step="5">
         </div>
         <input type="hidden" class="form-control"  name="recipeCookingTime" placeholder="Please enter cooking time">
     </div>
@@ -114,7 +113,8 @@
                     <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Tree-Nuts'> Tree-Nuts<br>
                     <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Wheat'> Wheat<br>
                     <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-other'> Allergen-other<br>
-                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-none'> Allergen-none
+                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-none'> Allergen-none<br>
+            <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-unknown'> Allergen-unknown
                 </div>
                 <div>
                     <input type="hidden" class="form-control" name="recipeAllergen" placeholder="Please enter any allergens present">
@@ -133,7 +133,7 @@
         </div>
         <div class='col-12 button-center ingredient-confirm-button hidden'>
             <h6 class="button-margin">Please confirm ingredients:</h6>
-            <button class="btn btn-success" type="button">Confirm ingredients</button>
+            <button class="btn btn-outline-success" type="button">Confirm ingredients</button>
         </div>
         <textarea class="form-control hidden" name="recipeIngredients" rows="3" placeholder="Please enter recipe ingredients"></textarea>
     </div>
@@ -148,7 +148,7 @@
         </div>
         <div class='col-12 button-center instruction-confirm-button hidden'>
             <h6 class="button-margin">Please confirm instructions:</h6>
-            <button class="btn btn-success" type="button">Confirm instructions</button>
+            <button class="btn btn-outline-success" type="button">Confirm instructions</button>
         </div>
         <textarea class="form-control hidden" name="recipeInstructions" rows="3" placeholder="Please enter recipe instructions"></textarea>
     </div>
@@ -157,13 +157,15 @@
         <div class="col-12 text-align-centre">
             <h5> Add recipe image</h5>
         </div>
-        <div class="col-10 offset-2 text-align-centre">
-            <input type = "file" name = "file" / value = 'file'>
+        <div class="col-10 offset-1 text-align-centre image_margin">
+            <input class="col-12 text-align-centre" type = "file" name = "file" / value = 'file'>
             <input type="hidden" class="form-control" name="recipeImageLink" placeholder="Please enter recipe image">
         </div>
     </div>
 </form>
-
-
-<button type="submit" class="btn btn-primary recipe_button" id="add-recipe-submit" form = 'add_recipe_form' >Submit</button>
+<hr width=75%>
+<div class="button-center">
+<button type="submit" class="btn btn-success btn-lg recipe_button" id="add-recipe-submit" form = 'add_recipe_form' >Submit recipe</button>
+</div>
 {% endblock %}
+

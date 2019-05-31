@@ -145,10 +145,26 @@ $( document ).ready( function() {
         
         ( function (){
             
-                var str = document.getElementById( 'recipeIngredientsDisplay' ).innerHTML;
+                var str = document.getElementById( 'recipeIngredientsDisplay' ).innerHTML.trim();
                 
-                document.getElementById( 'recipeIngredientsDisplay' ).innerHTML = str.replace( /(?:\r\n|\r|\n|\r\r|\n\n| {2}.| {3}.| {4}.| {5}.|, )/g, '<br>' );
+                document.getElementById( 'recipeIngredientsDisplay' ).innerHTML = str.replace( /(?:\r\n|\r|\n|\r\r|\n\n, )/g, '<br><br>' );
                 
+        })();
+        
+    }
+    
+    // check if page is showing recipe instruction
+    
+    if ( $( '#recipeInstructionsDisplay' ).length ){
+        
+        // run iffy to format ingredients text
+        
+        ( function (){
+            
+                var str = document.getElementById( 'recipeInstructionsDisplay' ).innerHTML.trim();
+                
+                document.getElementById( 'recipeInstructionsDisplay' ).innerHTML = str.replace(/\./g,'.<br><br>');
+        
         })();
         
     }
@@ -230,9 +246,11 @@ $( document ).ready( function() {
             ingredient_values = ingredient_values + $( this ).val() + '\r\n' ;
             
         });
-         
-        $( 'textarea[name=recipeIngredients]' ).val( ingredient_values.substring( 0 , ingredient_values.length-2 ) );
-  
+        
+        var ingredient_string =ingredient_values.substring( 0 , ingredient_values.length-2).trim();
+        
+        $( 'textarea[name=recipeIngredients]' ).val( ingredient_string );
+        
     });
     
     
@@ -263,9 +281,9 @@ $( document ).ready( function() {
             
              '<div>' +
             
-            '<textarea class="col-12 form-control ingredient-text button-margin" rows="1" placeholder="Please enter ingredient"></textarea>' +
+            '<textarea class="col-12 form-control ingredient-text button-margin text-align-centre" rows="1" placeholder="Please enter ingredient"></textarea>' +
             
-            '<button class="col-2 btn btn-danger my-2 my-sm-0 remove-ingredient-button" type="button">Remove</button>' +
+            '<button class="col-2 btn btn-outline-danger my-2 my-sm-0 remove-ingredient-button" type="button">Remove</button>' +
             
             '</div>'
             
@@ -289,9 +307,9 @@ $( document ).ready( function() {
             
             '<div>' +
             
-            '<textarea class="col-12 form-control instruction-text button-margin" rows="1" placeholder="Please enter instruction"></textarea>' +
+            '<textarea class="col-12 form-control instruction-text button-margin text-align-centre" rows="1" placeholder="Please enter instruction"></textarea>' +
             
-            '<button class="col-2 btn btn-danger my-2 my-sm-0 remove-instruction-button" type="button">Remove</button>' +
+            '<button class="col-2 btn btn-outline-danger my-2 my-sm-0 remove-instruction-button" type="button">Remove</button>' +
             
             '</div>'
     
@@ -384,8 +402,8 @@ $( document ).ready( function() {
         
         // split ingredients data from db into array
         
-        var ingredients_array = $( 'textarea[name=recipeIngredients]' ).val().split('\n'); 
-        
+        var ingredients_array = $( 'textarea[name=recipeIngredients]' ).val().trim().split('\n'); 
+
         
         // append ingredient array values into ingredients textarea's for modification
         
@@ -395,9 +413,9 @@ $( document ).ready( function() {
                 
             '<div>' +
             
-            '<textarea class="form-control ingredient-text" rows="1" placeholder="Please enter ingredient">' + ingredients_array[ i ] + '</textarea>' +
+            '<textarea class="col-12 form-control ingredient-text button-margin text-align-centre" rows="1" placeholder="Please enter ingredient">' + ingredients_array[ i ] + '</textarea>' +
             
-            '<button class="btn btn-danger my-2 my-sm-0 remove-ingredient-button" type="button">Remove</button>'+
+            '<button class="col-2 btn btn-outline-danger my-2 my-sm-0 remove-ingredient-button" type="button">Remove</button>' +
             
             '</div>'
             
@@ -421,9 +439,9 @@ $( document ).ready( function() {
                 
             '<div>' +
             
-            '<textarea class="form-control instruction-text" rows="1" placeholder="Please enter instructions">' + instructions_array[ i ] + '</textarea>' +
+            '<textarea class="col-12 form-control instruction-text button-margin text-align-centre" rows="1" placeholder="Please enter instructions">' + instructions_array[ i ] + '</textarea>' +
             
-            '<button class="btn btn-danger my-2 my-sm-0 remove-instruction-button" type="button">X</button>' +
+            '<button class="col-2 btn btn-outline-danger my-2 my-sm-0 remove-instruction-button" type="button">Remove</button>' +
             
             '</div>'
             
@@ -440,6 +458,10 @@ $( document ).ready( function() {
             
             $( 'input[name="recipeImageLink"]' ).val().slice( 26 )
             
+        );
+        
+        $( '#displayed-image-link').text(
+            $( 'input[name="recipeImageLink"]' ).val()
         );
         
         // Remove image link from current image field upon delete

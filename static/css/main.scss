@@ -16,6 +16,15 @@ body {
   background-color: #1a6b45;
 }
 
+.image_margin {
+  margin-bottom: 5%;
+}
+
+#delete-recipe-button {
+  margin-left: -1%;
+  margin-bottom: 2%;
+}
+
 .button-margin {
   margin: 4% 0 2% 0;
 }
@@ -94,7 +103,7 @@ body {
 .instructions{
   text-align:justify;
   font-size: 18px;
-  padding: 2%;
+  padding: 5% 0 2% 0;
 }
 
 .instructions-heading{
@@ -201,13 +210,29 @@ body {
 }
 
 .recipe-image-container {
-  margin-bottom: 5%;
-  border: 2px solid #33567a;
-  margin-left:2%;
+  border: 2px solid #f8f9fa;
+}
+
+.show-recipe-info {
+  margin: 25px 0;
+}
+
+.show-ingredients-label{
+  margin-bottom: 10%;
 }
 
 .recipe-info{
-  font-size:20px;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.ingredients{
+  font-size: 18px;
+  padding: 10% 0 2% 0;
+}
+
+.material-icons {
+  font-size: 18px;
 }
 
 #advanced-search{
@@ -242,3 +267,4 @@ body {
     
     h5 { padding: 5% 0;}
    }
+
