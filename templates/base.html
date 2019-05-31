@@ -5,16 +5,20 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.css">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+    <!-- TAB TITLE -->
     <title>{% block title %}{% endblock %} - The Good Grub Guide</title>
 </head>
 
 <body>
+    <!-- CONTENT CONTAINER -->
     <div class="row no-gutters">
         <div class="col-6 offset-3 page-content">
             <div class="row no-gutters">
-                <header class="col-12">
+                <!-- NAVBAR-->
+                <header class="col-12 header-content">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
                         <a class="navbar-brand" href="{{url_for('get_recipes')}}" id="site-logo">The Good Grub Guide</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,71 +32,50 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{url_for('favourites')}}">favourites</a>
                                 </li>
-                                <!--<li class="nav-item">
-                                    <div class="dropdown" id="nav-login">
-                                        <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="login" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">login/register</button>
-                                        <div class="dropdown-menu">
-                                            <form method="POST" action="/login">
-                                                <div class="form-group">
-                                                    <label for="email">Email</label>
-                                                    <input name="email" type="text" class="form-control" placeholder="Please enter your email address" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="user_password">Password</label>
-                                                    <input class="form-control" name="user_password" type="password" placeholder="Password" required>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary btn-block">Login</button>
-                                            </form>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="{{url_for('register')}}">New around here? Sign up</a>
-                                            <a class="dropdown-item" href="#">Forgot password?</a>
-                                            <a class="dropdown-item" href="{{url_for('logout')}}">Log out</a>
-                                        </div>
-                                    </div>-->
                                 {% if current_user.is_authenticated %}
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{url_for('logout')}}">log out</a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{url_for('logout')}}">log out</a>
+                                </li>
                                 {% else %}
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{url_for('login')}}">login</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{url_for('register')}}">register</a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{url_for('login')}}">login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{url_for('register')}}">register</a>
+                                </li>
                                 {% endif %}
                             </ul>
                         </div>
                     </nav>
                 </header>
             </div>
-            
-                 {% with messages = get_flashed_messages() %} {% if messages %}
-                <ul class=flashes>
-                    {% for message in messages %}
-                    <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %} {% endwith %}
-            
-            
-            <div class="row no-gutters">
+            <!-- USER MESSAGE FLASH -->
+            {% with messages = get_flashed_messages() %} {% if messages %}
+            <div class=flashes>
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %} {% endwith %}
+            <!-- INSERT CONTENT FROM TEMPLATES -->
+            <div class="row no-gutters template-content">
                 <div class="col-12">{% block content_one %}{% endblock %}</div>
             </div>
-            <div class="row no-gutters">
+            <div class="row no-gutters template-content">
                 <div class="col-12">{% block content_two %}{% endblock %}</div>
             </div>
-            <div class="row no-gutters">
+            <div class="row no-gutters template-content">
                 <div class="col-12">{% block content_three %}{% endblock %}</div>
             </div>
-            <div class="row no-gutters" id="footer">
-                &copy; Copyright 2019 by CM<a href="http://domain.invalid/">you</a>.
-                <!--check this later-->
+            <!-- FOOTER -->
+            <div  id="footer">
+                    &copy; Copyright 2019 by Christopher Murray
             </div>
         </div>
     </div>
 </body>
 
+<!-- SCRIPTS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -101,5 +84,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.4.0-alpha.6/crossfilter.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.1/dc.js"></script>
 <script type=text/javascript src="{{ url_for('static', filename='js/plot.js') }}"></script>
-</html>
 
+</html>

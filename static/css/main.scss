@@ -1,6 +1,9 @@
 body {
   /* The image used */
-  background-image: url("https://images.pexels.com/photos/207204/pexels-photo-207204.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
+  
+  background-image: url("https://images.pexels.com/photos/1462892/pexels-photo-1462892.jpeg?auto=compress&cs=largesrgb&dpr=1&w=1024");
+  
+  //url("https://images.pexels.com/photos/207204/pexels-photo-207204.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
   background-size: cover;
   /* Set a specific height */
   height: auto;  
@@ -10,6 +13,11 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: #1a6b45;
+}
+
+.button-margin {
+  margin: 4% 0 2% 0;
 }
 
 .hidden {
@@ -19,9 +27,33 @@ body {
   height: 500px;
 }
 
+.carousel-caption a {
+  color: #fafafa;
+  font-size: 26px;
+}
+
+.plot-reset {
+  text-decoration: none;
+}
+.plot-area {
+  padding: 10px 0;
+  
+  h6 {
+    margin-bottom: 10px;
+  }
+}
 .carousel-inner > .item > img {
   height: 500px; 
   object-fit: cover;
+}
+
+.form-control::placeholder {
+  text-align: center;
+  color: #495057;
+}
+
+.select-colour {
+  color: #495057;
 }
 
 //.pre-post-page-content-parallax { height: 100px;}
@@ -35,21 +67,15 @@ body {
   
 }
 
-.title {
-  border-top: 1px solid #33567a;
-  border-bottom: 1px solid #33567a;
-  text-align: center; 
-  font-family: 'Lobster', cursive;
-  color: #33567a;
-  h1 {
-    margin: 0;
-    padding: 1% 0 1% 0;
-  }
-  h4 { 
-    margin: 0;
-    padding: 0 0 1.5% 0;
-  }
+.flashes{
+  text-align:center;
+  margin: 20px 0 0 0;
+  font-family: 'PT Serif';
+  font-size: 18px;
+  color: #347781;
 }
+
+
 
 .block-heading{
   margin: 2% 0 4% 4%;
@@ -78,12 +104,26 @@ body {
 }
 
 .page-content{
-  border: 1px solid #33567a;
-  //font-family: 'Lobster', cursive;
-  color: #33567a;
+  border: 2px solid #f8f9fa;
   background-color:white;
-  margin-top:100px;
-  margin-bottom:100px;
+  margin-top:50px;
+  margin-bottom:50px;
+  font-family: 'PT Serif';
+}
+
+.template-content {
+  font-family: 'PT Serif';
+  font-size: 18px;
+  color: #347781;
+  
+}
+
+.text-search-button{
+  margin-bottom:20px;
+}
+
+.advanced-search-button {
+  margin-bottom:40px;
 }
 
 .material-icons{
@@ -91,7 +131,20 @@ body {
 }
 
 #footer {
-  border-top: 1px solid #33567a;
+  text-align: center; 
+  font-family: 'Lobster', cursive;
+  color: #449c73;
+  padding: 20px 0;
+  font-size:18px;
+  background-color: #f8f9fa !important;
+}
+
+.button-center{
+  margin: 30px 0 30px 0;
+  text-align: center;
+  a {
+    text-decoration:none;
+  }
 }
 
 .search-filter{
@@ -122,14 +175,22 @@ body {
 }
 
 #site-logo {
-  padding: 2% 5% 2% 2%; 
+  padding: 2% 10% 2% 2%; 
   font-family: 'Lobster', cursive;
   color: #449c73;
   font-size: 25px;
 }
 
+.advanced-search-label {
+  margin-bottom: 5%;
+}
+
 #header{
    border-bottom: 5px solid #33567a;
+}
+
+.navbar-light .navbar-nav .nav-item .nav-link {
+  font-size: 17px;
 }
 
 .recipe-image { 
@@ -157,8 +218,23 @@ body {
   margin-left:20%;
 }
 
+.dietary-allergen-label{
+  margin: 5% 0;
+}
+
 #advanced-search-submit{
   margin-left:-25%;
+}
+
+.register-page-heading {
+  margin-top: 30px;
+}
+.login-page-heading{
+  margin: 30px;
+}
+
+.add-recipe-page-heading {
+  margin: 30px 0 40px 0;
 }
 
 .text-align-centre  {

@@ -1,39 +1,44 @@
 {% extends "base.html" %}
 
+{% block title %} Register {% endblock %} 
+
 {% block content_one %}
 
-<h1> Register </h1>
-
-<section class="container-fluid">
-	<div class="row">
-		<div class="card mx-auto">
-			<div class="card-body">
-				<form class="form-signin" method="POST" action="/register">
-					<div class="form-group">
-						<label for="sign-in-username">User name*</label>
-						<input name="username" type="text" class="form-control" id="sign-in-username" required>
-					</div>
-					<div class="form-group">
-						<label for="email">Email*</label>
-						<input name="email" type="email" class="form-control" id="email" required>
-					</div>
-					<div class="form-group">
-						<label for="sign-in-password">Password*</label>
-						<input class="form-control" name="user_password" type="password" id="sign-in-password" required>
-					</div>
-					<div class="form-group">
-						<label for="sign-in-password">Password again*</label>
-						<input class="form-control" name="retyped_user_password" type="password" id="sign-in-password1" required>
-					</div>
-					<div class="form-group">
-						<p>
-							*Required field
-						</p>
-					</div>
-					<button class="btn btn-outline-success btn-lg btn-block" type="submit">Sign Up</button>
-				</form>
-			</div>
-		</div>
+<div class="row no-gutters">
+	<div class="col-12 text-align-centre">
+		<h4 class="register-page-heading">
+			Please register your details
+		</h4>
 	</div>
-</section>
+	<div class="col-12 text-align-centre">
+		<h5>
+			All fields required
+		</h5>
+	</div>
+</div>
+<div class="row">
+	<div class="mx-auto">
+			<form class="form-signin" method="POST" action="/register">
+				<div class="form-group">
+					<label for="sign-in-username">Username</label>
+					<input name="username" type="text" class="form-control" id="sign-in-username" placeholder="Please enter a username" required>
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input name="email" type="email" class="form-control" id="email" placeholder="Please enter an email" required>
+				</div>
+				<div class="form-group">
+					<label for="sign-in-password">Password</label>
+					<input class="form-control" name="user_password" type="password" id="sign-in-password" placeholder="Please enter a password" required>
+				</div>
+				<div class="form-group">
+					<label for="sign-in-password">Re-enter password</label>
+					<input class="form-control" name="retyped_user_password" type="password" id="sign-in-password1" placeholder="Please repeat password" required>
+				</div>
+				<div class="button-center">
+					<button class="btn btn-outline-success btn-lg" type="submit">Sign Up</button>
+				</div>
+			</form>
+	</div>
+</div>
 {% endblock content_one %}

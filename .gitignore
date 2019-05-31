@@ -16,3 +16,5 @@ build/
 Python-3.5.0
 
 recipe_images/
+
+cookbook/config.py

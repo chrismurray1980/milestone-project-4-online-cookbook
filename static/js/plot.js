@@ -40,9 +40,9 @@ if ( $( '#data' ).text() != '' ){
   
   cuisine_chart
   
-    .height( 300 )
+    .height( 250 )
     
-    .width( 300 )
+    .width( 250 )
     
     .dimension( cuisine_dimension )
     
@@ -59,9 +59,9 @@ if ( $( '#data' ).text() != '' ){
   
   country_of_origin_chart
   
-    .height( 300 )
+    .height( 250 )
     
-    .width( 300 )
+    .width( 250 )
     
     .dimension( country_of_origin_dimension )
     
@@ -78,9 +78,9 @@ if ( $( '#data' ).text() != '' ){
   
   servings_chart
   
-    .width( 300 )
+    .width( 250 )
     
-    .height( 300 )
+    .height( 250 )
     
     .dimension( servings_dimension )
     
@@ -101,9 +101,9 @@ if ( $( '#data' ).text() != '' ){
   
     .renderLabel( true )
     
-    .height( 300 )
+    .height( 250 )
     
-    .width( 300 )
+    .width( 250 )
     
     .dimension( dietary_dimension )
     
@@ -130,9 +130,9 @@ if ( $( '#data' ).text() != '' ){
   
     .renderLabel( true )
     
-    .height( 300 )
+    .height( 250 )
     
-    .width( 300 )
+    .width( 250 )
     
     .dimension( allergy_dimension )
     
@@ -157,9 +157,9 @@ if ( $( '#data' ).text() != '' ){
   
   difficulty_chart
     
-    .height( 300 )
+    .height( 250 )
     
-    .width( 300 )
+    .width( 250 )
     
     .dimension( difficulty_dimension )
     
@@ -184,11 +184,11 @@ if ( $( '#data' ).text() != '' ){
   
   main_ingredient_chart
   
-    .height( 300 )
+    .height( 250 )
     
-    .width( 600 )
+    .width( 500 )
     
-    .margins( { top : 10 , right : 50 , bottom : 30 , left : 50 } )
+    .margins( { top : 10 , right : 50 , bottom : 50 , left : 50 } )
     
     .dimension( main_ingredient_dimension )
     
@@ -235,11 +235,11 @@ if ( $( '#data' ).text() != '' ){
   
   total_time_chart
   
-    .height( 300 )
+    .height( 250 )
     
-    .width( 600 )
+    .width( 500 )
     
-    .margins( { top : 10 , right : 50 , bottom : 30 , left : 50 } )
+    .margins( { top : 10 , right : 50 , bottom : 50 , left : 50 } )
     
     .dimension( total_time_dimension )
     

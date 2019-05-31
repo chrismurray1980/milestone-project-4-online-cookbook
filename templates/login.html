@@ -1,32 +1,30 @@
 {% extends "base.html" %}
-{% block content_one %}
-    <section class="container-fluid">
-	<div class="row">
-		<div class="card mx-auto">
-			<div class="card-body">
-				<form class="form-login" method="POST" action="{{ url_for('submit_login') }}">
-					<div class="form-group">
-						<label for="log-in-username">User name</label>
-						<input name="username" type="text" class="form-control" id="log-in-username">
-					</div>
-					<div class="form-group">
-						<label for="email">Email*</label>
-						<input name="email" type="email" class="form-control" id="email"  required>
-					</div>
-					<div class="form-group">
-						<label for="login-in-password">Password*</label>
-						<input class="form-control" name="user_password" type="password" id="sign-in-password" required>
-					</div>
 
-					<div class="form-group">
-						<p>
-							*Required field
-						</p>
-					</div>
-					<button class="btn btn-outline-success btn-lg btn-block" type="submit">login</button>
-				</form>
-			</div>
-		</div>
+{% block title %} Login {% endblock %} 
+
+{% block content_one %}
+<div class="row no-gutters">
+	<div class="col-12 text-align-centre">
+		<h4 class="login-page-heading">
+			Please enter your login details
+		</h4>
 	</div>
-</section>
-{% endblock content_one %}
+</div>
+<div class="row no-gutters">
+	<div class="mx-auto">
+			<form class="form-login" method="POST" action="{{ url_for('submit_login') }}">
+				<div class="form-group">
+					<label for="email">Email:</label>
+					<input name="email" type="email" class="form-control" id="email"  placeholder="Please enter your email" required>
+				</div>
+				<div class="form-group">
+					<label for="login-in-password">Password:</label>
+					<input class="form-control" name="user_password" type="password" id="sign-in-password" placeholder="Please enter your password" required>
+				</div>
+				<div class="button-center">
+					<button class="btn btn-outline-success btn-lg" type="submit">login</button>
+				</div>
+			</form>
+	</div>
+</div>
+{% endblock %}

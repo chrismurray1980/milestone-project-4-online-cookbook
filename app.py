@@ -1,4 +1,4 @@
-
+from functools import wraps
 
 
 """ MODULE IMPORT """
@@ -9,7 +9,7 @@ import ast
 import boto3
 import botocore
 from flask              import Flask, render_template, redirect, request, url_for, jsonify, session as user_session, flash
-from flask_login        import LoginManager, current_user, login_required, login_user, logout_user, UserMixin, confirm_login, fresh_login_required
+from flask_login        import LoginManager, login_required, current_user, login_user, logout_user, UserMixin, confirm_login, fresh_login_required
 from bson.objectid      import ObjectId
 from bson.json_util     import dumps 
 from ming               import mim, create_datastore
@@ -18,8 +18,6 @@ from ming.base          import Cursor
 from models             import recipes, users
 from werkzeug.utils     import secure_filename
 from werkzeug.security  import generate_password_hash, check_password_hash
-
-
 
 
 
@@ -77,8 +75,22 @@ create_index                  = recipes_collection.create_index( [ ( '$**' , 'te
 
 
 """ LOGIN MANAGER """
+"""
+def login_required(f):
+    if __name__ == '__main__':
+        @wraps(f)
+        def wrap(*args, **kwargs):
+            if 'logged_in' in user_session:
+                return f(*args, **kwargs)
+            else:
+                flash("You need to login first")
+                return redirect(url_for('login'))
+        return wrap
+    else:
+        return f
+"""
 
-
+#if __name__ == '__main__':
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -86,7 +98,6 @@ login_manager.login_view = 'login'
 class User( UserMixin ):
   def __init__( self, id ):
       self.id = id
-
 
 @login_manager.user_loader
 def load_user( user_id ):
@@ -98,7 +109,6 @@ def unauthorized_callback():
     if 'login' not in request.path:
         user_session[ 'next_url' ] = request.path
     return redirect( url_for( 'login' ) )
-
 
 
 """ RECIPE ROUTES """
@@ -121,11 +131,26 @@ def get_recipes():
 @app.route( '/search' , methods = [ 'POST' ] )
 def search():
     try:
-        return redirect( url_for( 'search_results' , search_content = request.form[ 'searchContent' ] ) )
+        search_content = request.form[ 'searchContent' ]
+        
+        if search_content == '':
+            flash( 'Please enter some search criteria' )
+            return redirect( url_for( 'get_recipes' ) )
+        else:
+            search_url = request.base_url
+            print(search_url)
+            return redirect( url_for( 'search_results' , search_content = search_content ) )
     except:
         print( 'Error, could not retrieve text search input' )
             
-            
+
+# Save search url
+
+@app.route('/save_search')
+def save_search(search_url):
+    return redirect( url_for( 'get_recipes' ) )
+    
+    
 # Display recipes returned from db based upon text input
 
 @app.route( '/search_results/<search_content>' )
@@ -156,8 +181,12 @@ def advanced_search():
 def advanced_search_results(advanced_search_list):
     try:
         advanced_search_list = ast.literal_eval( advanced_search_list )
-        recipes = recipes_collection.find( { '$and' : advanced_search_list } ).sort( [ ( 'recipeUpvotes' , -1 ) ] ).limit( 10 )
-        return render_template( 'search_results.html' , recipes = recipes )
+        if advanced_search_list != []:
+            recipes = recipes_collection.find( { '$and' : advanced_search_list } ).sort( [ ( 'recipeUpvotes' , -1 ) ] ).limit( 10 )
+            return render_template( 'search_results.html' , recipes = recipes )
+        else:
+            flash( 'Please enter some search criteria' )
+            return redirect( url_for( 'get_recipes' ) )
     except:
         print( 'Error accessing database documents' )
 
@@ -269,9 +298,7 @@ def favourites():
         for recipe in user_favourites:
             for recipe_id in recipe['favourite_recipes']:
                 favourites_list.append(recipe_id)
-        print(favourites_list)
-        recipes=recipes_collection.find( { '_id' : { '$in' : favourites_list } } )   
-        print(recipes)
+        recipes=recipes_collection.find( { '_id' : { '$in' : favourites_list } } ) 
         return render_template( 'favourites.html', recipes=recipes ) 
     except:
         print( 'Error, could not render favourites view' )
@@ -310,11 +337,12 @@ def submit_login():
 			flash( 'Incorrect login details' )
 			return redirect( url_for( 'login' ) )
 	else:
-		flash( 'Please register!' )
-		return redirect( url_for( 'register' ) )
+		flash( 'No account found with those login details!' )
+		return redirect( url_for( 'register' ) ) 
 
 
 # Register new user
+
 
 @app.route( '/register' , methods = [ 'GET' , 'POST' ] )
 def register():
@@ -340,7 +368,8 @@ def register():
 					{
 						'username': form[ 'username' ],
 						'email': form[ 'email' ],
-						'password': hash_pass
+						'password': hash_pass,
+						'favourite_recipes':[]
 					}
 				)
 				# Check if user is saved
@@ -351,13 +380,45 @@ def register():
 					flash( 'You have successfully registered, please login to access site features' )
 					return redirect( url_for( 'login' ) )
 				else:
-					flash( 'There was a problem savaing your profile' )
+					flash( 'There was a problem saving your profile' )
 					return redirect( url_for( 'register' ) )
 		else:
 			flash( 'Passwords do not match!' )
 			return redirect( url_for( 'register' ) )
 	return render_template( 'register.html' )
 
+"""
+@app.route('/register', methods=('GET', 'POST'))
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        error = None
+
+        if not username:
+            error = 'Username is required.'
+        elif not email:
+            error = 'Email is required.'
+        elif not password:
+            error = 'Password is required.'
+        elif users_collection.find_one( { 'email' : email } ) is not None:
+            error = 'User {} is already registered.'.format(email)
+
+        if error is None:
+            hash_pass = generate_password_hash( password )
+            #Create new user with hashed password
+            users_collection.insert_one({
+                'username': username,
+				'email': email,
+				'password': hash_pass
+			    }
+			)
+            return redirect(url_for('login'))
+
+        flash(error)
+
+    return render_template('register.html')"""
 
 # Log out user
 

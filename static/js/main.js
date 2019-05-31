@@ -263,9 +263,9 @@ $( document ).ready( function() {
             
              '<div>' +
             
-            '<textarea class="form-control ingredient-text" rows="1" placeholder="Please enter ingredient"></textarea>' +
+            '<textarea class="col-12 form-control ingredient-text button-margin" rows="1" placeholder="Please enter ingredient"></textarea>' +
             
-            '<button class="btn btn-danger my-2 my-sm-0 remove-ingredient-button" type="button">X</button>' +
+            '<button class="col-2 btn btn-danger my-2 my-sm-0 remove-ingredient-button" type="button">Remove</button>' +
             
             '</div>'
             
@@ -289,12 +289,12 @@ $( document ).ready( function() {
             
             '<div>' +
             
-            '<textarea class="form-control instruction-text" rows="1" placeholder="Please enter instruction"></textarea>' +
+            '<textarea class="col-12 form-control instruction-text button-margin" rows="1" placeholder="Please enter instruction"></textarea>' +
             
-            '<button class="btn btn-danger my-2 my-sm-0 remove-instruction-button" type="button">X</button>' +
+            '<button class="col-2 btn btn-danger my-2 my-sm-0 remove-instruction-button" type="button">Remove</button>' +
             
             '</div>'
-            
+    
         );
         
         $( '.instruction-confirm-button' ).removeClass( 'hidden' );
@@ -397,7 +397,7 @@ $( document ).ready( function() {
             
             '<textarea class="form-control ingredient-text" rows="1" placeholder="Please enter ingredient">' + ingredients_array[ i ] + '</textarea>' +
             
-            '<button class="btn btn-danger my-2 my-sm-0 remove-ingredient-button" type="button">X</button>'+
+            '<button class="btn btn-danger my-2 my-sm-0 remove-ingredient-button" type="button">Remove</button>'+
             
             '</div>'
             
