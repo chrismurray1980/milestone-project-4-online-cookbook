@@ -26,7 +26,19 @@ body {
   display: none; }
 
 .carousel-item {
-  height: 500px; }
+  height: 100%; }
+
+.carousel-control-prev {
+  Left: 5%;
+  Top: -35%; }
+
+.carousel-control-next {
+  Right: 5%;
+  Top: -35%; }
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 44%; }
 
 .carousel-caption a {
   color: #fafafa;
@@ -120,6 +132,12 @@ body {
   .button-center a {
     text-decoration: none; }
 
+.advanced-search-button-center {
+  margin: 0 0 30px 0;
+  text-align: center; }
+  .advanced-search-button-center a {
+    text-decoration: none; }
+
 .search-filter {
   font-family: 'Lobster', cursive;
   background-color: #33567a;
@@ -164,14 +182,20 @@ body {
   padding: 0;
   margin: 0; }
 
+.search-results-container {
+  margin-bottom: 30px; }
+
 .recipe-image-container {
   border: 2px solid #f8f9fa; }
 
 .show-recipe-info {
-  margin: 25px 0; }
+  margin: 35px 25px 0; }
 
 .show-ingredients-label {
   margin-bottom: 10%; }
+
+.show-recipe-info-text {
+  margin-top: 20px; }
 
 .recipe-info {
   font-size: 18px;
@@ -180,6 +204,15 @@ body {
 .ingredients {
   font-size: 18px;
   padding: 10% 0 2% 0; }
+
+.image-card {
+  width: 90%;
+  margin: 5% 5% 0 5%; }
+
+.card-body {
+  width: 96%;
+  margin: 2% 2% 0 2%;
+  padding-bottom: 0; }
 
 .material-icons {
   font-size: 18px; }

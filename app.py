@@ -358,7 +358,7 @@ def register():
 			user = users_collection.find_one( { "username" : form[ 'username' ] } )
 			if user:
 				flash( 'Your account already exists!' )
-				return redirect( url_for( 'register' ) )
+				return redirect( url_for( 'login' ) )
 			# If user does not exist register new user
 			else:				
 				# Hash password
