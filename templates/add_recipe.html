@@ -91,6 +91,8 @@
             <div class="form-group row">
                 <label class="col-10 col-form-label dietary-allergen-label" for="Dietary">Dietary:</label>
                 <div class="col-10 offset-1">
+                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegetarian'> Vegetarian<br>
+                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Pescetarian'> Pescetarian<br>
                     <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegan'> Vegan<br>
                     <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-other'> Dietary-other<br>
                     <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-none'> Dietary-none
@@ -129,7 +131,7 @@
         </div>
         <div class="col-10 offset-1 add-recipe-ingredients text-align-centre"></div> 
         <div class='col-12 button-center'>
-            <button class="btn btn-info my-2 my-sm-0 add-ingredient-button" type="button">Add ingredient</button>
+            <button class="btn btn-outline-info my-2 my-sm-0 add-ingredient-button" type="button">Add ingredient</button>
         </div>
         <div class='col-12 button-center ingredient-confirm-button hidden'>
             <h6 class="button-margin">Please confirm ingredients:</h6>
@@ -144,7 +146,7 @@
         </div>
         <div class="col-10 offset-1 add-recipe-instructions text-align-centre"></div>
         <div class="col-12 button-center">
-            <button class="btn btn-info my-2 my-sm-0 add-instruction-button" type="button">Add instruction</button>
+            <button class="btn btn-outline-info my-2 my-sm-0 add-instruction-button" type="button">Add instruction</button>
         </div>
         <div class='col-12 button-center instruction-confirm-button hidden'>
             <h6 class="button-margin">Please confirm instructions:</h6>
@@ -165,7 +167,7 @@
 </form>
 <hr width=75%>
 <div class="button-center">
-<button type="submit" class="btn btn-success btn-lg recipe_button" id="add-recipe-submit" form = 'add_recipe_form' >Submit recipe</button>
+<button type="submit" class="btn btn-outline-success btn-lg recipe_button" id="add-recipe-submit" form = 'add_recipe_form' >Submit recipe</button>
 </div>
 {% endblock %}
 

@@ -75,22 +75,7 @@ create_index                  = recipes_collection.create_index( [ ( '$**' , 'te
 
 
 """ LOGIN MANAGER """
-"""
-def login_required(f):
-    if __name__ == '__main__':
-        @wraps(f)
-        def wrap(*args, **kwargs):
-            if 'logged_in' in user_session:
-                return f(*args, **kwargs)
-            else:
-                flash("You need to login first")
-                return redirect(url_for('login'))
-        return wrap
-    else:
-        return f
-"""
 
-#if __name__ == '__main__':
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -210,6 +195,7 @@ def insert_recipe():
         input_fields = insert_update_db_format( field_list )
         new_recipe = recipes_collection.insert_one( input_fields )
         recipe = recipes_collection.find_one( { '_id' : ObjectId( new_recipe.inserted_id ) } )
+        users_collection.update({ 'email': user_session[ 'user' ] },{ '$addToSet': { 'my_recipes': ObjectId( recipe['_id'] ) } }, upsert = True)
         return  render_template( 'show_recipe.html' , recipe = recipe )
     except:
         print( 'Error writing database document' )
@@ -303,6 +289,21 @@ def favourites():
     except:
         print( 'Error, could not render favourites view' )
 
+# Open my_recipes page 
+
+@app.route( '/my_recipes' )
+@login_required
+def my_recipes():
+    try:
+        my_recipes_list = []
+        user_my_recipes = users_collection.find( {'email': user_session[ 'user' ] }, { 'my_recipes' } )
+        for recipe in user_my_recipes:
+            for recipe_id in recipe['my_recipes']:
+                my_recipes_list.append(recipe_id)
+        recipes=recipes_collection.find( { '_id' : { '$in' : my_recipes_list } } ) 
+        return render_template( 'my_recipes.html', recipes=recipes ) 
+    except:
+        print( 'Error, could not render my recipes view' )
 
 
 """ USER ROUTES """
@@ -369,7 +370,8 @@ def register():
 						'username': form[ 'username' ],
 						'email': form[ 'email' ],
 						'password': hash_pass,
-						'favourite_recipes':[]
+						'favourite_recipes':[],
+						'my_recipes':[]
 					}
 				)
 				# Check if user is saved
