@@ -26,6 +26,9 @@ body {
 .carousel-item {
   height: 100%; }
 
+.card {
+  background-color: #f8f9fa; }
+
 .carousel-control-prev {
   Left: 5%;
   Top: -35%; }

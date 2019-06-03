@@ -248,6 +248,8 @@ def show_recipe( recipe_id ):
 def delete_recipe( recipe_id ):
     try:
         recipes_collection.delete_one( { '_id' : ObjectId( recipe_id ) } )
+        users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'favourite_recipes': ObjectId( recipe_id ) } }, upsert = True)
+        users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'my_recipes': ObjectId( recipe_id ) } }, upsert = True)
         return redirect( url_for( 'get_recipes' ) )
     except:
         print( 'Error accessing database documents' )
