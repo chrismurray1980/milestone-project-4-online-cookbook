@@ -242,6 +242,9 @@ body {
 .add-recipe-page-heading {
   margin: 30px 0 40px 0; }
 
+.results-page-heading {
+  margin: 30px 0 20px 0; }
+
 .index-page-heading {
   margin: 30px 0 0 0; }
 
@@ -249,5 +252,10 @@ body {
   text-align: center; }
   .text-align-centre h5 {
     padding: 5% 0; }
+
+.search-text-align-centre {
+  text-align: center; }
+  .search-text-align-centre h5 {
+    padding: 5% 0 2% 0; }
 
 /*# sourceMappingURL=main.css.map */

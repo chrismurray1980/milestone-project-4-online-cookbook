@@ -4,12 +4,20 @@
 {% block content_two %}
 <div class="row no-gutters">
 	<div class="col-12 text-align-centre">
-		<h4 class="add-recipe-page-heading">
+		<h4 class="results-page-heading">
 			Search results
 		</h4>
 	</div>
 </div>
-
+<div class="row no-gutters">
+	<div class="col-12 text-align-centre">
+        {% if recipes_count != 1 %}
+            <h5> Your search returned {{recipes_count}} recipes</h4>
+        {% else %}
+            <h5> Your search returned {{recipes_count}} recipe</h4>
+        {% endif %}
+    </div>
+</div>
 <div class="row no-gutters">
 {% for recipe in recipes %}
 

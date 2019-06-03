@@ -119,6 +119,7 @@ def search():
         search_content = request.form[ 'searchContent' ]
         
         if search_content == '':
+            user_session.pop( '_flashes' , None )
             flash( 'Please enter some search criteria' )
             return redirect( url_for( 'get_recipes' ) )
         else:
@@ -130,11 +131,11 @@ def search():
             
 
 # Save search url
-
+"""
 @app.route('/save_search')
 def save_search(search_url):
     return redirect( url_for( 'get_recipes' ) )
-    
+"""   
     
 # Display recipes returned from db based upon text input
 
@@ -144,7 +145,8 @@ def search_results( search_content ):
         search_text = '{}{}{}'.format( '\"' , search_content , '\"' ) 
         recipes = recipes_collection.find( { '$text' : { '$search' : search_text } } , 
                                            { '_txtscr' : { '$meta' : 'textScore' } } ).sort( [ ( '_txtscr', { '$meta' : 'textScore' } ) ] )
-        return render_template( 'search_results.html' , recipes = recipes )
+        recipes_count = recipes.count()
+        return render_template( 'search_results.html' , recipes = recipes, recipes_count = recipes_count )
     except:
         print( 'Error accessing database documents' )
 
@@ -168,8 +170,10 @@ def advanced_search_results(advanced_search_list):
         advanced_search_list = ast.literal_eval( advanced_search_list )
         if advanced_search_list != []:
             recipes = recipes_collection.find( { '$and' : advanced_search_list } ).sort( [ ( 'recipeUpvotes' , -1 ) ] ).limit( 10 )
-            return render_template( 'search_results.html' , recipes = recipes )
+            recipes_count = recipes.count()
+            return render_template( 'search_results.html' , recipes = recipes, recipes_count = recipes_count )
         else:
+            user_session.pop( '_flashes' , None )
             flash( 'Please enter some search criteria' )
             return redirect( url_for( 'get_recipes' ) )
     except:
@@ -196,6 +200,8 @@ def insert_recipe():
         new_recipe = recipes_collection.insert_one( input_fields )
         recipe = recipes_collection.find_one( { '_id' : ObjectId( new_recipe.inserted_id ) } )
         users_collection.update({ 'email': user_session[ 'user' ] },{ '$addToSet': { 'my_recipes': ObjectId( recipe['_id'] ) } }, upsert = True)
+        user_session.pop( '_flashes' , None )
+        flash( 'Recipe successfully added and can be viewed in the my-recipes link!' )
         return  render_template( 'show_recipe.html' , recipe = recipe )
     except:
         print( 'Error writing database document' )
@@ -212,6 +218,7 @@ def edit_delete_recipe( recipe_id ):
         if recipe['recipeEmail'] == user_session['user']:
             return render_template( 'edit_delete_recipe.html' , recipe = recipe )
         else: 
+            user_session.pop( '_flashes' , None )
             flash('You are not authorised to edit this recipe')
             return redirect(url_for( 'get_recipes'))
     except:
@@ -226,6 +233,8 @@ def update_recipe( recipe_id ):
         update_fields = insert_update_db_format( field_list[ 2: ] )
         recipes_collection.update_one( { '_id' : ObjectId( recipe_id ) } , { '$set' : update_fields }, upsert = True )
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
+        user_session.pop( '_flashes' , None )
+        flash( 'Recipe successfully updated!' )
         return  render_template( 'show_recipe.html' , recipe = recipe )
     except:
         print( 'Error updating database document' )
@@ -250,6 +259,8 @@ def delete_recipe( recipe_id ):
         recipes_collection.delete_one( { '_id' : ObjectId( recipe_id ) } )
         users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'favourite_recipes': ObjectId( recipe_id ) } }, upsert = True)
         users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'my_recipes': ObjectId( recipe_id ) } }, upsert = True)
+        user_session.pop( '_flashes' , None )
+        flash( 'Recipe successfully deleted!' )
         return redirect( url_for( 'get_recipes' ) )
     except:
         print( 'Error accessing database documents' )
@@ -264,11 +275,13 @@ def like_recipe( recipe_id ):
     try:
         user_favourites=users_collection.find( { 'email': user_session[ 'user' ], 'favourite_recipes': ObjectId( recipe_id )} )
         print(user_favourites.count())
+        user_session.pop( '_flashes' , None )
         if user_favourites.count() != 0:
             flash( 'This recipe has already been added to your favourites list' )
         else:
             recipes_collection.update( { '_id' : ObjectId( recipe_id ) } , { '$inc' : { 'recipeUpvotes': 1 } } )
             users_collection.update({ 'email': user_session[ 'user' ] },{ '$addToSet': { 'favourite_recipes': ObjectId( recipe_id ) } }, upsert = True)
+            flash( 'You have successfully added this recipe to your favourite recipe list!' )
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
         return render_template( 'show_recipe.html' , recipe = recipe )
     except:
@@ -287,7 +300,8 @@ def favourites():
             for recipe_id in recipe['favourite_recipes']:
                 favourites_list.append(recipe_id)
         recipes=recipes_collection.find( { '_id' : { '$in' : favourites_list } } ) 
-        return render_template( 'favourites.html', recipes=recipes ) 
+        favourites_count = recipes.count()
+        return render_template( 'favourites.html', recipes=recipes, favourites_count = favourites_count) 
     except:
         print( 'Error, could not render favourites view' )
 
@@ -302,8 +316,9 @@ def my_recipes():
         for recipe in user_my_recipes:
             for recipe_id in recipe['my_recipes']:
                 my_recipes_list.append(recipe_id)
-        recipes=recipes_collection.find( { '_id' : { '$in' : my_recipes_list } } ) 
-        return render_template( 'my_recipes.html', recipes=recipes ) 
+        recipes=recipes_collection.find( { '_id' : { '$in' : my_recipes_list } } )
+        my_recipes_count = recipes.count()
+        return render_template( 'my_recipes.html', recipes=recipes, my_recipes_count = my_recipes_count ) 
     except:
         print( 'Error, could not render my recipes view' )
 
@@ -349,25 +364,26 @@ def submit_login():
 
 @app.route( '/register' , methods = [ 'GET' , 'POST' ] )
 def register():
-	# Check if user is logged in
-	if 'user' in user_session:
-		flash( 'You are currently signed in!' )
-		return redirect( url_for( 'get_recipes' ) )
-	elif request.method == 'POST':
-		form = request.form.to_dict()
-		# Check if the password and retyped password match
-		if form[ 'user_password' ] == form[ 'retyped_user_password' ]:
-			# find the user in db
-			user = users_collection.find_one( { "username" : form[ 'username' ] } )
-			if user:
-				flash( 'Your account already exists!' )
-				return redirect( url_for( 'login' ) )
+    user_session.pop( '_flashes' , None )
+    # Check if user is logged in
+    if 'user' in user_session:
+        flash( 'You are currently signed in!' )
+        return redirect( url_for( 'get_recipes' ) )
+    elif request.method == 'POST':
+        form = request.form.to_dict()
+        # Check if the password and retyped password match
+        if form[ 'user_password' ] == form[ 'retyped_user_password' ]:
+            # find the user in db
+            user = users_collection.find_one( { "username" : form[ 'username' ] } )
+            if user:
+                flash( 'Your account already exists!' )
+                return redirect( url_for( 'login' ) )
 			# If user does not exist register new user
-			else:				
-				# Hash password
-				hash_pass = generate_password_hash( form[ 'user_password' ] )
+            else:
+		        # Hash password
+                hash_pass = generate_password_hash( form[ 'user_password' ] )
 				#Create new user with hashed password
-				users_collection.insert_one(
+                users_collection.insert_one(
 					{
 						'username': form[ 'username' ],
 						'email': form[ 'email' ],
@@ -377,52 +393,20 @@ def register():
 					}
 				)
 				# Check if user is saved
-				user_in_db = users_collection.find_one( { "username": form[ 'username' ] } )
-				if user_in_db:
+                user_in_db = users_collection.find_one( { "username": form[ 'username' ] } )
+                if user_in_db:
 					# Log user in (add to session)
-					user_session[ 'user' ] = user_in_db[ 'username' ]
-					flash( 'You have successfully registered, please login to access site features' )
-					return redirect( url_for( 'login' ) )
-				else:
-					flash( 'There was a problem saving your profile' )
-					return redirect( url_for( 'register' ) )
-		else:
-			flash( 'Passwords do not match!' )
-			return redirect( url_for( 'register' ) )
-	return render_template( 'register.html' )
-
-"""
-@app.route('/register', methods=('GET', 'POST'))
-def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        error = None
-
-        if not username:
-            error = 'Username is required.'
-        elif not email:
-            error = 'Email is required.'
-        elif not password:
-            error = 'Password is required.'
-        elif users_collection.find_one( { 'email' : email } ) is not None:
-            error = 'User {} is already registered.'.format(email)
-
-        if error is None:
-            hash_pass = generate_password_hash( password )
-            #Create new user with hashed password
-            users_collection.insert_one({
-                'username': username,
-				'email': email,
-				'password': hash_pass
-			    }
-			)
-            return redirect(url_for('login'))
-
-        flash(error)
-
-    return render_template('register.html')"""
+                    user_session[ 'user' ] = user_in_db[ 'username' ]
+                    flash( 'You have successfully registered, please login to access site features' )
+                    return redirect( url_for( 'login' ) )
+                else:
+                    flash( 'There was a problem saving your profile' )
+                    return redirect( url_for( 'register' ) )
+        else:
+            flash( 'Passwords do not match!' )
+            return redirect( url_for( 'register' ) )
+    return render_template( 'register.html' )
+	
 
 # Log out user
 
