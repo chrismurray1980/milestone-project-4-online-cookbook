@@ -251,6 +251,8 @@ $( document ).ready( function() {
         
         $( 'textarea[name=recipeIngredients]' ).val( ingredient_string );
         
+        $( '.ingredient-confirm-button' ).text('Ingredients confirmed!');
+        
     });
     
     
@@ -267,10 +269,12 @@ $( document ).ready( function() {
          });
  
         $( 'textarea[name=recipeInstructions]' ).val( instruction_values.substring( 0 , instruction_values.length-2 ) );
+        
+        $( '.instruction-confirm-button' ).text('Instructions confirmed!');
   
     });
     
-    
+         
     // add ingredient textarea on button click
     
     $( '.add-ingredient-button' ).click( function() {
@@ -424,7 +428,6 @@ $( document ).ready( function() {
             $( 'input[id=ingredient-confirm-button]' ).removeClass( 'hidden' );
             
         }
-        
         
         // split instructions data from db into array
         

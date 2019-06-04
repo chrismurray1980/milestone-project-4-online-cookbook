@@ -15,30 +15,23 @@
     <div class="row no-gutters search-container">
         <!-- text search form -->
         <div class="col-6 offset-3">
-            <form class="form-inline my-2 my-lg-0" action="{{ url_for('search')}}" method="POST" autocomplete="off" id='text-search-form'>
+            <form class="form-inline" action="{{ url_for('search')}}" method="POST" autocomplete="off" id='text-search-form'>
                 <input class="form-control col-12 text-align-centre" type="search" placeholder="Please enter your search" id="search-text-area"name="searchContent" aria-label="Search">
-                
             </form>
-            
         </div>
     </div>
-    <!-- advanced search toggle button -->
-    <div class="col-12 advanced-search-button advanced-search-button-center">
+    <!-- search button and advanced search toggle button -->
+    <div class="col-12 advanced-search-button">
         <button class="btn btn-outline-success col-3" type="submit" form='text-search-form'>Search</button>
-        <button class="btn btn-outline-info my-2 my-sm-0" id="advanced-search" type="submit">Advanced search</button>
+        <button class="btn btn-outline-info" id="advanced-search" type="submit">Advanced search</button>
     </div>
 </div>
 <!-- ADVANCED SEARCH -->
 <div class="col-12 search-container hidden" id='advanced-search-form'>
     <!-- toggle text search button -->
-    <div class="row no-gutters text-search-button text-search-button-center">
+    <div class="row no-gutters text-search-button">
         <div class="col-4 offset-4">
-            <button class="btn btn-outline-info my-2 my-sm-0" id="text-search" type="submit">Text search</button>
-        </div>
-    </div>
-    <div class="row no-gutters">
-        <div class="col-4">
-            <h5 class="advanced-search-label"> Advanced Search:</h5>
+            <button class="btn btn-outline-info" id="text-search" type="submit">Text search</button>
         </div>
     </div>
     <!-- advanced search form -->
@@ -162,7 +155,9 @@
             <div class="col-6">
                 <div class="form-group row">
                     <label class="col-10 offset-2 col-form-label" for="Dietary">Dietary</label>
-                    <div class="col-10 offset-2">
+                    <div class="col-10 offset-2 checkbox-text">
+                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegetarian'> Vegetarian<br>
+                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Pescetarian'> Pescetarian<br>
                         <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegan'> Vegan<br>
                         <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-other'> Dietary-other<br>
                         <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-none'> Dietary-none
@@ -176,7 +171,7 @@
             <div class="col-6">
                 <div class="form-group row">
                     <label class="col-10 col-form-label" for="Allergen">Allergens</label>
-                    <div class="col-10">
+                    <div class="col-10 checkbox-text">
                         <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Dairy'> Dairy<br>
                         <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Fish'> Fish<br>
                         <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Peanuts'> Peanuts<br>
@@ -193,10 +188,10 @@
                 </div>
             </div>
         </div>
-        <!-- advanced search button -->
-        <div class="form-group row">
-            <div class="col-2 offset-5">
-                <button type="submit" class="btn btn-outline-success my-2 my-sm-0" id="advanced-search-submit">Submit search</button>
+        <!-- advanced search submit button -->
+        <div class="form-group row submit-button-center">
+            <div class="col-12">
+                <button type="submit" class="btn btn-outline-success" id="advanced-search-submit">Submit search</button>
             </div>
         </div>
     </form>
@@ -207,13 +202,13 @@
 <!-- RECIPE CAROUSEL -->
 <div class="row">
     <!-- carousel slideshow -->
-    <div id="popularRecipeIndicators" class="carousel slide col-10 offset-1" data-ride="carousel">
+    <div id="recipeIndicators" class="carousel slide col-10 offset-1" data-ride="carousel">
         <ol class="carousel-indicators">
-            <li data-target="#popularRecipeIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#popularRecipeIndicators" data-slide-to="1"></li>
-            <li data-target="#popularRecipeIndicators" data-slide-to="2"></li>
-            <li data-target="#popularRecipeIndicators" data-slide-to="3"></li>
-            <li data-target="#popularRecipeIndicators" data-slide-to="4"></li>
+            <li data-target="#recipeIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#recipeIndicators" data-slide-to="1"></li>
+            <li data-target="#recipeIndicators" data-slide-to="2"></li>
+            <li data-target="#recipeIndicators" data-slide-to="3"></li>
+            <li data-target="#recipeIndicators" data-slide-to="4"></li>
         </ol>
         <!-- inner carousel content -->
         <div class="carousel-inner">
@@ -224,22 +219,22 @@
                     <div class="card-body">
                         <h4 class="text-align-centre">{{recipe.recipeName }}</h4>
                         <div class="row no-gutters show-recipe-info">
-                            <div class="col-4 offset-2 recipe-info">
+                            <div class="col-5 offset-1 recipe-info">
                                 <p>Author: {{recipe.recipeAuthor}}</p>
                                 <p>Cuisine: {{recipe.recipeCuisine}}</p>
                                 <p>Preparation time: {{recipe.recipePreparationTime}}</p>
                                 <p>Cooking time: {{recipe.recipeCookingTime}}</p>
                             </div>
-                            <div class="col-4 offset-1 recipe-info">
+                            <div class="col-5 offset-1 recipe-info">
                                 <p>Servings: {{recipe.recipeServings}}</p>
                                 <p>Difficulty: {{recipe.recipeDifficulty}}</p>
                                 <p>Mealtime: {{recipe.recipeMealTime}}</p>
                                 <p>Likes: {{recipe.recipeUpvotes}}</p>
                             </div>
                         </div>
-                        <div class='button-center'>
+                        <div class='card-button-center'>
                             <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">
-                                <button class="btn btn-outline-success my-2 my-sm-0">View recipe</button>
+                                <button class="btn btn-outline-success">View recipe</button>
                             </a>
                         </div>
                     </div>
@@ -248,11 +243,11 @@
             {% endfor %}
         </div>
         <!-- carousel controls --> 
-        <a class="carousel-control-prev" href="#popularRecipeIndicators" role="button" data-slide="prev">
+        <a class="carousel-control-prev" href="#recipeIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#popularRecipeIndicators" role="button" data-slide="next">
+        <a class="carousel-control-next" href="#recipeIndicators" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
@@ -263,7 +258,7 @@
 {% block content_three %}
 <!-- toggle show data button-->
 <div class='button-center'>
-    <button id="get_Data" class="btn btn-outline-info my-2 my-sm-0">Show recipe data</button>
+    <button id="get_Data" class="btn btn-outline-info">Show recipe data</button>
 </div>
 <!-- RECIPE DATA -->
 <div id="recipe-data-plots" class='hidden'>
@@ -273,41 +268,37 @@
     </div>
     <!-- recipe cuisine chart-->
     <div class="row no-gutters">
-        <div class="col-6 text-align-centre plot-area">
-            <div class="row no-gutters">
-                <div class="col-12" id='recipe-cuisine-chart'>
-                    <h6>Recipes by cuisine
-                        <span>
-                            <a class="reset" 
-                                href="javascript:cuisine_chart.filterAll();dc.redrawAll();" 
-                                style="display: none;"> 
-                                reset
-                            </a>
-                        </span>
-                    </h6>
-                </div>
+        <div class="col-12 col-sm-6 text-align-centre plot-area">
+            <div class="col-12" id='recipe-cuisine-chart'>
+                <h6>Recipes by cuisine
+                    <span>
+                        <a class="reset" 
+                            href="javascript:cuisine_chart.filterAll();dc.redrawAll();" 
+                            style="display: none;"> 
+                            reset
+                        </a>
+                    </span>
+                </h6>
             </div>
         </div>
-        <div class="col-6">
-            <div class="row no-gutters text-align-centre plot-area">
-                <div class="col-12" id='recipe-allergen-chart'>
-                    <h6>Recipes by allergen
-                        <span>
-                                <a class="reset" 
-                                    href="javascript:allergen_chart.filterAll();dc.redrawAll();" 
-                                    style="display: none;"> 
-                                    reset
-                                </a>
-                            </span>
-                    </h6>
-                </div>
+        <div class="col-12 col-sm-6 text-align-centre plot-area">
+            <div class="col-12" id='recipe-allergen-chart'>
+                <h6>Recipes by allergen
+                    <span>
+                        <a class="reset" 
+                            href="javascript:allergen_chart.filterAll();dc.redrawAll();" 
+                            style="display: none;"> 
+                            reset
+                        </a>
+                    </span>
+                </h6>
             </div>
         </div>
     </div>
     <hr width="75%">
     <!-- recipe main ingredient chart-->
-    <div class="row no-gutters text-align-centre plot-area">
-        <div class="col-12">
+    <div class="row no-gutters ">
+        <div class="col-12 text-align-centre plot-area">
             <div class="col-12" id='recipe-main-ingredient-chart'>
                 <h6>Recipes by main ingredient
                     <span>
@@ -323,42 +314,38 @@
     </div>
     <hr width="75%">
     <!-- recipe dietary chart-->
-    <div class="row no-gutters text-align-centre plot-area">
-        <div class="col-6">
-            <div class="row no-gutters">
-                <div class="col-12" id='recipe-dietary-chart'>
-                    <h6>Recipes by dietary requirements
-                        <span>
-                            <a class="reset" 
-                                href="javascript:main_ingredient_chart.filterAll();dc.redrawAll();" 
-                                style="display: none;"> 
-                                reset
-                            </a>
-                        </span>
-                    </h6>
-                </div>
+    <div class="row no-gutters">
+        <div class="col-12 col-sm-6 text-align-centre plot-area">
+            <div class="col-12" id='recipe-dietary-chart'>
+                <h6>Recipes by dietary requirements
+                    <span>
+                        <a class="reset" 
+                            href="javascript:main_ingredient_chart.filterAll();dc.redrawAll();" 
+                            style="display: none;"> 
+                            reset
+                        </a>
+                    </span>
+                </h6>
             </div>
         </div>
-        <div class="col-6">
-            <div class="row no-gutters text-align-centre">
-                <div class="col-12" id='recipe-country-of-origin-chart'>
-                    <h6>Recipes by country of origin
-                        <span>
-                                <a class="reset" 
-                                    href="javascript:country_of_origin_chart.filterAll();dc.redrawAll();" 
-                                    style="display: none;"> 
-                                    reset
-                                </a>
-                            </span>
-                    </h6>
-                </div>
+        <div class="col-12 col-sm-6 text-align-centre plot-area">
+            <div class="col-12" id='recipe-country-of-origin-chart'>
+                <h6>Recipes by country of origin
+                    <span>
+                        <a class="reset" 
+                            href="javascript:country_of_origin_chart.filterAll();dc.redrawAll();" 
+                            style="display: none;"> 
+                            reset
+                        </a>
+                    </span>
+                </h6>
             </div>
         </div>
     </div>
     <hr width="75%">
     <!-- recipe total time required chart-->
-    <div class="row no-gutters text-align-centre plot-area">
-        <div class="col-12">
+    <div class="row no-gutters">
+        <div class="col-12 text-align-centre plot-area">
             <div class="col-12" id='recipe-total-time-chart'>
                 <h6>Recipes by total time required
                     <span>
@@ -375,44 +362,40 @@
     <hr width="75%">
     <!-- recipe servings chart-->
     <div class="row no-gutters">
-        <div class="col-6">
-            <div class="row no-gutters text-align-centre plot-area">
-                <div class="col-12" id='recipe-servings-chart'>
-                    <h6>Recipes by servings
-                        <span>
-                            <a class="reset" 
-                                href="javascript:servings_chart.filterAll();dc.redrawAll();" 
-                                style="display: none;"> 
-                                reset
-                            </a>
-                        </span>
-                    </h6>
-                </div>
+        <div class="col-12 col-sm-6 text-align-centre plot-area">
+            <div class="col-12" id='recipe-servings-chart'>
+                <h6>Recipes by servings
+                    <span>
+                        <a class="reset" 
+                            href="javascript:servings_chart.filterAll();dc.redrawAll();" 
+                            style="display: none;"> 
+                            reset
+                        </a>
+                    </span>
+                </h6>
             </div>
         </div>
-        <div class="col-6">
-            <div class="row no-gutters text-align-centre plot-area">
-                <div class="col-12" id='recipe-difficulty-chart'>
-                    <h6>Recipes by difficulty
-                        <span>
-                                <a class="reset" 
-                                    href="javascript:difficulty_chart.filterAll();dc.redrawAll();" 
-                                    style="display: none;"> 
-                                    reset
-                                </a>
-                            </span>
-                    </h6>
-                </div>
+        <div class="col-12 col-sm-6 text-align-centre plot-area">
+            <div class="col-12" id='recipe-difficulty-chart'>
+                <h6>Recipes by difficulty
+                    <span>
+                        <a class="reset" 
+                            href="javascript:difficulty_chart.filterAll();dc.redrawAll();" 
+                            style="display: none;"> 
+                            reset
+                        </a>
+                    </span>
+                </h6>
             </div>
         </div>
     </div>
     <!-- reset all link-->
     <div class='button-center'>
-            <span>
-                <a id='plot-reset' href='javascript:dc.filterAll(); dc.renderAll();'>
-                    Reset all plots
-                </a>
-            </span>
+        <span>
+            <a id='plot-reset' href='javascript:dc.filterAll(); dc.renderAll();'>
+                Reset all plots
+            </a>
+        </span>
     </div>
 </div>
 {% endblock %}
