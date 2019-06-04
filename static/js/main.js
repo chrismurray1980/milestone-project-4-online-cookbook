@@ -287,7 +287,7 @@ $( document ).ready( function() {
             
             '<textarea class="col-12 form-control ingredient-text button-margin text-align-centre" rows="1" placeholder="Please enter ingredient"></textarea>' +
             
-            '<button class="col-2 btn btn-outline-danger my-2 my-sm-0 remove-ingredient-button" type="button">Remove</button>' +
+            '<button class="col-3 col-md-2 btn btn-outline-danger remove-ingredient-button" type="button">Remove</button>' +
             
             '</div>'
             
@@ -313,7 +313,7 @@ $( document ).ready( function() {
             
             '<textarea class="col-12 form-control instruction-text button-margin text-align-centre" rows="1" placeholder="Please enter instruction"></textarea>' +
             
-            '<button class="col-2 btn btn-outline-danger my-2 my-sm-0 remove-instruction-button" type="button">Remove</button>' +
+            '<button class="col-3 col-md-2 btn btn-outline-danger remove-instruction-button" type="button">Remove</button>' +
             
             '</div>'
     
@@ -419,7 +419,7 @@ $( document ).ready( function() {
             
             '<textarea class="col-12 form-control ingredient-text button-margin text-align-centre" rows="1" placeholder="Please enter ingredient">' + ingredients_array[ i ] + '</textarea>' +
             
-            '<button class="col-2 btn btn-outline-danger my-2 my-sm-0 remove-ingredient-button" type="button">Remove</button>' +
+            '<button class="col-3 col-md-2  btn btn-outline-dangerremove-ingredient-button" type="button">Remove</button>' +
             
             '</div>'
             
@@ -444,7 +444,7 @@ $( document ).ready( function() {
             
             '<textarea class="col-12 form-control instruction-text button-margin text-align-centre" rows="1" placeholder="Please enter instructions">' + instructions_array[ i ] + '</textarea>' +
             
-            '<button class="col-2 btn btn-outline-danger my-2 my-sm-0 remove-instruction-button" type="button">Remove</button>' +
+            '<button class="col-3 col-md-2  btn btn-outline-danger remove-instruction-button" type="button">Remove</button>' +
             
             '</div>'
             

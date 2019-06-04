@@ -89,8 +89,8 @@
         <!-- dietary input -->
         <div class="col-4 offset-2">
             <div class="form-group row">
-                <label class="col-10 col-form-label dietary-allergen-label" for="Dietary">Dietary:</label>
-                <div class="col-10 offset-1">
+                <label class="col-12 col-form-label dietary-allergen-label" for="Dietary">Dietary:</label>
+                <div class="col-12 checkbox-text">
                     <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegetarian'> Vegetarian<br>
                     <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Pescetarian'> Pescetarian<br>
                     <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegan'> Vegan<br>
@@ -103,10 +103,10 @@
             </div>
         </div>
         <!-- allergens input -->
-        <div class="col-4">
+        <div class="col-5">
             <div class="form-group row">
-                <label class="col-10 col-form-label dietary-allergen-label" for="Allergen">Allergens:</label>
-                <div class="col-10 offset-1">
+                <label class="col-12 col-form-label dietary-allergen-label" for="Allergen">Allergens:</label>
+                <div class="col-12 checkbox-text">
                     <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Dairy'> Dairy<br>
                     <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Fish'> Fish<br>
                     <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Peanuts'> Peanuts<br>
@@ -126,14 +126,14 @@
     <hr width=75%>
     <div class="form-group row recipe-ingredients">
         <div class="col-12 text-align-centre">
-            <h5> Add ingredients</h5>
+            <h5 class="add-recipe-page-heading"> Add ingredients</h5>
         </div>
         <div class="col-10 offset-1 add-recipe-ingredients text-align-centre"></div> 
         <div class='col-12 button-center'>
             <button class="btn btn-outline-info my-2 my-sm-0 add-ingredient-button" type="button">Add ingredient</button>
         </div>
         <div class='col-12 button-center ingredient-confirm-button hidden'>
-            <h6 class="button-margin">Please confirm ingredients:</h6>
+            <h6 class="confirm-button-margin">Please confirm ingredients:</h6>
             <button class="btn btn-outline-success" type="button">Confirm ingredients</button>
         </div>
         <textarea class="form-control hidden" name="recipeIngredients" rows="3" placeholder="Please enter recipe ingredients"></textarea>
@@ -141,14 +141,14 @@
     <hr width=75%>
     <div class="form-group row recipe-instructions">
         <div class="col-12 text-align-centre">
-            <h5> Add instructions</h5>
+            <h5 class="add-recipe-page-heading"> Add instructions</h5>
         </div>
         <div class="col-10 offset-1 add-recipe-instructions text-align-centre"></div>
         <div class="col-12 button-center">
             <button class="btn btn-outline-info my-2 my-sm-0 add-instruction-button" type="button">Add instruction</button>
         </div>
         <div class='col-12 button-center instruction-confirm-button hidden'>
-            <h6 class="button-margin">Please confirm instructions:</h6>
+            <h6 class="confirm-button-margin">Please confirm instructions:</h6>
             <button class="btn btn-outline-success" type="button">Confirm instructions</button>
         </div>
         <textarea class="form-control hidden" name="recipeInstructions" rows="3" placeholder="Please enter recipe instructions"></textarea>
@@ -156,7 +156,7 @@
     <hr width=75%>
     <div class="form-group row">
         <div class="col-12 text-align-centre">
-            <h5> Add recipe image</h5>
+            <h5 class="add-recipe-page-heading"> Add recipe image</h5>
         </div>
         <div class="col-10 offset-1 text-align-centre image_margin">
             <input class="col-12 text-align-centre" type = "file" name = "file" / value = 'file'>
@@ -165,7 +165,7 @@
     </div>
 </form>
 <hr width=75%>
-<div class="button-center">
+<div class="add-button-center">
 <button type="submit" class="btn btn-outline-success btn-lg recipe_button" id="add-recipe-submit" form = 'add_recipe_form' >Submit recipe</button>
 </div>
 {% endblock %}

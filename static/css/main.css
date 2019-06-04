@@ -35,9 +35,12 @@ body {
   @media (min-width: 992px) {
     #site-logo {
       font-size: 30px; } }
+  @media (min-width: 1100px) {
+    #site-logo {
+      font-size: 28px; } }
   @media (min-width: 1400px) {
     #site-logo {
-      font-size: 35px; } }
+      font-size: 32px; } }
 
 #site-logo:hover {
   transform: scale(1.1); }
@@ -58,12 +61,9 @@ body {
   @media (min-width: 600px) {
     .navbar-light .navbar-nav .nav-item .nav-link {
       font-size: 16px; } }
-  @media (min-width: 992px) {
-    .navbar-light .navbar-nav .nav-item .nav-link {
-      font-size: 17px; } }
   @media (min-width: 1400px) {
     .navbar-light .navbar-nav .nav-item .nav-link {
-      font-size: 20px; } }
+      font-size: 18px; } }
 
 .nav-link:hover {
   transform: scale(1.1); }
@@ -73,11 +73,12 @@ body {
   font-family: 'Lobster', cursive;
   color: #449c73;
   padding: 20px 0;
-  font-size: 16px;
-  background-color: #f8f9fa !important; }
-  @media (min-width: 600px) {
+  background-color: #f8f9fa !important;
+  display: none; }
+  @media (min-width: 768px) {
     #footer {
-      font-size: 18px; } }
+      font-size: 18px;
+      display: block; } }
   @media (min-width: 992px) {
     #footer {
       font-size: 20px; } }
@@ -91,6 +92,9 @@ body {
 
 .button-margin {
   margin: 4% 0 2% 0; }
+
+.confirm-button-margin {
+  margin: 4% 0 4% 0; }
 
 .advanced-search-button {
   margin-bottom: 40px;
@@ -109,6 +113,18 @@ body {
   @media (min-width: 992px) {
     .button-center {
       margin: 45px 0 35px 0; } }
+
+.add-button-center {
+  margin: 40px 0 40px 0;
+  text-align: center; }
+  .add-button-center a {
+    text-decoration: none; }
+  @media (min-width: 992px) {
+    .add-button-center {
+      margin: 45px 0 40px 0; } }
+  @media (min-width: 1400px) {
+    .add-button-center {
+      margin: 45px 0 40px 0; } }
 
 .submit-button-center {
   margin: 8% 0 0 0;
@@ -257,6 +273,18 @@ input[type="checkbox"] {
   @media (min-width: 1400px) {
     input[type="checkbox"] {
       transform: scale(1); } }
+
+input[type="file"] {
+  font-size: 13px; }
+  @media (min-width: 600px) {
+    input[type="file"] {
+      font-size: 16px; } }
+  @media (min-width: 992px) {
+    input[type="file"] {
+      font-size: 18px; } }
+  @media (min-width: 1400px) {
+    input[type="file"] {
+      font-size: 20px; } }
 
 .dietary-allergen-label {
   margin: 5% 0; }
@@ -409,10 +437,42 @@ input[type="checkbox"] {
   margin-top: 30px; }
 
 .login-page-heading {
-  margin: 30px; }
+  margin: 30px;
+  font-size: 16px; }
+  @media (min-width: 600px) {
+    .login-page-heading {
+      margin: 25px 0 30px 0;
+      font-size: 18px; } }
+  @media (min-width: 768px) {
+    .login-page-heading {
+      margin: 30px 0 30px 0; } }
+  @media (min-width: 992px) {
+    .login-page-heading {
+      margin: 35px 0 30px 0;
+      font-size: 22px; } }
+  @media (min-width: 1400px) {
+    .login-page-heading {
+      margin: 35px 0 40px 0;
+      font-size: 22px; } }
 
 .add-recipe-page-heading {
-  margin: 30px 0 40px 0; }
+  margin: 30px 0;
+  font-size: 16px; }
+  @media (min-width: 600px) {
+    .add-recipe-page-heading {
+      margin: 25px 0 35px 0;
+      font-size: 18px; } }
+  @media (min-width: 768px) {
+    .add-recipe-page-heading {
+      margin: 30px 0 35px 0; } }
+  @media (min-width: 992px) {
+    .add-recipe-page-heading {
+      margin: 35px 0 45px 0;
+      font-size: 22px; } }
+  @media (min-width: 1400px) {
+    .add-recipe-page-heading {
+      margin: 40px 0 50px 0;
+      font-size: 25px; } }
 
 .results-page-heading {
   margin: 30px 0 20px 0; }
