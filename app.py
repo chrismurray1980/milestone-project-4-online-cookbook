@@ -512,6 +512,6 @@ def insert_update_db_format( list ):
      
      
 if __name__  ==  '__main__':
-    app.run( host = os.environ.get( 'IP' ) , port = int( os.environ.get( 'PORT' ) ) , debug = True )
+    app.run( host = os.environ.get( 'IP' ) , port = int( os.environ.get( 'PORT' ) ) , debug = False)
     
     
