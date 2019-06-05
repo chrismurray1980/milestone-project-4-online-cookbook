@@ -1,20 +1,21 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 
-{% block title %}
-    Show recipe
-{% endblock %}
+{% block title %} Recipe {% endblock %} 
 
 {% block content_two %}
 <div class="row no-gutters">
-	<div class="col-12 text-align-centre">
-		<h2 class="add-recipe-page-heading">
-			{{recipe.recipeName}} 
-		</h2>
-	</div>
+    <!-- recipe name -->
+    <div class="col-12 text-align-centre">
+        <h2 class="add-recipe-page-heading">
+            {{recipe.recipeName}}
+        </h2>
+    </div>
+    <!-- recipe image -->
     <div class="col-8 offset-2 recipe-image-container">
-        <img class="recipe-image" src={{recipe.recipeImageLink}} alt="Image unavailable"> 
+        <img class="recipe-image" src={{recipe.recipeImageLink}} alt="Image unavailable">
     </div>
 </div>
+<!-- recipe information -->
 <div class="row no-gutters show-recipe-info">
     <div class="col-4 offset-3 recipe-info">
         <p>Author: {{recipe.recipeAuthor}}</p>
@@ -30,6 +31,7 @@
         <p>Likes: {{recipe.recipeUpvotes}}</p>
     </div>
 </div>
+<!-- recipe ingredients and instructions -->
 <div class="row no-gutters show-recipe-info-text">
     <div class="col-3 offset-1 ingredients-container">
         <h4 class="show-recipe-label show-ingredients-label">Ingredients</h4>
@@ -37,15 +39,12 @@
     </div>
     <div class="col-6 offset-1">
         <h4 class="show-recipe-label show-instructions-label">Instructions</h4>
-        <p id="recipeInstructionsDisplay" class ="recipe-info">{{ recipe.recipeInstructions }}</p>
+        <p id="recipeInstructionsDisplay" class="recipe-info">{{ recipe.recipeInstructions }}</p>
     </div>
 </div>
-<div class="button-center">   
-    <a href="{{url_for('edit_delete_recipe', recipe_id=recipe._id)}}" 
-                class="waves-effect waves-light btn btn_small"><button class="btn btn-outline-success" type="button">Edit/delete recipe</button></a>
-    <a href="{{url_for('like_recipe', recipe_id=recipe._id)}}" 
-                class="waves-effect waves-light btn btn_small"><button class="btn btn-outline-info" type="button">Add to favourites</button></a>
+<!-- edit and favourite recipe buttons -->
+<div class="button-center">
+    <a href="{{url_for('edit_delete_recipe', recipe_id=recipe._id)}}" class="waves-effect waves-light btn btn_small"><button class="btn btn-outline-success" type="button">Edit/delete recipe</button></a>
+    <a href="{{url_for('like_recipe', recipe_id=recipe._id)}}" class="waves-effect waves-light btn btn_small"><button class="btn btn-outline-info" type="button">Add to favourites</button></a>
 </div>
-{% endblock %} 
-
-
+{% endblock %}

@@ -36,19 +36,19 @@
                                 </li>
                                 <!-- display links based on user login status-->
                                 {% if current_user.is_authenticated %}
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{url_for('my_recipes')}}">my-recipes</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{url_for('logout')}}">log-out</a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{url_for('my_recipes')}}">my-recipes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{url_for('logout')}}">log-out</a>
+                                </li>
                                 {% else %}
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{url_for('login')}}">log-in</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{url_for('register')}}">register</a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{url_for('login')}}">log-in</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{url_for('register')}}">register</a>
+                                </li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -74,8 +74,8 @@
                 <div class="col-12">{% block content_three %}{% endblock %}</div>
             </div>
             <!-- FOOTER -->
-            <div  id="footer">
-                    &copy; Copyright 2019 by Christopher Murray
+            <div id="footer">
+                &copy; Copyright 2019 by Christopher Murray
             </div>
         </div>
     </div>

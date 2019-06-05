@@ -4,30 +4,30 @@
 
 {% block content_one %}
 <div class="row no-gutters">
-	<div class="col-12 text-align-centre">
-		<h4 class="index-page-heading">
-		  Find a recipe
-		</h4>
-	</div>
+    <div class="col-12 text-align-centre">
+        <h4 class="index-page-heading">
+            Find a recipe
+        </h4>
+    </div>
 </div>
 <!-- TEXT SEARCH -->
 <div class="col-12" id="search-form">
     <div class="row no-gutters search-container">
         <!-- text search form -->
         <div class="col-6 offset-3">
-            <form class="form-inline" action="{{ url_for('search')}}" method="POST" autocomplete="off" id='text-search-form'>
-                <input class="form-control col-12 text-align-centre" type="search" placeholder="Please enter your search" id="search-text-area"name="searchContent" aria-label="Search">
+            <form class="form-inline" action="{{ url_for('search')}}" method="POST" autocomplete="off" id="text-search-form">
+                <input class="form-control col-12 text-align-centre" type="search" placeholder="Please enter your search" id="search-text-area" name="searchContent" aria-label="Search">
             </form>
         </div>
     </div>
     <!-- search button and advanced search toggle button -->
     <div class="col-12 advanced-search-button">
-        <button class="btn btn-outline-success col-3" type="submit" form='text-search-form'>Search</button>
+        <button class="btn btn-outline-success col-3" type="submit" form="text-search-form">Search</button>
         <button class="btn btn-outline-info" id="advanced-search" type="submit">Advanced search</button>
     </div>
 </div>
 <!-- ADVANCED SEARCH -->
-<div class="col-12 search-container hidden" id='advanced-search-form'>
+<div class="col-12 search-container hidden" id="advanced-search-form">
     <!-- toggle text search button -->
     <div class="row no-gutters text-search-button">
         <div class="col-4 offset-4">
@@ -43,7 +43,7 @@
                     <label class="col-10 offset-2 col-form-label" for="cuisine">Cuisine</label>
                     <div class="col-10 offset-2">
                         <select class="form-control cuisine-menu text-align-centre" id="recipeCuisine">
-                            <option value=''>Please select</option>
+                            <option value="">Please select</option>
                         </select>
                     </div>
                     <div class="col-sm-4">
@@ -57,7 +57,7 @@
                     <label class="col-10 col-form-label" for="CountryOfOrigin">Country of origin</label>
                     <div class="col-10">
                         <select class="form-control countryOfOrigin-menu text-align-centre" id="recipeCountryOfOrigin">
-                            <option value=''>Please select</option>
+                            <option value="">Please select</option>
                         </select>
                     </div>
                     <div>
@@ -73,7 +73,7 @@
                     <label class="col-10 offset-2 col-form-label" for="mealtime">Mealtime</label>
                     <div class="col-10 offset-2">
                         <select class="form-control mealtime-menu text-align-centre" id="recipeMealTime">
-                            <option value=''>Please select</option>
+                            <option value="">Please select</option>
                         </select>
                     </div>
                     <div>
@@ -101,7 +101,7 @@
                     <label class="col-10 offset-2 col-form-label" for="difficulty">Difficulty</label>
                     <div class="col-10 offset-2">
                         <select class="form-control difficulty-menu text-align-centre" id="recipeDifficulty">
-                            <option value=''>Please select</option>
+                            <option value="">Please select</option>
                         </select>
                     </div>
                     <div>
@@ -141,7 +141,7 @@
                     <label class="col-10 col-form-label" for="mainIngredient">Main Ingredient</label>
                     <div class="col-10">
                         <select class="form-control mainIngredient-menu text-align-centre" id="recipeMainIngredient">
-                            <option value=''>Please select</option>
+                            <option value="">Please select</option>
                         </select>
                     </div>
                     <div>
@@ -156,11 +156,11 @@
                 <div class="form-group row">
                     <label class="col-10 offset-2 col-form-label" for="Dietary">Dietary</label>
                     <div class="col-10 offset-2 checkbox-text">
-                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegetarian'> Vegetarian<br>
-                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Pescetarian'> Pescetarian<br>
-                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegan'> Vegan<br>
-                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-other'> Dietary-other<br>
-                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-none'> Dietary-none
+                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value="Vegetarian"> Vegetarian<br>
+                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value="Pescetarian"> Pescetarian<br>
+                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value="Vegan"> Vegan<br>
+                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value="Dietary-other"> Dietary-other<br>
+                        <input type="checkbox" name="Dietary" class="dietary-checkbox" value="Dietary-none"> Dietary-none
                     </div>
                     <div>
                         <input type="hidden" class="form-control" name="recipeDietary" placeholder="Please enter dietary requirements">
@@ -172,15 +172,15 @@
                 <div class="form-group row">
                     <label class="col-10 col-form-label" for="Allergen">Allergens</label>
                     <div class="col-10 checkbox-text">
-                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Dairy'> Dairy<br>
-                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Fish'> Fish<br>
-                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Peanuts'> Peanuts<br>
-                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Shellfish'> Shellfish<br>
-                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Soya'> Soya<br>
-                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Tree-Nuts'> Tree-Nuts<br>
-                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Wheat'> Wheat<br>
-                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-other'> Allergen-other<br>
-                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-none'> Allergen-none
+                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Dairy"> Dairy<br>
+                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Fish"> Fish<br>
+                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Peanuts"> Peanuts<br>
+                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Shellfish"> Shellfish<br>
+                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Soya"> Soya<br>
+                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Tree-Nuts"> Tree-Nuts<br>
+                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Wheat"> Wheat<br>
+                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Allergen-other"> Allergen-other<br>
+                        <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Allergen-none"> Allergen-none
                     </div>
                     <div>
                         <input type="hidden" class="form-control" name="recipeAllergen" placeholder="Please enter any allergens present">
@@ -225,14 +225,14 @@
                                 <p>Preparation time: {{recipe.recipePreparationTime}}</p>
                                 <p>Cooking time: {{recipe.recipeCookingTime}}</p>
                             </div>
-                            <div class="col-5 offset-1">
+                            <div class="col-5 offset-1 recipe-info">
                                 <p>Servings: {{recipe.recipeServings}}</p>
                                 <p>Difficulty: {{recipe.recipeDifficulty}}</p>
                                 <p>Mealtime: {{recipe.recipeMealTime}}</p>
                                 <p>Likes: {{recipe.recipeUpvotes}}</p>
                             </div>
                         </div>
-                        <div class='card-button-center'>
+                        <div class="card-button-center">
                             <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">
                                 <button class="btn btn-outline-success">View recipe</button>
                             </a>
@@ -242,7 +242,7 @@
             </div>
             {% endfor %}
         </div>
-        <!-- carousel controls --> 
+        <!-- carousel controls -->
         <a class="carousel-control-prev" href="#recipeIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
@@ -257,19 +257,19 @@
 
 {% block content_three %}
 <!-- toggle show data button-->
-<div class='button-center'>
+<div class="button-center">
     <button id="get_Data" class="btn btn-outline-info">Show recipe data</button>
 </div>
 <!-- RECIPE DATA -->
-<div id="recipe-data-plots" class='hidden'>
+<div id="recipe-data-plots" class="hidden">
     <!-- get recipe documents from db -->
     <div>
         <p id="data" class="hidden">{% for recipe in data %}{{ recipe }}{% endfor %}</p>
     </div>
-    <!-- recipe cuisine chart-->
     <div class="row no-gutters">
+        <!-- recipe cuisine chart-->
         <div class="col-12 col-sm-6 text-align-centre plot-area">
-            <div class="col-12" id='recipe-cuisine-chart'>
+            <div class="col-12" id="recipe-cuisine-chart">
                 <h6>Recipes by cuisine
                     <span>
                         <a class="reset" 
@@ -281,8 +281,9 @@
                 </h6>
             </div>
         </div>
+        <!-- recipe allergen chart-->
         <div class="col-12 col-sm-6 text-align-centre plot-area">
-            <div class="col-12" id='recipe-allergen-chart'>
+            <div class="col-12" id="recipe-allergen-chart">
                 <h6>Recipes by allergen
                     <span>
                         <a class="reset" 
@@ -299,7 +300,7 @@
     <!-- recipe main ingredient chart-->
     <div class="row no-gutters ">
         <div class="col-12 text-align-centre plot-area">
-            <div class="col-12" id='recipe-main-ingredient-chart'>
+            <div class="col-12" id="recipe-main-ingredient-chart">
                 <h6>Recipes by main ingredient
                     <span>
                         <a class="reset" 
@@ -313,10 +314,10 @@
         </div>
     </div>
     <hr width="75%">
-    <!-- recipe dietary chart-->
     <div class="row no-gutters">
+    <!-- recipe dietary chart-->
         <div class="col-12 col-sm-6 text-align-centre plot-area">
-            <div class="col-12" id='recipe-dietary-chart'>
+            <div class="col-12" id="recipe-dietary-chart">
                 <h6>Recipes by dietary requirements
                     <span>
                         <a class="reset" 
@@ -328,8 +329,9 @@
                 </h6>
             </div>
         </div>
+        <!-- recipe country of origin chart-->
         <div class="col-12 col-sm-6 text-align-centre plot-area">
-            <div class="col-12" id='recipe-country-of-origin-chart'>
+            <div class="col-12" id="recipe-country-of-origin-chart">
                 <h6>Recipes by country of origin
                     <span>
                         <a class="reset" 
@@ -346,7 +348,7 @@
     <!-- recipe total time required chart-->
     <div class="row no-gutters">
         <div class="col-12 text-align-centre plot-area">
-            <div class="col-12" id='recipe-total-time-chart'>
+            <div class="col-12" id="recipe-total-time-chart">
                 <h6>Recipes by total time required
                     <span>
                         <a class="reset" 
@@ -360,10 +362,10 @@
         </div>
     </div>
     <hr width="75%">
-    <!-- recipe servings chart-->
     <div class="row no-gutters">
+        <!-- recipe servings chart-->
         <div class="col-12 col-sm-6 text-align-centre plot-area">
-            <div class="col-12" id='recipe-servings-chart'>
+            <div class="col-12" id="recipe-servings-chart">
                 <h6>Recipes by servings
                     <span>
                         <a class="reset" 
@@ -375,8 +377,9 @@
                 </h6>
             </div>
         </div>
+        <!-- recipe difficulty chart-->
         <div class="col-12 col-sm-6 text-align-centre plot-area">
-            <div class="col-12" id='recipe-difficulty-chart'>
+            <div class="col-12" id="recipe-difficulty-chart">
                 <h6>Recipes by difficulty
                     <span>
                         <a class="reset" 
@@ -390,9 +393,9 @@
         </div>
     </div>
     <!-- reset all link-->
-    <div class='button-center'>
+    <div class="button-center">
         <span>
-            <a id='plot-reset' href='javascript:dc.filterAll(); dc.renderAll();'>
+            <a id="plot-reset" href="javascript:dc.filterAll(); dc.renderAll();">
                 Reset all plots
             </a>
         </span>

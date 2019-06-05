@@ -25,7 +25,7 @@ def database_config_setup( filename ):
     return database_config
 
 # Create flask app
-app = Flask(__name__)                                                                  
+app = Flask( __name__ )                                                                  
 
 # Define db name
 app.config[ 'MONGO_DBNAME' ]  = 'onlineCookbook'  
@@ -98,7 +98,6 @@ create_index = recipes_collection.create_index( [ ( '$**' , 'text' ) ] )
 
 """ LOGIN MANAGER """
 
-
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -110,7 +109,6 @@ class User( UserMixin ):
 @login_manager.user_loader
 def load_user( user_id ):
     return User( user_id )
-    
     
 @login_manager.unauthorized_handler
 def unauthorized_callback():
@@ -164,7 +162,6 @@ def search_results( search_content ):
     except:
         print( 'Error accessing database documents' )
 
-
 # Post advanced search values and redirect to search results page
 @app.route( '/advanced_search' , methods = [ 'POST' ] )
 def advanced_search():
@@ -175,12 +172,10 @@ def advanced_search():
     except:
         print( 'Error, could not retrieve advanced search input' )  
 
-
 # Return recipes from db based on advanced search fields 
 @app.route( '/advanced_search_results/<advanced_search_list>' )
 def advanced_search_results(advanced_search_list):
     try:
-        
         advanced_search_list = ast.literal_eval( advanced_search_list )
         # Check if list is not empty and query db for recipes
         if advanced_search_list != []:
@@ -271,22 +266,21 @@ def show_recipe( recipe_id ):
         print( 'Error accessing database documents' )
 
 # Delete specific document 
-
 @app.route( '/delete_recipe/<recipe_id>' )
 def delete_recipe( recipe_id ):
     try:
+        # Delete recipe
         recipes_collection.delete_one( { '_id' : ObjectId( recipe_id ) } )
+        # Remove recipe from user favourites
         users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'favourite_recipes': ObjectId( recipe_id ) } }, upsert = True)
+        # Remove recipe from my recipes
         users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'my_recipes': ObjectId( recipe_id ) } }, upsert = True)
-        
-        
         # Inform user of deletion
         user_session.pop( '_flashes' , None )
         flash( 'Recipe successfully deleted!' )
         return redirect( url_for( 'get_recipes' ) )
     except:
         print( 'Error accessing database documents' )
-
 
 # Add like and document to favourites when button clicked 
 @app.route( '/like_recipe/<recipe_id>' )
@@ -322,13 +316,13 @@ def favourites():
         user_favourites = users_collection.find( {'email': user_session[ 'user' ] }, { 'favourite_recipes' } )
         # Append recipes to favourites list
         for recipe in user_favourites:
-            for recipe_id in recipe['favourite_recipes']:
-                favourites_list.append(recipe_id)
+            for recipe_id in recipe[ 'favourite_recipes' ]:
+                favourites_list.append( recipe_id )
         # Find recipes contained in favpurites list
         recipes=recipes_collection.find( { '_id' : { '$in' : favourites_list } } )
         # Count recipes found
         favourites_count = recipes.count()
-        return render_template( 'favourites.html', recipes=recipes, favourites_count = favourites_count) 
+        return render_template( 'favourites.html', recipes=recipes, favourites_count = favourites_count ) 
     except:
         print( 'Error, could not render favourites view' )
 
@@ -342,8 +336,8 @@ def my_recipes():
         user_my_recipes = users_collection.find( {'email': user_session[ 'user' ] }, { 'my_recipes' } )
         # Append recipes to my_recipes_list
         for recipe in user_my_recipes:
-            for recipe_id in recipe['my_recipes']:
-                my_recipes_list.append(recipe_id)
+            for recipe_id in recipe[ 'my_recipes' ]:
+                my_recipes_list.append( recipe_id )
         # Find recipes from list in collection
         recipes=recipes_collection.find( { '_id' : { '$in' : my_recipes_list } } )
         # Count recipes found
@@ -355,89 +349,98 @@ def my_recipes():
 
 """ USER ROUTES """
 
-# User to login form
+# User login form
 @app.route( '/login' )
 def login():
     return render_template( 'login.html' )
 
-
 # Check user login details from login form
-
 @app.route( '/submit_login' , methods = [ 'POST' ] )
 def submit_login():
-	form = request.form.to_dict()
-	user_in_db = users_collection.find_one( { 'email' : form[ 'email' ] } )
-	user_session.pop( '_flashes' , None )
-	# Check for user in database
-	if user_in_db:
-		# If passwords match 
-		if check_password_hash( user_in_db[ 'password' ] , form[ 'user_password' ] ):
-			# Login user
-			user_obj = User( user_in_db[ '_id' ] )
-			login_user( user_obj )
-			user_session[ 'user' ] = form[ 'email' ]
-			flash( 'You are now logged in!' )
-			next_page = user_session.get( 'next_url' )
-			return redirect( next_page ) if next_page else redirect( url_for( 'get_recipes' ) )
-		else:
-			flash( 'Incorrect login details' )
-			return redirect( url_for( 'login' ) )
-	else:
-		flash( 'No account found with those login details!' )
-		return redirect( url_for( 'register' ) ) 
-
+    try:
+        # Get form data
+    	form = request.form.to_dict()
+    	# Find user in db
+    	user_in_db = users_collection.find_one( { 'email' : form[ 'email' ] } )
+    	user_session.pop( '_flashes' , None )
+    	# Check for user in database
+    	if user_in_db:
+    		# If passwords match 
+    		if check_password_hash( user_in_db[ 'password' ] , form[ 'user_password' ] ):
+    			# Login user
+    			user_obj = User( user_in_db[ '_id' ] )
+    			login_user( user_obj )
+    			user_session[ 'user' ] = form[ 'email' ]
+    			# Notify user of log-in
+    			flash( 'You are now logged in!' )
+    			# Proceed to requested url or index
+    			next_page = user_session.get( 'next_url' )
+    			return redirect( next_page ) if next_page else redirect( url_for( 'get_recipes' ) )
+    		# If passwords don't match
+    		else:
+    			flash( 'Incorrect login details' )
+    			return redirect( url_for( 'login' ) )
+		# if user not in db redirect to register
+    	else:
+    		flash( 'No account found with those login details!' )
+    		return redirect( url_for( 'register' ) ) 
+    except:
+        print( 'Error, could not login user' )
 
 # Register new user
-
-
 @app.route( '/register' , methods = [ 'GET' , 'POST' ] )
 def register():
-    user_session.pop( '_flashes' , None )
-    # Check if user is logged in
-    if 'user' in user_session:
-        flash( 'You are currently signed in!' )
-        return redirect( url_for( 'get_recipes' ) )
-    elif request.method == 'POST':
-        form = request.form.to_dict()
-        # Check if the password and retyped password match
-        if form[ 'user_password' ] == form[ 'retyped_user_password' ]:
-            # find the user in db
-            user = users_collection.find_one( { "username" : form[ 'username' ] } )
-            if user:
-                flash( 'Your account already exists!' )
-                return redirect( url_for( 'login' ) )
-			# If user does not exist register new user
-            else:
-		        # Hash password
-                hash_pass = generate_password_hash( form[ 'user_password' ] )
-				#Create new user with hashed password
-                users_collection.insert_one(
-					{
-						'username': form[ 'username' ],
-						'email': form[ 'email' ],
-						'password': hash_pass,
-						'favourite_recipes':[],
-						'my_recipes':[]
-					}
-				)
-				# Check if user is saved
-                user_in_db = users_collection.find_one( { "username": form[ 'username' ] } )
-                if user_in_db:
-					# Log user in (add to session)
-                    user_session[ 'user' ] = user_in_db[ 'username' ]
-                    flash( 'You have successfully registered, please login to access site features' )
+    try:
+        user_session.pop( '_flashes' , None )
+        # Check if user is logged in
+        if 'user' in user_session:
+            flash( 'You are currently signed in!' )
+            return redirect( url_for( 'get_recipes' ) )
+        # if user not logged in
+        elif request.method == 'POST':
+            form = request.form.to_dict()
+            # Check if the password and retyped password match
+            if form[ 'user_password' ] == form[ 'retyped_user_password' ]:
+                # find the user in db
+                user = users_collection.find_one( { 'username' : form[ 'username' ] } )
+                # If user in db
+                if user:
+                    flash( 'Your account already exists!' )
                     return redirect( url_for( 'login' ) )
+    			# If user does not exist, register new user
                 else:
-                    flash( 'There was a problem saving your profile' )
-                    return redirect( url_for( 'register' ) )
-        else:
-            flash( 'Passwords do not match!' )
-            return redirect( url_for( 'register' ) )
-    return render_template( 'register.html' )
-	
+    		        # Hash password
+                    hash_pass = generate_password_hash( form[ 'user_password' ] )
+    				#Create new user with hashed password
+                    users_collection.insert_one(
+    					{
+    						'username': form[ 'username' ],
+    						'email': form[ 'email' ],
+    						'password': hash_pass,
+    						'favourite_recipes':[],
+    						'my_recipes':[]
+    					}
+    				)
+    				# Check if user is saved
+                    user_in_db = users_collection.find_one( { 'username': form[ 'username' ] } )
+                    if user_in_db:
+    					# Redirect user to log-in
+                        user_session[ 'user' ] = user_in_db[ 'username' ]
+                        flash( 'You have successfully registered, please login to access site features' )
+                        return redirect( url_for( 'login' ) )
+                    # if user not saved
+                    else:
+                        flash( 'There was a problem saving your profile' )
+                        return redirect( url_for( 'register' ) )
+            # If passwords don't match
+            else:
+                flash( 'Passwords do not match!' )
+                return redirect( url_for( 'register' ) )
+        return render_template( 'register.html' )
+    except:
+        print( 'Error, could not login user' )	
 
 # Log out user
-
 @app.route( '/logout' )
 def logout():
 	# Clear user session
@@ -448,25 +451,22 @@ def logout():
 
 """ ASSISTING VARIABLES AND FUNCTIONS """
 
-
+# Recipe field list
 field_list = [ 'recipeEmail', 'recipeUpvotes', 'recipeName', 'recipeAuthor', 'recipeIngredients', 'recipeInstructions', 'recipeImageLink', 
                'recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', 'recipeServings', 'recipeDifficulty', 'recipePreparationTime', 
                'recipeCookingTime', 'recipeAllergen', 'recipeDietary', 'recipeMainIngredient' ]
   
-
-        
 # Ensure uploaded image type is of allowed type
-	
 def allowed_file( filename ):
     return '.' in filename and filename.rsplit( '.' , 1 )[ 1 ].lower() in set( [  'png' , 'jpg' , 'jpeg' ] )
 
-
 # Obtain input values for select boxes and append to list for advanced search query 
-
 def advanced_search_query_formatting( list ):
     search_list = []
     for value in list:
+        # If form value is not empty
         if request.form[ value ] != '':
+            # For checkbox inputs
             if value == 'recipeAllergen' or value == 'recipeDietary':
                 value_text = request.form[ value ]
                 value_split_text = value_text.split( ', ' )
@@ -474,28 +474,33 @@ def advanced_search_query_formatting( list ):
                 for i in value_split_text:
                     search_subset.append( i )
                 search_list.append( { value : { '$in' : search_subset } } )  
+            # For numeric inputs
             elif value == 'recipePreparationTime' or value == 'recipeCookingTime' or value == 'recipeServings':
                 if request.form[ value ].isdigit() == True:
                     search_list.append( { value: { '$lte' : int( request.form[ value ] ) } } )
+            # For everything else
             else:
                 search_list.append( { value : request.form[ value ] } )
     return search_list
 
 
 # Construct format of insert or update to be sent to db 
-
 def insert_update_db_format( list ):
     field_input_dict = {}
     for field in list:
+        # For checkbox inputs
         if field == 'recipeAllergen' or field == 'recipeDietary':
             field_value = request.form[ field ]
             field_value = request.form[ field ] if field_value != '' else 'None'
             field_input_dict[ field ] = field_value.split( ',' )
+        # For numeric inputs
         elif field == 'recipePreparationTime' or field == 'recipeCookingTime' or field == 'recipeServings':
             field_value = request.form[ field ]
             field_input_dict[ field ] = int( field_value ) if field_value.isdigit() == True else 0
+        # For recipe likes
         elif field == 'recipeUpvotes' in list:
             field_input_dict[ field ] = 0
+        # For recipe images
         elif field == 'recipeImageLink':
             file = request.files[ 'file' ]
             if file != '' and allowed_file( file.filename ):
@@ -504,13 +509,15 @@ def insert_update_db_format( list ):
                 file = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
                 s3_upload.upload_file( app.config[ 'UPLOAD_FOLDER' ] + filename, app.config[ 'S3_BUCKET' ] , filename )
                 field_input_dict[ field ] = '/' + os.path.join( app.config[ 'UPLOAD_FOLDER' ] , filename )
+        # Add user email to document to be inserted
         elif field == 'recipeEmail':
             field_input_dict[ field ]= user_session[ 'user' ]
+        # For all other inputs
         else:
             field_input_dict[ field ] = request.form[ field ]
     return field_input_dict         
-     
-     
+
+# Run application
 if __name__  ==  '__main__':
     app.run( host = os.environ.get( 'IP' ) , port = int( os.environ.get( 'PORT' ) ) , debug = False)
     

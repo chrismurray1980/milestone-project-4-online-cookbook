@@ -1,55 +1,56 @@
 {% extends "base.html" %} 
+
 {% block title %} Search results {% endblock %} 
 
 {% block content_two %}
-
+<!-- recipe count -->
 <div class="row no-gutters">
-	<div class="col-12 text-align-centre">
+    <div class="col-12 text-align-centre">
         {% if recipes_count != 1 %}
-            <h4 class="add-recipe-page-heading"> Your search returned {{recipes_count}} recipes</h4>
+        <h4 class="add-recipe-page-heading"> Your search returned {{recipes_count}} recipes</h4>
         {% else %}
-            <h4 class="add-recipe-page-heading"> Your search returned {{recipes_count}} recipe</h4>
+        <h4 class="add-recipe-page-heading"> Your search returned {{recipes_count}} recipe</h4>
         {% endif %}
     </div>
 </div>
+<!-- RECIPE CARD -->
 <div class="row no-gutters">
-{% for recipe in recipes %}
-
+    {% for recipe in recipes %}
     <div class="col-12 search-results-container">
-    <div class="col-10 offset-1 card">
-        <img class="card-img-top img-fluid image-card" src={{recipe.recipeImageLink}} alt="Image unavailable">
-        <div class="card-body">
-            <h4 class="text-align-centre">{{recipe.recipeName }}</h4>
-            <div class="row no-gutters show-recipe-info">
-                <div class="col-5 offset-1">
-                    <p>Author: {{recipe.recipeAuthor}}</p>
-                    <p>Cuisine: {{recipe.recipeCuisine}}</p>
-                    <p>Preparation time: {{recipe.recipePreparationTime}}</p>
-                    <p>Cooking time: {{recipe.recipeCookingTime}}</p>
+        <div class="col-10 offset-1 card">
+            <img class="card-img-top img-fluid image-card" src={{recipe.recipeImageLink}} alt="Image unavailable">
+            <div class="card-body">
+                <h4 class="text-align-centre">{{recipe.recipeName }}</h4>
+                <div class="row no-gutters show-recipe-info">
+                    <div class="col-5 offset-1">
+                        <p>Author: {{recipe.recipeAuthor}}</p>
+                        <p>Cuisine: {{recipe.recipeCuisine}}</p>
+                        <p>Preparation time: {{recipe.recipePreparationTime}}</p>
+                        <p>Cooking time: {{recipe.recipeCookingTime}}</p>
+                    </div>
+                    <div class="col-5 offset-1">
+                        <p>Servings: {{recipe.recipeServings}}</p>
+                        <p>Difficulty: {{recipe.recipeDifficulty}}</p>
+                        <p>Mealtime: {{recipe.recipeMealTime}}</p>
+                        <p>Likes: {{recipe.recipeUpvotes}}</p>
+                    </div>
                 </div>
-                <div class="col-5 offset-1">
-                    <p>Servings: {{recipe.recipeServings}}</p>
-                    <p>Difficulty: {{recipe.recipeDifficulty}}</p>
-                    <p>Mealtime: {{recipe.recipeMealTime}}</p>
-                    <p>Likes: {{recipe.recipeUpvotes}}</p>
-                </div>
-            </div>
-            <div class='button-center'>
-                <a href="{{url_for('edit_delete_recipe', recipe_id=recipe._id)}}">
+                <div class="button-center">
+                    <a href="{{url_for('edit_delete_recipe', recipe_id=recipe._id)}}">
                     <button class="btn btn-outline-info my-2 my-sm-0">Edit/delete recipe</button>
                 </a>
-                <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">
+                    <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">
                     <button class="btn btn-outline-success my-2 my-sm-0">View recipe</button>
                 </a>
+                </div>
             </div>
         </div>
     </div>
+    {% else %}
+    <!-- inform user that no recipes found -->
+    <div class="col-10 offset-1 text-align-centre">
+        <h4 class="add-recipe-page-heading"> Sorry, no recipes were found that match your criteria.</h4>
     </div>
-
-{% else %}
-<div class='col-10 offset-1 text-align-centre'>
-<h4 class="add-recipe-page-heading"> Sorry, no recipes were found that match your criteria.</h4>
+    {% endfor %}
 </div>
-{% endfor %}
- </div> 
 {% endblock %}

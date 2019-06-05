@@ -1,14 +1,20 @@
+
+""" MODULE IMPORT """
+
 from flask_login import UserMixin
-from ming import Document, Field, schema, Session
-from ming.odm import Mapper
+from ming        import Document, Field, schema, Session
+from ming.odm    import Mapper
     
+# Create db session    
 session = Session()
 
+""" SCHEMA CREATION """
+
+# Create recipe schema
 class recipes(Document):
     class __mongometa__:
         session = session
         name = 'recipe'
-
     _id = Field(schema.ObjectId)
     recipeName = Field(schema.String)
     recipeAuthor = Field(schema.String)
@@ -27,12 +33,12 @@ class recipes(Document):
     recipeUpvotes = Field(int)
     recipeImageLink = Field(schema.String)
     recipeEmail = Field(schema.String)
-    
+
+# Create user schema   
 class users(UserMixin, Document):
     class __mongometa__:
         session = session
         name = 'user'
-
     _id = Field(schema.ObjectId)
     user_name = Field(str)
     email = Field(str)
@@ -40,4 +46,5 @@ class users(UserMixin, Document):
     favourite_recipes = Field(schema.Array(str))
     my_recipes = Field(schema.Array(str))
 
+# Compile schemas
 Mapper.compile_all()

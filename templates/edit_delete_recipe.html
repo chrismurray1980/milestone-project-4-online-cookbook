@@ -1,24 +1,33 @@
-{% extends "base.html" %} {% block title %} Edit/delete recipe {% endblock %} {% block content_two %}
+{% extends "base.html" %} 
+
+{% block title %} Edit/delete recipe {% endblock %} 
+
+{% block content_two %}
+<!-- page title -->
 <div class="row no-gutters">
-	<div class="col-12 text-align-centre">
-		<h4 class="add-recipe-page-heading">
-			Please edit your recipe here
-		</h4>
-	</div>
+    <div class="col-12 text-align-centre">
+        <h4 class="add-recipe-page-heading">
+            Please edit your recipe here
+        </h4>
+    </div>
 </div>
-<form action="{{ url_for('update_recipe', recipe_id=recipe._id) }}" method="POST" autocomplete="off" id='edit_delete_form' enctype = "multipart/form-data">
-        <div class="form-group row">
+<!-- UPDATE RECIPE FORM -->
+<form action="{{ url_for('update_recipe', recipe_id=recipe._id) }}" method="POST" autocomplete="off" id="edit_delete_form" enctype="multipart/form-data">
+    <!-- recipe name -->
+    <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="name">Recipe name:</label>
         <div class="col-5">
             <input type="text" class="form-control text-align-centre" name="recipeName" placeholder="Please enter recipe name" value="{{recipe.recipeName}}">
         </div>
     </div>
+    <!-- recipe author -->
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="author">Recipe author:</label>
         <div class="col-5">
             <input type="text" class="form-control text-align-centre" name="recipeAuthor" placeholder="Please enter recipe author" value="{{recipe.recipeAuthor}}">
         </div>
     </div>
+    <!-- recipe cuisine -->
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="cuisine">Cuisine</label>
         <div class="col-5">
@@ -28,6 +37,7 @@
         </div>
         <input type="hidden" class="form-control" name="recipeCuisine" value="{{recipe.recipeCuisine}}">
     </div>
+    <!-- recipe country of origin -->
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="CountryOfOrigin">Country of origin:</label>
         <div class="col-5">
@@ -37,6 +47,7 @@
         </div>
         <input type="hidden" class="form-control" name="recipeCountryOfOrigin" value="{{recipe.recipeCountryOfOrigin}}">
     </div>
+    <!-- recipe mealtime -->
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="mealtime">Mealtime:</label>
         <div class="col-5">
@@ -46,13 +57,15 @@
         </div>
         <input type="hidden" class="form-control" name="recipeMealTime" value="{{recipe.recipeMealTime}}">
     </div>
+    <!-- recipe servings -->
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="servings">Servings:</label>
         <div class="col-5">
-            <input type="number" class="form-control text-align-centre"  id="recipeServings" placeholder="Please select" min="0" max="20">
+            <input type="number" class="form-control text-align-centre" id="recipeServings" placeholder="Please select" min="0" max="20">
         </div>
         <input type="hidden" class="form-control" name="recipeServings" value="{{recipe.recipeServings}}">
     </div>
+    <!-- recipe difficulty -->
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="difficulty">Difficulty:</label>
         <div class="col-5">
@@ -60,22 +73,25 @@
               <option>Please select</option>
             </select>
         </div>
-        <input type="hidden" class="form-control"  name="recipeDifficulty" value="{{recipe.recipeDifficulty}}">
+        <input type="hidden" class="form-control" name="recipeDifficulty" value="{{recipe.recipeDifficulty}}">
     </div>
+    <!-- recipe preparation time -->
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="preparationtime">Preparation time:</label>
         <div class="col-5">
-            <input type="number" class="form-control text-align-centre"  id="recipePreparationTime" placeholder="Please select" min="0" max="200" step="5">
+            <input type="number" class="form-control text-align-centre" id="recipePreparationTime" placeholder="Please select" min="0" max="200" step="5">
         </div>
-        <input type="hidden" class="form-control"  name="recipePreparationTime" value="{{recipe.recipePreparationTime}}">
+        <input type="hidden" class="form-control" name="recipePreparationTime" value="{{recipe.recipePreparationTime}}">
     </div>
+    <!-- recipe cooking time -->
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="cookingtime">Cooking time:</label>
         <div class="col-5">
-            <input type="number" class="form-control text-align-centre"  id="recipeCookingTime" placeholder="Please select" min="0" max="200" step="5">
+            <input type="number" class="form-control text-align-centre" id="recipeCookingTime" placeholder="Please select" min="0" max="200" step="5">
         </div>
-        <input type="hidden" class="form-control"  name="recipeCookingTime" value="{{recipe.recipeCookingTime}}">
+        <input type="hidden" class="form-control" name="recipeCookingTime" value="{{recipe.recipeCookingTime}}">
     </div>
+    <!-- recipe main ingredient -->
     <div class="form-group row">
         <label class="col-3 offset-2 col-form-label" for="mainIngredient">Main Ingredient:</label>
         <div class="col-5">
@@ -83,7 +99,7 @@
               <option>Please select</option>
             </select>
         </div>
-        <input type="hidden" class="form-control"  name="recipeMainIngredient" value="{{recipe.recipeMainIngredient}}">
+        <input type="hidden" class="form-control" name="recipeMainIngredient" value="{{recipe.recipeMainIngredient}}">
     </div>
     <div class="form-group row">
         <!-- dietary input -->
@@ -91,11 +107,11 @@
             <div class="form-group row">
                 <label class="col-10 col-form-label dietary-allergen-label" for="Dietary">Dietary:</label>
                 <div class="col-12 checkbox-text">
-                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegetarian'> Vegetarian<br>
-                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Pescetarian'> Pescetarian<br>
-                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegan'> Vegan<br>
-                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-other'> Dietary-other<br>
-                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Dietary-none'> Dietary-none
+                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value="Vegetarian"> Vegetarian<br>
+                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value="Pescetarian"> Pescetarian<br>
+                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value="Vegan"> Vegan<br>
+                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value="Dietary-other"> Dietary-other<br>
+                    <input type="checkbox" name="Dietary" class="dietary-checkbox" value="Dietary-none"> Dietary-none
                 </div>
                 <div>
                     <input type="hidden" class="form-control" name="recipeDietary" value="{{recipe.recipeDietary|join(',')}}">
@@ -107,15 +123,15 @@
             <div class="form-group row">
                 <label class="col-10 col-form-label dietary-allergen-label" for="Allergen">Allergens:</label>
                 <div class="col-12 checkbox-text">
-                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Dairy'> Dairy<br>
-                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Fish'> Fish<br>
-                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Peanuts'> Peanuts<br>
-                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Shellfish'> Shellfish<br>
-                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Soya'> Soya<br>
-                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Tree-Nuts'> Tree-Nuts<br>
-                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Wheat'> Wheat<br>
-                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-other'> Allergen-other<br>
-                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Allergen-none'> Allergen-none
+                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Dairy"> Dairy<br>
+                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Fish"> Fish<br>
+                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Peanuts"> Peanuts<br>
+                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Shellfish"> Shellfish<br>
+                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Soya"> Soya<br>
+                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Tree-Nuts"> Tree-Nuts<br>
+                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Wheat"> Wheat<br>
+                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Allergen-other"> Allergen-other<br>
+                    <input type="checkbox" name="Allergen" class="allergen-checkbox" value="Allergen-none"> Allergen-none
                 </div>
                 <div>
                     <input type="hidden" class="form-control" name="recipeAllergen" value="{{recipe.recipeAllergen|join(',')}}">
@@ -124,15 +140,16 @@
         </div>
     </div>
     <hr width=75%>
-        <div class="form-group row recipe-ingredients">
+    <!-- add recipe ingredients -->
+    <div class="form-group row recipe-ingredients">
         <div class="col-12 text-align-centre">
             <h5 class="add-recipe-page-heading"> Add ingredients</h5>
         </div>
-        <div class="col-10 offset-1 add-recipe-ingredients text-align-centre"></div> 
-        <div class='col-12 button-center'>
+        <div class="col-10 offset-1 add-recipe-ingredients text-align-centre"></div>
+        <div class="col-12 button-center">
             <button class="btn btn-outline-info my-2 my-sm-0 add-ingredient-button" type="button">Add ingredient</button>
         </div>
-        <div class='col-12 button-center ingredient-confirm-button hidden'>
+        <div class="col-12 button-center ingredient-confirm-button hidden">
             <h6 class="confirm-button-margin">Please confirm ingredients:</h6>
             <button class="btn btn-outline-success" type="button">Confirm ingredients</button>
         </div>
@@ -141,6 +158,7 @@
         </textarea>
     </div>
     <hr width=75%>
+    <!-- add recipe instructions -->
     <div class="form-group row recipe-instructions">
         <div class="col-12 text-align-centre">
             <h5 class="add-recipe-page-heading"> Add instructions</h5>
@@ -149,48 +167,50 @@
         <div class="col-12 button-center">
             <button class="btn btn-outline-info my-2 my-sm-0 add-instruction-button" type="button">Add instruction</button>
         </div>
-        <div class='col-12 button-center instruction-confirm-button hidden'>
+        <div class="col-12 button-center instruction-confirm-button hidden">
             <h6 class="button-margin">Please confirm instructions:</h6>
             <button class="btn btn-outline-success" type="button">Confirm instructions</button>
         </div>
         <textarea class="form-control hidden" name="recipeInstructions" rows="3" placeholder="Please enter recipe instructions">{{recipe.recipeInstructions}}</textarea>
     </div>
     <hr width=75%>
+    <!-- add recipe image -->
     <div class="form-group row">
         <div class="col-12 text-align-centre">
             <h5 class="add-recipe-page-heading"> Add recipe image</h5>
         </div>
         <div class="col-10 offset-1 text-align-centre image_margin">
-            <input class="col-12 text-align-centre" type = "file" name = "file" / >
+            <input class="col-12 text-align-centre" type="file" name="file" />
         </div>
         <div class="col-12 text-align-centre">
             <h5 class="add-recipe-page-heading"> Current recipe image</h5>
         </div>
         <div class="col-10 offset-1 text-align-centre image_margin">
-            <input type="hidden" class="col-6 offset-3 form-control text-align-centre" name="recipeImageLink" placeholder="Please enter recipe image" value = {{recipe.recipeImageLink}}>
+            <input type="hidden" class="col-6 offset-3 form-control text-align-centre" name="recipeImageLink" placeholder="Please enter recipe image" value={ {recipe.recipeImageLink}}>
             <p id="displayed-image-link">{{recipe.recipeImageLink}}</p>
         </div>
     </div>
 </form>
 <hr width=75%>
+<!-- UPDATE RECIPE BUTTON -->
 <div class="row no-gutters">
     <div class="col-12 text-align-centre">
-        <h5 class="add-recipe-page-heading"> 
+        <h5 class="add-recipe-page-heading">
             Update recipe
         </h5>
     </div>
 </div>
-    <div class="update-button-center">
-        <button type="submit" class="btn btn-outline-success btn-lg recipe_button" id="update-recipe-submit" form = 'edit_delete_form'>Update recipe</button>
-    </div>
-
+<div class="update-button-center">
+    <button type="submit" class="btn btn-outline-success btn-lg recipe_button" id="update-recipe-submit" form="edit_delete_form">Update recipe</button>
+</div>
 <hr width=75%>
+<!-- DELETE RECIPE BUTTON -->
 <div class="row no-gutters">
-	<div class="col-12 text-align-centre">
-		<h5 class="add-recipe-page-heading">
-			Please delete your recipe here
-		</h5>
-	</div>
+    <div class="col-12 text-align-centre">
+        <h5 class="add-recipe-page-heading">
+            Please delete your recipe here
+        </h5>
+    </div>
 </div>
 <div class="col-12 update-button-center">
     <a id="delete-recipe-button" class="col-sm-2 offset-1" href="{{url_for('delete_recipe', recipe_id=recipe._id)}}"><button type="submit" class="btn btn-outline-danger btn-lg recipe_button" id="delete-recipe-submit">Delete recipe</button></a>
