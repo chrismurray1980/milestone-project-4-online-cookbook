@@ -90,7 +90,7 @@
         <div class="col-4 offset-2">
             <div class="form-group row">
                 <label class="col-10 col-form-label dietary-allergen-label" for="Dietary">Dietary:</label>
-                <div class="col-10 offset-1">
+                <div class="col-12 checkbox-text">
                     <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegetarian'> Vegetarian<br>
                     <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Pescetarian'> Pescetarian<br>
                     <input type="checkbox" name="Dietary" class="dietary-checkbox" value='Vegan'> Vegan<br>
@@ -106,7 +106,7 @@
         <div class="col-4">
             <div class="form-group row">
                 <label class="col-10 col-form-label dietary-allergen-label" for="Allergen">Allergens:</label>
-                <div class="col-10 offset-1">
+                <div class="col-12 checkbox-text">
                     <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Dairy'> Dairy<br>
                     <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Fish'> Fish<br>
                     <input type="checkbox" name="Allergen" class="allergen-checkbox" value='Peanuts'> Peanuts<br>
@@ -126,14 +126,14 @@
     <hr width=75%>
         <div class="form-group row recipe-ingredients">
         <div class="col-12 text-align-centre">
-            <h5> Ingredients</h5>
+            <h5 class="add-recipe-page-heading"> Add ingredients</h5>
         </div>
         <div class="col-10 offset-1 add-recipe-ingredients text-align-centre"></div> 
         <div class='col-12 button-center'>
             <button class="btn btn-outline-info my-2 my-sm-0 add-ingredient-button" type="button">Add ingredient</button>
         </div>
         <div class='col-12 button-center ingredient-confirm-button hidden'>
-            <h6 class="button-margin">Please confirm ingredients:</h6>
+            <h6 class="confirm-button-margin">Please confirm ingredients:</h6>
             <button class="btn btn-outline-success" type="button">Confirm ingredients</button>
         </div>
         <textarea class="form-control hidden" name="recipeIngredients" rows="3" placeholder="Please enter recipe ingredients">
@@ -143,7 +143,7 @@
     <hr width=75%>
     <div class="form-group row recipe-instructions">
         <div class="col-12 text-align-centre">
-            <h5> Add instructions</h5>
+            <h5 class="add-recipe-page-heading"> Add instructions</h5>
         </div>
         <div class="col-10 offset-1 add-recipe-instructions text-align-centre"></div>
         <div class="col-12 button-center">
@@ -158,13 +158,13 @@
     <hr width=75%>
     <div class="form-group row">
         <div class="col-12 text-align-centre">
-            <h5> Add recipe image</h5>
+            <h5 class="add-recipe-page-heading"> Add recipe image</h5>
         </div>
         <div class="col-10 offset-1 text-align-centre image_margin">
             <input class="col-12 text-align-centre" type = "file" name = "file" / >
         </div>
         <div class="col-12 text-align-centre">
-            <h5> Current recipe image</h5>
+            <h5 class="add-recipe-page-heading"> Current recipe image</h5>
         </div>
         <div class="col-10 offset-1 text-align-centre image_margin">
             <input type="hidden" class="col-6 offset-3 form-control text-align-centre" name="recipeImageLink" placeholder="Please enter recipe image" value = {{recipe.recipeImageLink}}>
@@ -173,18 +173,26 @@
     </div>
 </form>
 <hr width=75%>
-<div class="button-center">
-    <button type="submit" class="btn btn-outline-success btn-lg recipe_button" id="update-recipe-submit" form = 'edit_delete_form'>Update recipe</button>
+<div class="row no-gutters">
+    <div class="col-12 text-align-centre">
+        <h5 class="add-recipe-page-heading"> 
+            Update recipe
+        </h5>
+    </div>
 </div>
+    <div class="update-button-center">
+        <button type="submit" class="btn btn-outline-success btn-lg recipe_button" id="update-recipe-submit" form = 'edit_delete_form'>Update recipe</button>
+    </div>
+
 <hr width=75%>
 <div class="row no-gutters">
 	<div class="col-12 text-align-centre">
-		<h4 class="add-recipe-page-heading">
+		<h5 class="add-recipe-page-heading">
 			Please delete your recipe here
-		</h4>
+		</h5>
 	</div>
 </div>
-<div class="button-center">
-    <a id="delete-recipe-button" class="col-sm-2 offset-1 " href="{{url_for('delete_recipe', recipe_id=recipe._id)}}"><button type="submit" class="btn btn-outline-danger btn-lg recipe_button" id="delete-recipe-submit">Delete recipe</button></a>
+<div class="col-12 update-button-center">
+    <a id="delete-recipe-button" class="col-sm-2 offset-1" href="{{url_for('delete_recipe', recipe_id=recipe._id)}}"><button type="submit" class="btn btn-outline-danger btn-lg recipe_button" id="delete-recipe-submit">Delete recipe</button></a>
 </div>
 {% endblock %}

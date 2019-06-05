@@ -2,19 +2,13 @@
 {% block title %} Search results {% endblock %} 
 
 {% block content_two %}
-<div class="row no-gutters">
-	<div class="col-12 text-align-centre">
-		<h4 class="results-page-heading">
-			Search results
-		</h4>
-	</div>
-</div>
+
 <div class="row no-gutters">
 	<div class="col-12 text-align-centre">
         {% if recipes_count != 1 %}
-            <h5> Your search returned {{recipes_count}} recipes</h4>
+            <h4 class="add-recipe-page-heading"> Your search returned {{recipes_count}} recipes</h4>
         {% else %}
-            <h5> Your search returned {{recipes_count}} recipe</h4>
+            <h4 class="add-recipe-page-heading"> Your search returned {{recipes_count}} recipe</h4>
         {% endif %}
     </div>
 </div>
@@ -27,13 +21,13 @@
         <div class="card-body">
             <h4 class="text-align-centre">{{recipe.recipeName }}</h4>
             <div class="row no-gutters show-recipe-info">
-                <div class="col-5 offset-1 recipe-info">
+                <div class="col-5 offset-1">
                     <p>Author: {{recipe.recipeAuthor}}</p>
                     <p>Cuisine: {{recipe.recipeCuisine}}</p>
                     <p>Preparation time: {{recipe.recipePreparationTime}}</p>
                     <p>Cooking time: {{recipe.recipeCookingTime}}</p>
                 </div>
-                <div class="col-5 offset-1 recipe-info">
+                <div class="col-5 offset-1">
                     <p>Servings: {{recipe.recipeServings}}</p>
                     <p>Difficulty: {{recipe.recipeDifficulty}}</p>
                     <p>Mealtime: {{recipe.recipeMealTime}}</p>
@@ -53,8 +47,8 @@
     </div>
 
 {% else %}
-<div class='col-12 text-align-centre'>
-    <h5>Sorry, no recipes were found that match your criteria.</h5>
+<div class='col-10 offset-1 text-align-centre'>
+<h4 class="add-recipe-page-heading"> Sorry, no recipes were found that match your criteria.</h4>
 </div>
 {% endfor %}
  </div> 

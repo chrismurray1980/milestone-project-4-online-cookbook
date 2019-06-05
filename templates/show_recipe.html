@@ -16,14 +16,14 @@
     </div>
 </div>
 <div class="row no-gutters show-recipe-info">
-    <div class="col-4 offset-2 recipe-info">
+    <div class="col-4 offset-3 recipe-info">
         <p>Author: {{recipe.recipeAuthor}}</p>
         <p>Cuisine: {{recipe.recipeCuisine}}</p>
         <p>Preparation time: {{recipe.recipePreparationTime}}</p>
         <p>Cooking time: {{recipe.recipeCookingTime}}</p>
         <p>Ingredient: {{recipe.recipeMainIngredient}}</p>
     </div>
-    <div class="col-4 offset-1 recipe-info">
+    <div class="col-4 recipe-info">
         <p>Servings: {{recipe.recipeServings}}</p>
         <p>Difficulty: {{recipe.recipeDifficulty}}</p>
         <p>Mealtime: {{recipe.recipeMealTime}}</p>
@@ -31,13 +31,13 @@
     </div>
 </div>
 <div class="row no-gutters show-recipe-info-text">
-    <div class="col-3 offset-1">
-        <h4>Ingredients</h4>
-        <p id="recipeIngredientsDisplay" class="ingredients">{{recipe.recipeIngredients}}</p>
+    <div class="col-3 offset-1 ingredients-container">
+        <h4 class="show-recipe-label show-ingredients-label">Ingredients</h4>
+        <p id="recipeIngredientsDisplay" class="recipe-info ingredients-margin">{{recipe.recipeIngredients}}</p>
     </div>
     <div class="col-6 offset-1">
-        <h4>Instructions</h4>
-        <p id="recipeInstructionsDisplay" class ="instructions">{{ recipe.recipeInstructions }}</p>
+        <h4 class="show-recipe-label show-instructions-label">Instructions</h4>
+        <p id="recipeInstructionsDisplay" class ="recipe-info">{{ recipe.recipeInstructions }}</p>
     </div>
 </div>
 <div class="button-center">   
