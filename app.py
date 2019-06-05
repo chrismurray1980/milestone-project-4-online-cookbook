@@ -7,6 +7,7 @@ import boto3
 import botocore
 from flask              import Flask, render_template, redirect, request, url_for, jsonify, session as user_session, flash
 from flask_login        import LoginManager, login_required, current_user, login_user, logout_user, UserMixin, confirm_login, fresh_login_required
+from flask_talisman     import Talisman
 from bson.objectid      import ObjectId
 from bson.json_util     import dumps 
 from ming               import mim, create_datastore
@@ -26,6 +27,9 @@ def database_config_setup( filename ):
 
 # Create flask app
 app = Flask( __name__ )                                                                  
+
+# Add security headers to app
+Talisman()
 
 # Define db name
 app.config[ 'MONGO_DBNAME' ]  = 'onlineCookbook'  
