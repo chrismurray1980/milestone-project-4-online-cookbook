@@ -196,6 +196,19 @@ def advanced_search_results(advanced_search_list):
     except:
         print( 'Error accessing database documents' )
 
+# Return all recipes to user on browse all recipes button click
+@app.route( '/browse_all_recipes' )
+def browse_all_recipes():
+    try:
+        #find all recipes based on number of likes
+        recipes = recipes_collection.find().sort( [ ( 'recipeUpvotes' , -1 ) ] ).sort( [ ( 'recipeUpvotes' , -1 ) ] )
+        # Count recipes found
+        recipes_count = recipes.count()
+        return render_template( 'search_results.html' , recipes = recipes , recipes_count = recipes_count )
+    except:
+        print( 'Error accessing database documents' )
+
+
 # Display add recipe page 
 @app.route( '/add_recipe' )
 @login_required
@@ -216,11 +229,13 @@ def insert_recipe():
         # Find recipe inserted
         recipe = recipes_collection.find_one( { '_id' : ObjectId( new_recipe.inserted_id ) } )
         # Add inserted recipe to user document 
-        users_collection.update({ 'email': user_session[ 'user' ] },{ '$addToSet': { 'my_recipes': ObjectId( recipe['_id'] ) } }, upsert = True)
+        users_collection.update({ 'email': user_session[ 'user' ] },{ '$addToSet': { 'myRecipes': ObjectId( recipe['_id'] ) } }, upsert = True)
+        # Find recipe in user my_recipes
+        user_my_recipes = users_collection.find( { 'email': user_session[ 'user' ], 'myRecipes': ObjectId( recipe['_id'] ) } )
         # Notify user
         user_session.pop( '_flashes' , None )
         flash( 'Recipe successfully added and can be viewed in the my-recipes link!' )
-        return  render_template( 'show_recipe.html' , recipe = recipe )
+        return  render_template( 'show_recipe.html' , recipe = recipe, user_my_recipes_count = user_my_recipes.count() )
     except:
         print( 'Error writing database document' )
 
@@ -232,13 +247,13 @@ def edit_delete_recipe( recipe_id ):
         # Find recipe document
         recipe = recipes_collection.find_one( { '_id' : ObjectId (recipe_id ) } )
         # Check if current user is recipe author
-        if recipe['recipeEmail'] == user_session['user']:
+        if recipe[ 'recipeEmail' ] == user_session[ 'user' ]:
             return render_template( 'edit_delete_recipe.html' , recipe = recipe )
         # If not, inform user and return to home page
         else: 
             user_session.pop( '_flashes' , None )
-            flash('You are not authorised to edit this recipe')
-            return redirect(url_for( 'get_recipes'))
+            flash( 'You are not authorised to edit this recipe' )
+            return redirect( url_for( 'get_recipes' ) )
     except:
         print( 'Error accessing database documents' )
 
@@ -252,10 +267,12 @@ def update_recipe( recipe_id ):
         recipes_collection.update_one( { '_id' : ObjectId( recipe_id ) } , { '$set' : update_fields }, upsert = True )
         # Find updated recipe
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
+        # Find recipe in user my_recipes
+        user_my_recipes = users_collection.find( { 'email': user_session[ 'user' ], 'myRecipes': ObjectId( recipe_id ) } )
         # Inform user of update
         user_session.pop( '_flashes' , None )
         flash( 'Recipe successfully updated!' )
-        return  render_template( 'show_recipe.html' , recipe = recipe )
+        return  render_template( 'show_recipe.html' , recipe = recipe, user_my_recipes_count = user_my_recipes.count() )
     except:
         print( 'Error updating database document' )
         
@@ -263,9 +280,15 @@ def update_recipe( recipe_id ):
 @app.route( '/show_recipe/<recipe_id>' )
 def show_recipe( recipe_id ):
     try:
+        # Find recipe in user favourites
+        user_favourites = users_collection.find( { 'email': user_session[ 'user' ], 'favouriteRecipes': ObjectId( recipe_id ) } )
+        # Find recipe in user my_recipes
+        user_my_recipes = users_collection.find( { 'email': user_session[ 'user' ], 'myRecipes': ObjectId( recipe_id ) } )
+        # Find recipe in liked by user
+        liked_recipe = users_collection.find( { 'email': user_session[ 'user' ], 'likedRecipes': ObjectId( recipe_id ) } )
         # Find recipe document
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
-        return render_template( 'show_recipe.html' , recipe = recipe  )
+        return render_template( 'show_recipe.html', recipe = recipe, favourites_count = user_favourites.count(),  user_my_recipes_count = user_my_recipes.count(), like_count = liked_recipe.count() )
     except:
         print( 'Error accessing database documents' )
 
@@ -276,9 +299,9 @@ def delete_recipe( recipe_id ):
         # Delete recipe
         recipes_collection.delete_one( { '_id' : ObjectId( recipe_id ) } )
         # Remove recipe from user favourites
-        users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'favourite_recipes': ObjectId( recipe_id ) } }, upsert = True)
+        users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'favouriteRecipes': ObjectId( recipe_id ) } }, upsert = True)
         # Remove recipe from my recipes
-        users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'my_recipes': ObjectId( recipe_id ) } }, upsert = True)
+        users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'myRecipes': ObjectId( recipe_id ) } }, upsert = True)
         # Inform user of deletion
         user_session.pop( '_flashes' , None )
         flash( 'Recipe successfully deleted!' )
@@ -286,30 +309,108 @@ def delete_recipe( recipe_id ):
     except:
         print( 'Error accessing database documents' )
 
-# Add like and document to favourites when button clicked 
+# Add like when button clicked 
 @app.route( '/like_recipe/<recipe_id>' )
 @login_required
 def like_recipe( recipe_id ):
     try:
+        # Check if recipe already liked by user
+        user_likes = users_collection.find( { 'email': user_session[ 'user' ], 'likedRecipes': ObjectId( recipe_id ) } )
+        # Check if recipe also in user favourites
+        user_favourites=users_collection.find( { 'email': user_session[ 'user' ], 'favouriteRecipes': ObjectId( recipe_id ) } )
+        # Remove any previous flased messages
+        user_session.pop( '_flashes' , None )
+        if user_likes.count() != 0:
+            # If already liked, notify user
+            flash( 'You already like this recipe!' )
+        else:
+            # Update number of recipe likes
+            recipes_collection.update( { '_id' : ObjectId( recipe_id ) } , { '$inc' : { 'recipeUpvotes': 1 } } )
+            # Add recipe to user document
+            users_collection.update({ 'email': user_session[ 'user' ] }, { '$addToSet': { 'likedRecipes': ObjectId( recipe_id ) } }, upsert = True )
+            # Notify user of successful addition
+            flash( 'You have successfully liked this recipe!' )
+        # Find recipe in collection
+        recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
+        return render_template( 'show_recipe.html' , recipe = recipe, like_count = user_likes.count(), favourites_count = user_favourites.count() )
+    except:
+        print( 'Error accessing database documents' )
+
+# Remove recipe like
+@app.route( '/unlike_recipe/<recipe_id>' )
+@login_required
+def unlike_recipe( recipe_id ):
+    try:
+        # Check if recipe in user liked recipes
+        user_likes = users_collection.find( { 'email': user_session[ 'user' ], 'likedRecipes': ObjectId( recipe_id ) } )
+        # Check if recipe also in user favourites
+        user_favourites=users_collection.find( { 'email': user_session[ 'user' ], 'favouriteRecipes': ObjectId( recipe_id ) } )
+        # Remove any previous flased messages
+        user_session.pop( '_flashes' , None )
+        if user_likes.count() == 1:
+            # Remove recipe from user document
+            users_collection.update( { 'email': user_session[ 'user' ] }, { '$pull': { 'likedRecipes': ObjectId( recipe_id ) } }, upsert = True )
+            users=users_collection.find( { 'email': user_session[ 'user' ] }, { '$pull': { 'likedRecipes': ObjectId( recipe_id ) } } )
+            print( users.count() )
+            # Decrease number of recipe likes
+            recipes_collection.update( { '_id' : ObjectId( recipe_id ) } , { '$inc' : { 'recipeUpvotes': -1 } } )
+            # Notify user of successful deletion
+            flash( 'You have successfully unliked this recipe!' )
+        # Find recipe in collection
+        recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
+        return render_template( 'show_recipe.html' , recipe = recipe, like_count = user_likes.count(), favourites_count = user_favourites.count() )
+    except:
+        print( 'Error accessing database documents' )
+
+# Add recipe to favourites
+@app.route( '/favourite_recipe/<recipe_id>' )
+@login_required
+def favourite_recipe( recipe_id ):
+    try:
         # Check if recipe already in user favourites
-        user_favourites=users_collection.find( { 'email': user_session[ 'user' ], 'favourite_recipes': ObjectId( recipe_id )} )
+        user_favourites=users_collection.find( { 'email': user_session[ 'user' ], 'favouriteRecipes': ObjectId( recipe_id ) } )
+        # Check if recipe in user liked recipes
+        user_likes = users_collection.find( { 'email': user_session[ 'user' ], 'likedRecipes': ObjectId( recipe_id ) } )
+        # Remove any previous flased messages
         user_session.pop( '_flashes' , None )
         if user_favourites.count() != 0:
             # If already in favourites, notify user
             flash( 'This recipe has already been added to your favourites list' )
         else:
-            # Update number of recipe likes
-            recipes_collection.update( { '_id' : ObjectId( recipe_id ) } , { '$inc' : { 'recipeUpvotes': 1 } } )
             # Add recipe to user document
-            users_collection.update({ 'email': user_session[ 'user' ] },{ '$addToSet': { 'favourite_recipes': ObjectId( recipe_id ) } }, upsert = True)
+            users_collection.update( { 'email': user_session[ 'user' ] }, { '$addToSet': { 'favouriteRecipes': ObjectId( recipe_id ) } }, upsert = True )
             # Notify user of successful addition
             flash( 'You have successfully added this recipe to your favourite recipe list!' )
         # Find recipe in collection
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
-        return render_template( 'show_recipe.html' , recipe = recipe )
+        return render_template( 'show_recipe.html' , recipe = recipe, favourites_count = user_favourites.count(), like_count = user_likes.count() )
     except:
         print( 'Error accessing database documents' )
 
+# Remove recipe to favourites
+@app.route( '/unfavourite_recipe/<recipe_id>' )
+@login_required
+def unfavourite_recipe( recipe_id ):
+    try:
+        # Check if recipe in user favourites
+        user_favourites=users_collection.find( { 'email': user_session[ 'user' ], 'favouriteRecipes': ObjectId( recipe_id ) } )
+        # Check if recipe in user liked recipes
+        user_likes = users_collection.find( { 'email': user_session[ 'user' ], 'likedRecipes': ObjectId( recipe_id ) } )
+        # Remove any previous flased messages
+        user_session.pop( '_flashes' , None )
+        if user_favourites.count() == 0:
+            # If recipe not in favourites, notify user
+            flash( 'This recipe is not in your favourites list' )
+        else:
+            # Remove recipe from user document
+            users_collection.update( { 'email': user_session[ 'user' ] }, { '$pull': { 'favouriteRecipes': ObjectId( recipe_id ) } }, upsert = True )
+            # Notify user of successful deletion
+            flash( 'You have successfully removed this recipe from your favourite recipe list!' )
+        recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
+        return render_template( 'show_recipe.html' , recipe = recipe, favourites_count = user_favourites.count(), like_count = user_likes.count() )
+    except:
+        print( 'Error accessing database documents' )
+        
 # Open favourites page 
 @app.route( '/favourites' )
 @login_required
@@ -317,13 +418,13 @@ def favourites():
     try:
         favourites_list = []
         # Find recipes in user favourites
-        user_favourites = users_collection.find( {'email': user_session[ 'user' ] }, { 'favourite_recipes' } )
+        user_favourites = users_collection.find( { 'email': user_session[ 'user' ] }, { 'favouriteRecipes' } )
         # Append recipes to favourites list
         for recipe in user_favourites:
-            for recipe_id in recipe[ 'favourite_recipes' ]:
+            for recipe_id in recipe[ 'favouriteRecipes' ]:
                 favourites_list.append( recipe_id )
         # Find recipes contained in favpurites list
-        recipes=recipes_collection.find( { '_id' : { '$in' : favourites_list } } )
+        recipes=recipes_collection.find( { '_id' : { '$in' : favourites_list } } ).sort( [ ( 'recipeUpvotes' , -1 ) ] ).sort( [ ( 'recipeUpvotes' , -1 ) ] )
         # Count recipes found
         favourites_count = recipes.count()
         return render_template( 'favourites.html', recipes=recipes, favourites_count = favourites_count ) 
@@ -337,10 +438,10 @@ def my_recipes():
     try:
         my_recipes_list = []
         # Find recipes in users my-recipes list
-        user_my_recipes = users_collection.find( {'email': user_session[ 'user' ] }, { 'my_recipes' } )
+        user_my_recipes = users_collection.find( {'email': user_session[ 'user' ] }, { 'myRecipes' } )
         # Append recipes to my_recipes_list
         for recipe in user_my_recipes:
-            for recipe_id in recipe[ 'my_recipes' ]:
+            for recipe_id in recipe[ 'myRecipes' ]:
                 my_recipes_list.append( recipe_id )
         # Find recipes from list in collection
         recipes=recipes_collection.find( { '_id' : { '$in' : my_recipes_list } } )
@@ -421,8 +522,9 @@ def register():
     						'username': form[ 'username' ],
     						'email': form[ 'email' ],
     						'password': hash_pass,
-    						'favourite_recipes':[],
-    						'my_recipes':[]
+    						'favouriteRecipes':[],
+    						'myRecipes':[],
+    						'likedRecipes':[]
     					}
     				)
     				# Check if user is saved
@@ -523,6 +625,6 @@ def insert_update_db_format( list ):
 
 # Run application
 if __name__  ==  '__main__':
-    app.run( host = os.environ.get( 'IP' ) , port = int( os.environ.get( 'PORT' ) ) , debug = False)
+    app.run( host = os.environ.get( 'IP' ) , port = int( os.environ.get( 'PORT' ) ) , debug = True)
     
     

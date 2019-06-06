@@ -240,6 +240,7 @@ $(document).ready(function() {
         $('input[name="recipeImageLink"]').val(
             $('input[name="recipeImageLink"]').val().slice(26)
         );
+        
         $('#displayed-image-link').text(
             $('input[name="recipeImageLink"]').val()
         );

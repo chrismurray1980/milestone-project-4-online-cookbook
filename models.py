@@ -40,11 +40,12 @@ class users(UserMixin, Document):
         session = session
         name = 'user'
     _id = Field(schema.ObjectId)
-    user_name = Field(str)
+    username = Field(str)
     email = Field(str)
     password = Field(str)
     favourite_recipes = Field(schema.Array(str))
-    my_recipes = Field(schema.Array(str))
+    myRecipes = Field(schema.Array(str))
+    likedRecipes = Field(schema.Array(str))
 
 # Compile schemas
 Mapper.compile_all()

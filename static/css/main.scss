@@ -236,6 +236,7 @@ body {
 .btn {
   font-size: 14px;
   transition: background-color 0.5s ease-in-out;
+  
   @media (min-width: $break-phone) {
     font-size: 16px;
   }
@@ -264,6 +265,19 @@ body {
   display: block;
 }
 
+
+.browse-button {
+  margin-top: 2%;
+  
+  @media (min-width: 429px) {
+  margin-top: 0;
+  }
+}
+
+
+.redirect-user-button {
+  margin: -2% 0 5% 0;
+}
 
 // carousel //
 .carousel-item {

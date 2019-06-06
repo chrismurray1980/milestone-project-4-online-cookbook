@@ -24,6 +24,9 @@
     <div class="col-12 advanced-search-button">
         <button class="btn btn-outline-success col-3" type="submit" form="text-search-form">Search</button>
         <button class="btn btn-outline-info" id="advanced-search" type="submit">Advanced search</button>
+        <a href="{{url_for('browse_all_recipes')}}">
+            <button class="btn btn-outline-info browse-button">Browse all recipes</button>
+        </a>
     </div>
 </div>
 <!-- ADVANCED SEARCH -->
@@ -203,13 +206,6 @@
 <div class="row">
     <!-- carousel slideshow -->
     <div id="recipeIndicators" class="carousel slide col-10 offset-1" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#recipeIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#recipeIndicators" data-slide-to="1"></li>
-            <li data-target="#recipeIndicators" data-slide-to="2"></li>
-            <li data-target="#recipeIndicators" data-slide-to="3"></li>
-            <li data-target="#recipeIndicators" data-slide-to="4"></li>
-        </ol>
         <!-- inner carousel content -->
         <div class="carousel-inner">
             {% for recipe in recipes %}

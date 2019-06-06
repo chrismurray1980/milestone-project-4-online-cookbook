@@ -193,6 +193,15 @@ body {
   padding: .5rem 1rem;
   display: block; }
 
+.browse-button {
+  margin-top: 2%; }
+  @media (min-width: 429px) {
+    .browse-button {
+      margin-top: 0; } }
+
+.redirect-user-button {
+  margin: -2% 0 5% 0; }
+
 .carousel-item {
   height: 100%; }
 
