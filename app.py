@@ -1,4 +1,3 @@
-
 """ MODULE IMPORT """
 
 import os
@@ -280,15 +279,18 @@ def update_recipe( recipe_id ):
 @app.route( '/show_recipe/<recipe_id>' )
 def show_recipe( recipe_id ):
     try:
-        # Find recipe in user favourites
-        user_favourites = users_collection.find( { 'email': user_session[ 'user' ], 'favouriteRecipes': ObjectId( recipe_id ) } )
-        # Find recipe in user my_recipes
-        user_my_recipes = users_collection.find( { 'email': user_session[ 'user' ], 'myRecipes': ObjectId( recipe_id ) } )
-        # Find recipe in liked by user
-        liked_recipe = users_collection.find( { 'email': user_session[ 'user' ], 'likedRecipes': ObjectId( recipe_id ) } )
         # Find recipe document
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
-        return render_template( 'show_recipe.html', recipe = recipe, favourites_count = user_favourites.count(),  user_my_recipes_count = user_my_recipes.count(), like_count = liked_recipe.count() )
+        if current_user.is_authenticated:
+            # Find recipe in user favourites
+            user_favourites = users_collection.find( { 'email': user_session[ 'user' ], 'favouriteRecipes': ObjectId( recipe_id ) } )
+            # Find recipe in user my_recipes
+            user_my_recipes = users_collection.find( { 'email': user_session[ 'user' ], 'myRecipes': ObjectId( recipe_id ) } )
+            # Find recipe in liked by user
+            liked_recipe = users_collection.find( { 'email': user_session[ 'user' ], 'likedRecipes': ObjectId( recipe_id ) } )
+            return render_template( 'show_recipe.html', recipe = recipe, favourites_count = user_favourites.count(), user_my_recipes_count = user_my_recipes.count(), like_count = liked_recipe.count() )
+        else:
+            return render_template( 'show_recipe.html', recipe = recipe )
     except:
         print( 'Error accessing database documents' )
 
@@ -627,5 +629,3 @@ def insert_update_db_format( list ):
 # Run application
 if __name__  ==  '__main__':
     app.run( host = os.environ.get( 'IP' ) , port = int( os.environ.get( 'PORT' ) ) , debug = True)
-    
-    
