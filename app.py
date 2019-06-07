@@ -350,12 +350,13 @@ def unlike_recipe( recipe_id ):
         if user_likes.count() == 1:
             # Remove recipe from user document
             users_collection.update( { 'email': user_session[ 'user' ] }, { '$pull': { 'likedRecipes': ObjectId( recipe_id ) } }, upsert = True )
-            users=users_collection.find( { 'email': user_session[ 'user' ] }, { '$pull': { 'likedRecipes': ObjectId( recipe_id ) } } )
-            print( users.count() )
             # Decrease number of recipe likes
             recipes_collection.update( { '_id' : ObjectId( recipe_id ) } , { '$inc' : { 'recipeUpvotes': -1 } } )
             # Notify user of successful deletion
             flash( 'You have successfully unliked this recipe!' )
+        else:
+            # If not liked, notify user
+            flash( 'You do not currently like this recipe!' )
         # Find recipe in collection
         recipe = recipes_collection.find_one( { '_id' : ObjectId( recipe_id ) } )
         return render_template( 'show_recipe.html' , recipe = recipe, like_count = user_likes.count(), favourites_count = user_favourites.count() )

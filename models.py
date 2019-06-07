@@ -43,7 +43,7 @@ class users(UserMixin, Document):
     username = Field(str)
     email = Field(str)
     password = Field(str)
-    favourite_recipes = Field(schema.Array(str))
+    favouriteRecipes = Field(schema.Array(str))
     myRecipes = Field(schema.Array(str))
     likedRecipes = Field(schema.Array(str))
 
