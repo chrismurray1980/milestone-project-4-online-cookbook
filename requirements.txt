@@ -12,6 +12,7 @@ colorama==0.3.9
 dnspython==1.16.0
 docutils==0.14
 Flask==1.0.3
+Flask-Flash==1.6.8
 Flask-Bcrypt==0.7.1
 Flask-Login==0.4.1
 Flask-S3==0.3.3

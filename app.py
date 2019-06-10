@@ -141,7 +141,6 @@ def search():
         search_content = request.form[ 'searchContent' ]
         # For empty search return to home page and flash user message
         if search_content == '':
-            user_session.pop( '_flashes' , None )
             flash( 'Please enter some search criteria' )
             return redirect( url_for( 'get_recipes' ) )
         # Pass search content to search function
@@ -189,7 +188,6 @@ def advanced_search_results(advanced_search_list):
             return render_template( 'search_results.html' , recipes = recipes, recipes_count = recipes_count )
         # Inform user that search is empty and return to home page
         else:
-            user_session.pop( '_flashes' , None )
             flash( 'Please enter some search criteria' )
             return redirect( url_for( 'get_recipes' ) )
     except:
@@ -232,7 +230,6 @@ def insert_recipe():
         # Find recipe in user my_recipes
         user_my_recipes = users_collection.find( { 'email': user_session[ 'user' ], 'myRecipes': ObjectId( recipe['_id'] ) } )
         # Notify user
-        user_session.pop( '_flashes' , None )
         flash( 'Recipe successfully added and can be viewed in the my-recipes link!' )
         return  render_template( 'show_recipe.html' , recipe = recipe, user_my_recipes_count = user_my_recipes.count() )
     except:
@@ -250,7 +247,6 @@ def edit_delete_recipe( recipe_id ):
             return render_template( 'edit_delete_recipe.html' , recipe = recipe )
         # If not, inform user and return to home page
         else: 
-            user_session.pop( '_flashes' , None )
             flash( 'You are not authorised to edit this recipe' )
             return redirect( url_for( 'get_recipes' ) )
     except:
@@ -269,7 +265,6 @@ def update_recipe( recipe_id ):
         # Find recipe in user my_recipes
         user_my_recipes = users_collection.find( { 'email': user_session[ 'user' ], 'myRecipes': ObjectId( recipe_id ) } )
         # Inform user of update
-        user_session.pop( '_flashes' , None )
         flash( 'Recipe successfully updated!' )
         return  render_template( 'show_recipe.html' , recipe = recipe, user_my_recipes_count = user_my_recipes.count() )
     except:
@@ -305,7 +300,6 @@ def delete_recipe( recipe_id ):
         # Remove recipe from my recipes
         users_collection.update({ 'email': user_session[ 'user' ] },{ '$pull': { 'myRecipes': ObjectId( recipe_id ) } }, upsert = True)
         # Inform user of deletion
-        user_session.pop( '_flashes' , None )
         flash( 'Recipe successfully deleted!' )
         return redirect( url_for( 'get_recipes' ) )
     except:
@@ -321,7 +315,6 @@ def like_recipe( recipe_id ):
         # Check if recipe also in user favourites
         user_favourites=users_collection.find( { 'email': user_session[ 'user' ], 'favouriteRecipes': ObjectId( recipe_id ) } )
         # Remove any previous flased messages
-        user_session.pop( '_flashes' , None )
         if user_likes.count() != 0:
             # If already liked, notify user
             flash( 'You already like this recipe!' )
@@ -348,7 +341,6 @@ def unlike_recipe( recipe_id ):
         # Check if recipe also in user favourites
         user_favourites=users_collection.find( { 'email': user_session[ 'user' ], 'favouriteRecipes': ObjectId( recipe_id ) } )
         # Remove any previous flased messages
-        user_session.pop( '_flashes' , None )
         if user_likes.count() == 1:
             # Remove recipe from user document
             users_collection.update( { 'email': user_session[ 'user' ] }, { '$pull': { 'likedRecipes': ObjectId( recipe_id ) } }, upsert = True )
@@ -375,7 +367,6 @@ def favourite_recipe( recipe_id ):
         # Check if recipe in user liked recipes
         user_likes = users_collection.find( { 'email': user_session[ 'user' ], 'likedRecipes': ObjectId( recipe_id ) } )
         # Remove any previous flased messages
-        user_session.pop( '_flashes' , None )
         if user_favourites.count() != 0:
             # If already in favourites, notify user
             flash( 'This recipe has already been added to your favourites list' )
@@ -400,7 +391,6 @@ def unfavourite_recipe( recipe_id ):
         # Check if recipe in user liked recipes
         user_likes = users_collection.find( { 'email': user_session[ 'user' ], 'likedRecipes': ObjectId( recipe_id ) } )
         # Remove any previous flased messages
-        user_session.pop( '_flashes' , None )
         if user_favourites.count() == 0:
             # If recipe not in favourites, notify user
             flash( 'This recipe is not in your favourites list' )
@@ -467,31 +457,31 @@ def login():
 def submit_login():
     try:
         # Get form data
-    	form = request.form.to_dict()
+        form = request.form.to_dict()
     	# Find user in db
-    	user_in_db = users_collection.find_one( { 'email' : form[ 'email' ] } )
-    	user_session.pop( '_flashes' , None )
+        user_in_db = users_collection.find_one( { 'email' : form[ 'email' ] } )
     	# Check for user in database
-    	if user_in_db:
+        if user_in_db:
     		# If passwords match 
-    		if check_password_hash( user_in_db[ 'password' ] , form[ 'user_password' ] ):
+            if check_password_hash( user_in_db[ 'password' ] , form[ 'user_password' ] ):
     			# Login user
-    			user_obj = User( user_in_db[ '_id' ] )
-    			login_user( user_obj )
-    			user_session[ 'user' ] = form[ 'email' ]
+                user_obj = User( user_in_db[ '_id' ] )
+                login_user( user_obj )
+                user_session[ 'user' ] = form[ 'email' ]
     			# Notify user of log-in
-    			flash( 'You are now logged in!' )
+                flash( 'You are now logged in!' )
     			# Proceed to requested url or index
-    			next_page = user_session.get( 'next_url' )
-    			return redirect( next_page ) if next_page else redirect( url_for( 'get_recipes' ) )
+                next_page = user_session.get( 'next_url' )
+                return redirect( next_page ) if next_page else redirect( url_for( 'get_recipes' ) )
     		# If passwords don't match
-    		else:
-    			flash( 'Incorrect login details' )
-    			return redirect( url_for( 'login' ) )
+            else:
+                flash( 'Incorrect login details' )
+                return redirect( url_for( 'login' ) )
 		# if user not in db redirect to register
-    	else:
-    		flash( 'No account found with those login details!' )
-    		return redirect( url_for( 'register' ) ) 
+        else:
+            flash('Incorrect login details')
+            print( 'Incorrect login details' )
+            return redirect( url_for( 'register' ) ) 
     except:
         print( 'Error, could not login user' )
 
@@ -499,7 +489,6 @@ def submit_login():
 @app.route( '/register' , methods = [ 'GET' , 'POST' ] )
 def register():
     try:
-        user_session.pop( '_flashes' , None )
         # Check if user is logged in
         if 'user' in user_session:
             flash( 'You are currently signed in!' )

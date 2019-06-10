@@ -57,11 +57,13 @@
             </div>
             <!-- USER MESSAGE FLASH -->
             {% with messages = get_flashed_messages() %} {% if messages %}
-            <div class="flashes">
+            
                 {% for message in messages %}
-                <p>{{ message }}</p>
+                <div class="flashes">
+                    <p>{{ message }}</p>
+                </div>
                 {% endfor %}
-            </div>
+            
             {% endif %} {% endwith %}
             <!-- INSERT CONTENT FROM TEMPLATES -->
             <div class="row no-gutters template-content">

@@ -17,7 +17,7 @@ class FlaskTestCase(TestCase):
         app.config[ 'TESTING' ] = True
         app.config[ 'LOGIN_DISABLED' ] = True
         login_manager = LoginManager()
-        login_manager.init_app(app)
+        login_manager.init_app( app )
         return app
     
     # Create test setup 
@@ -26,7 +26,7 @@ class FlaskTestCase(TestCase):
         objectId_1 = ObjectId( '0123456789ab0123456789ab' )
         objectId_2 = ObjectId( '0123456789ab0123456789ad' )
         # create mock user document
-        users_collection.insert_one(users.make( dict(username = 'chris', email = 'chris@chris', password = 'chris', favouriteRecipes = [], myRecipes = [], likedRecipes = []) ) )
+        users_collection.insert_one(users.make( dict( username = 'chris', email = 'chris@chris', password = 'chris', favouriteRecipes = [ '0123456789ab0123456789ab' ], myRecipes = [], likedRecipes = [] ) ) )
         # create mock recipe documents
         recipes_collection.insert_one( recipes.make( dict( _id = objectId_1, recipeName = 'test this document' , recipeUpvotes = 15, recipeCuisine = 'Mexican' ) ) )
         recipes_collection.insert_one( recipes.make( dict( _id = objectId_2, recipeName = 'test another document', recipeUpvotes = 14, recipeCuisine = 'Italian' ) ) )
@@ -43,7 +43,6 @@ class FlaskTestCase(TestCase):
     def test_database( self ):
         # ensure mongo in memory db used
         self.assertEqual( app.config[ 'MONGO_URI' ] , 'mim://localhost/test' )
-        
     
     # Ensure index page loads, contains recipe data and converts cursor to json string
     def test_get_recipes( self ):
@@ -56,61 +55,26 @@ class FlaskTestCase(TestCase):
         # ensure redirect to index page
         self.assertTemplateUsed( 'index.html' )
         # ensure recipe document text in response
-        self.assertIn( b'test this document' , response.data )
-        self.assertIn( b'Italian' , response.data )
+        self.assertIn( b'test this document', response.data )
+        self.assertIn( b'Italian', response.data )
         # ensure recipe document count is correct
         self.assertEqual( recipes_collection.count() , 2 )
         # ensure user document count is correct
         self.assertEqual( users_collection.count() , 1 )
         # ensure bson is of correct data type
-        self.assertEqual( type( data_dumps) , str )
-    
-       
-    # Ensure search results page loads and contains recipe data 
-    """def test_search( self ):
-        # create mock search text
-        search_text = 'test this document'
-        # find document with search text
-        data_search = recipes_collection.find( { 'recipeName' : search_text } )
-        # extract data contents from cursor
-        for document in data_search: 
-            return document[ 'recipeName' ]
-        # create response variable    
-        response = self.client.get( '/search_results/test this document' , follow_redirects = True , data_search = document[ 'recipeName' ])
-        print(response)
-        # ensure correct response from server
-        self.assert400( response )
-        # ensure correct template used
-        self.assertTemplateUsed( 'index.html' )
-        # ensure correct information in document
-        self.assertIn( b'test this document' , response.data )
-        # ensure correct number of recipe documents in db
-        self.assertEqual( recipes_collection.count() , 1 )    
-        # ensure correct number of user documents in db
-        self.assertEqual( users_collection.count() , 1 ) 
-    
+        self.assertEqual( type( data_dumps ) , str )
     
     # Ensure search results page loads and contains recipe data for advanced search
     def test_advanced_search( self ):
-        # find mock recipe in collection
-        data = recipes_collection.find( { 'recipeCuisine' : 'Italian' } )
-        # extract data from recipe 
-        for document in data: 
-            return document[ 'recipeCuisine' ]
-        # create response variable
-        response = self.client.get( "/search_results/[{'recipeCuisine': 'Italian'}]" , follow_redirects = True, data =  document[ 'recipeCuisine' ] )  
+        response = self.client.get( "/advanced_search_results/[{'recipeCuisine': 'Italian'}]", follow_redirects = True )
         # ensure correct server response
-        self.assertTrue( response, 200 )
+        self.assert200( response )
         # ensure correct template used
-        self.assertTrue( response, 'search_results.html' )
-        # ensure correct cuisine in response
-
-        self.assertIn( b'Romanian' , response.data )
+        self.assertTemplateUsed( 'search_results.html' )
         # assert correct number of recipe documents
         self.assertEqual( recipes_collection.count() , 2 )
         # assert correct number of user documents
         self.assertEqual( users_collection.count() , 1 )
-    """
       
     # Ensure add_recipe page loads correctly 
     def test_add_recipe( self ):
@@ -121,7 +85,6 @@ class FlaskTestCase(TestCase):
         # ensure correct template used
         self.assertTemplateUsed( 'add_recipe.html' )
     
-     
     # Ensure insert recipe works correctly and show_recipe page is then rendered
     def test_insert_recipe( self ): 
         # setup recipe test object id
@@ -129,78 +92,82 @@ class FlaskTestCase(TestCase):
         # insert document to recipes
         recipes_collection.insert_one( {'_id'  : objectId , 'recipeName' : 'test insert document' }  )
         # insert recipe id to user document
-        users_collection.update_one({ 'email': 'chris@chris' },{ '$addToSet': { 'myRecipes': objectId } }, upsert = True)
+        users_collection.update_one( { 'email': 'chris@chris' },{ '$addToSet': { 'myRecipes': objectId } }, upsert = True )
         # find recipe document inserted
-        recipe = recipes_collection.find_one({'recipeName': 'test insert document'})
+        recipe = recipes_collection.find_one( {'recipeName': 'test insert document' } )
         # find user document updated
-        user_recipe = users_collection.find_one({"myRecipes": [objectId]})
+        user_recipe = users_collection.find_one( { "myRecipes": [objectId] } )
         # ensure correct recipe content
-        self.assertTrue(recipe['recipeName'] == 'test insert document')
+        self.assertTrue( recipe[ 'recipeName' ] == 'test insert document' )
         # ensure correct user content
-        self.assertTrue(user_recipe['myRecipes'] == [objectId])
+        self.assertTrue( user_recipe['myRecipes'] == [objectId] )
         # assert correct number of recipe documents
         self.assertEqual( recipes_collection.count() , 3 )
         # assert correct number of user documents
         self.assertEqual( users_collection.count() , 1 )
-    
+        with app.test_request_context( '/show_recipe/5cf4f99b6a6c520e6648eee5' ):
+           response = self.client.get( '/show_recipe/5cf4f99b6a6c520e6648eee5', follow_redirects = True )
+           # ensure 200 response
+           self.assert200( response)
+           # ensure correct recipe used
+           self.assertTemplateUsed( 'show_recipe.html' )
+           # ensure correct data in response
+           self.assertIn( b'test insert document' , response.data )
     
     # Ensure edit_delete_recipe page loads with correct recipe_id
     def test_edit_delete_recipe( self ):
-        with app.test_request_context('/edit_delete_recipe/0123456789ab0123456789ab'):
-            assert flask.request.path == '/edit_delete_recipe/0123456789ab0123456789ab'
+        with app.test_request_context( '/show_recipe/0123456789ab0123456789ab' ):
+           response = self.client.get( '/show_recipe/0123456789ab0123456789ab', follow_redirects = True )
+           # ensure 200 response
+           self.assert200( response )
+           # ensure correct template used
+           self.assertTemplateUsed( 'show_recipe.html' )
+           # ensure correct content
+           self.assertIn( b'test this document' , response.data )
 
-
-        
     #Ensure recipe is updated and show_recipe page is rendered
     def test_update_recipe( self ):
         # update recipe document
         recipes_collection.update_one( { '_id' : ObjectId( '0123456789ab0123456789ab' ) } , { "$set" : { 'recipeName' : 'This has been updated' } } , upsert = True )
         # find recipe updated
-        recipe = recipes_collection.find_one({'recipeName': 'This has been updated' } )
+        recipe = recipes_collection.find_one( {'recipeName': 'This has been updated' } )
         # ensure correct recipe content
-        self.assertTrue(recipe['recipeName'] == 'This has been updated' )
+        self.assertTrue( recipe['recipeName'] == 'This has been updated' )
         # assert correct number of recipe documents
         self.assertEqual( recipes_collection.count() , 2 )
         # assert correct number of user documents
         self.assertEqual( users_collection.count() , 1 )
-    
+        with app.test_request_context( '/show_recipe/0123456789ab0123456789ab' ):
+           response = self.client.get( '/show_recipe/0123456789ab0123456789ab', follow_redirects = True )
+           # ensure 200 response
+           self.assert200( response )
+           # ensure correct template
+           self.assertTemplateUsed( 'show_recipe.html' )
+           # ensure correct data
+           self.assertIn( b'This has been updated', response.data )
     
     # Ensure show_recipe page loads and shows correct recipe
     def test_show_recipe( self ):
-        # create repsonse variable
-        
-        with app.test_request_context('/show_recipe/0123456789ab0123456789ab'):
-            assert flask.request.path == '/show_recipe/0123456789ab0123456789ab'
-           # assert flask.request.args == '0123456789ab0123456789ab'
-        #response = self.client.get( '/show_recipe/1234' , follow_redirects = True )
-        # ensure correct server repsonse
-        #self.assert200( response.code )
-        # ensure correct template used
-        #self.assertTemplateUsed( 'show_recipe.html' )
+        with app.test_request_context( '/show_recipe/0123456789ab0123456789ad' ):
+           response = self.client.get( '/show_recipe/0123456789ab0123456789ad', follow_redirects = True )
+           # ensure correct response
+           self.assert200( response )
+           # ensure correct templaye used
+           self.assertTemplateUsed( 'show_recipe.html' )
+           # ensure correct data
+           self.assertIn( b'test another document', response.data )
     
-    """
     # Ensure recipe is deleted and index page is returned
     def test_delete_recipe( self ):
-        # delete recipe from collection
         recipes_collection.delete_one( { '_id' : ObjectId( '0123456789ab0123456789ab' ) } )
         # create response
         response = self.client.get( '/' , follow_redirects = True )
         # ensure correct server response
-        self.assertTrue( response, 200 )
+        self.assert200( response )
         # ensure correct template used
-        self.assertTrue( response, 'index.html' )
+        self.assertTemplateUsed( 'index.html' )
         # ensure correct recipe count
         self.assertEqual( recipes_collection.count() , 1 )
-        
-    #Ensure favourites page loads correctly
-    def test_favourites_loads( self ):
-        # create response variable
-        response = self.client.get( '/favourites' , follow_redirects = True )
-        # ensure correct server response
-        self.assertTrue( response, 200 )
-        # ensure correct template used
-        self.assertTrue( response, 'favourites.html' )"""
 
 if __name__ == '__main__':
-    
     unittest.main()
