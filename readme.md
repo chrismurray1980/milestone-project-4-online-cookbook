@@ -11,6 +11,8 @@ All the recipe and user information for the site is stored on a NoSQL database a
 
 The planning undertaken prior to beginning the project is described in the following document: [Project planning document](project_planning.md) 
 
+## Add wireframe development
+
 ## Site features
 
 For clarity, site features will be outlined in terms of how they are implemented in each of the HTML templates.
@@ -36,6 +38,32 @@ recipes found as a result of the search here.
 At the bottom of the page is where the footer is located and this contains copyright information for the website.
 
 ### index.html
+
+This is the landing page for the site and, firstly, contains a search box to allow the user to enter text to find a list of recipes containing that specific, case insensitive text. 
+Following this are three buttons. The first of which is the 'search' button which submits the search text in the search box and returns a list of recipes containing that text; 
+the second is the 'advanced search' button which hides the search box and the three buttons and reveals the advanced search form; the third button is the browse all button which 
+will return a list of all recipes ordered in terms of the recipes with the highest number of likes to the lowest number of likes. 
+
+#### Advanced search form
+As mentioned above, when the 'advanced search' button is clicked: the advanced search form is revealed. This includes the 'text' button which, when clicked, will hide the advanced search form
+and 'text' button and return the search box and the three original buttons. The advanced form itself consists of various dropdowns and checkboxes to allow the user to specify
+multiple search conditions for the recipe search. This search form is submitted by clicking the 'submit' button at the bottom of the form. 
+
+#### Recipe carousel 
+
+Following the search and advanced search areas of the page there is a recipe carousel which will display the top 5 recipes on the website based upon the number
+of likes. Each of these recipes is in the form of a card which contain an image of the recipe itself followed by the recipe name and some information on that recipe such as
+recipe author; cuisine; number of servings; preparation and cooking times; difficulty; mealtime; and number of recipe likes. Finally, each recipe has a 'view recipe' button
+which will allow the user to navigate to the 'show recipe' page for that specific recipe.
+
+The user can manually scroll through the recipes within the carousel by clicking the next and previous arrow buttons alternatively, the recipe will change on 5 second intervals.
+
+#### Data plots
+
+Following the recipe carousel there is a 'show recipe data' button which shows or hides the dc.js plots of the recipe data. These data plots consist of pie charts for 
+recipes by cuisine; recipes by country of origin; and recipes by number of servings. Row charts display recipes by allergen; recipes by dietary requirements; and recipes by
+difficulty. Finally, bar charts show recipes by main ingredient; and recipes by combined preparation and cooking times. Whenever a user modifies one of the charts a reset 
+button becomes visible to reset that specific chart. Finally, a 'reset all' button will reset all the plots whether they have been modified or not.
 
 
 
