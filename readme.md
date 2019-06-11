@@ -13,6 +13,135 @@ The planning undertaken prior to beginning the project is described in the follo
 
 ## Add wireframe development
 
+
+## Site configuration
+
+### get recipes function
+
+This function is used in the landing page of the website and queries the database for all recipes sorted in terms of the number of user likes the recipes has. Only the top
+5 liked recipes are returned. In addition to this the function also queries the database for all recipes and converts the returned object into BSON which is passed to the 
+index page and used for the data for the dc.js data plots. The index page is then rendered.
+
+### search function
+This function gets the user entered search text from the search form on index.html and passes this content to the search_results function. If the content is empty it redirects
+the user to the home page and informs them that no search content was entered.
+
+### search_results function
+
+This function takes the search content and converts it to the correct format to use to query the database. The database is then queried based upon the text score of the
+text entered by the user. The number of recipes returned by the query are then counted and the search_results page is rendered.
+
+### advanced_search function
+
+This function takes in all the fields from the advanced search form and converts it into a format in which the database can be queried. This is then passed to the advanced 
+search results function.
+
+### advanced search results function
+
+This function queries the database for all recipes which match the advanced search parameters and returns those recipes based on the number of likes with a limit of 10 recipes.
+The number of recipes returned is then counted and the search_results.html is rendered.
+
+### browse all recipes function
+
+This function finds all recipes sorted based on the number of likes. The number of recipes returned is the counted and the search_results.html rendered.
+
+### add recipe function
+
+This function requires user login for access and renders the add recipe form.
+
+### insert recipe function
+
+This function collates the input fields from the add recipe form and inserts the new recipe into the database. The function then finds this newly created recipe by ID
+and renders the show_recipe.html for the newly inserted recipe. In addition to this, the function adds the recipe ID to the user's my-recipes array and informs the user that it can now
+be viewed in the my-recipes link.
+
+### edit delete recipe function
+
+This function requires user login for access and opens the edit_delete_recipe.html form with previously inserted information if the user's email matches the recipe-email field. If it does not match the user
+is informed that they are not authorised to edit this document and returned to the home page.
+
+### update recipe function
+
+This function takes the fields from the edit_delete_recipe.html form and updates the database with the new recipe parameters. It then finds the recipe ID and renders
+the show_recipe.html for this specific recipe.
+
+### show recipe function
+
+This function finds the chosen recipe based on recipe ID and checks whether the user is authenticated: this shows different action buttons based upon the users relationship with the recipe. If the user is the recipe author
+the 'edit delete recipe' button is shown otherwise the 'like' and 'favourite' buttons are shown. If the user is not authenticated, no further action buttons are shown.
+
+
+### delete recipe function
+
+This function deletes the recipe from the database and removes the recipe from the user's my-recipes and favourites array. The index page is then displayed on deletion and
+the user notified.
+
+### like recipe function
+
+This function requires user log-in. This function checks if the recipe is currently liked by the user and in the user favourites. If not already liked then it will increment
+the user like count and return the current recipe page.
+
+### unlike recipe function
+
+This function requires user log-in. This function checks if the recipe is currently liked by the user and in the user favourites. If already liked then it will decrement
+the user like count and return the current recipe page.
+
+### favourite recipe function
+
+This function requires user log-in. This function checks if the recipe is currently liked by the user and in the user favourites. If not already in the user favourites it will
+add the recipe ID to the user favourites array and return the current recipe page.
+
+### unfavourite recipe function
+
+This function requires user log-in. This function checks if the recipe is currently liked by the user and in the user favourites. If already in user favourites then it will remove the
+recipe id from the user favourites array and return the current recipe page.
+
+### favourites function
+
+This function requires user log-in. This function finds all the recipe ID's in the user favourite array and then search the database for these recipes. The number of recipes 
+returned is also counted and the favourites.html page rendered.
+
+### my-recipes function
+
+This function requires user log-in. This function finds all the recipe ID's in the user my-recipes array and then search the database for these recipes. The number of recipes 
+returned is also counted and the my_recipes.html.html page rendered.
+
+### login function
+
+This function renders the login.html form for user login.
+
+### submit login function
+
+This function takes the inputs from the login form and searches the database for the user. If the user is found in the database the passwords are checked and if correct
+the user is logged in. If the password is incorrect the user is notified and the login page reloaded. If none of the user credentials are correct the user is redirected to the 
+register.html form.
+
+### register function
+
+This page allows users to register new credentials with the website. First of all it checks if the user is already registered and if so redirects the user to the login page.
+If not, the user password is hashed and the user added to the database. The function then reders the login page to allow the user to login to the site.
+
+### log-out function
+
+This function terminates the current user session.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Site features
 
 For clarity, site features will be outlined in terms of how they are implemented in each of the HTML templates.
@@ -156,7 +285,15 @@ The register user page allows new users to be added to the website's datasbase. 
 If the password and confirm password do not match the user is informed of this and the register user page is reloaded. Upon submission, the user is added to the database and
 redirected to the login page to enter the website.
 
+## Features Left to Implement
 
+## Technologies Used
+
+## Testing
+
+## Deployment
+
+## Credits
 
 
 
