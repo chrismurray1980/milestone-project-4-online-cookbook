@@ -7,7 +7,7 @@ This online cookbook is aimed at people looking for quick access to recipes from
 ### User experience
 
 This site allows cooks of various abilities to quickly search for and view recipes. Users with a registered email address and password can add new recipes to the 
-site and edit/delete the recipes they have added previously. They also have the ability to like their favourite recipes and save personal search filters.
+site and edit/delete the recipes they have added previously. They also have the ability to like recipes and add/remove recipes from their favourites.
 
 ### Vision Statement
 
@@ -21,66 +21,55 @@ to up-vote recipes that they have prepared and the most popular recipes will be 
 1.	I can search for recipes based on the following search criteria:
     1.	Cuisine
     2.	Country of origin
-    3.	Allergen friendly (free)
+    3.	Allergens
     4.	Main ingredient
-    5.	Difficulty 
-    6.	Recipe Author 
-    7.	Most popular
-    8.	Cooking time
-    9.	Meal time
-2.	I can save my search and give it a name to identify it
-3.	The saved search will be added to the user document 
-4.	I can delete my saved searches
-5.	The saved search will be removed from the user document 
-6.	I can save recipes to ‘my favourites’
-7.	Added favourites will be added to the user document 
-8.	I can remove recipes from ‘my favourites’
-9.	Removed favourites will be removed from the user document 
-10.	I can add a new recipe
-11.	Added recipes will be added as a new recipe document 
-12.	Added recipes name added to user document
-13.	I can view ‘my added recipes’
-14.	‘my added recipes’ stored within the user document 
-15.	I can edit recipes that I have added
-16.	Edited recipes will update recipe document 
-17.	I can delete recipes that I have added
-18.	Deleted recipes will delete recipe document in recipe collection and entry from ‘my added recipes’ from user document
-19.	I can upvote recipes that I like
-20.	The upvote will increment the upvote counter in the recipe document 
-21.	I can remove my upvote of a recipe
-22.	The removal of the upvote will increment the upvote counter in the recipe document
-23.	I can view recipe data and graphical information based on the following:
+    5.	Difficulty= 
+    6.	Most popular
+    7.	Cooking time
+    8.	Meal time
+2.	I can save recipes to ‘my favourites’
+3.	Added favourites will be added to the user document 
+4.	I can remove recipes from ‘my favourites’
+5.	Removed favourites will be removed from the user document 
+6.	I can add a new recipe
+7.	Added recipes will be added as a new recipe document 
+8.	Added recipes name added to user document
+9.	I can view ‘my added recipes’
+10.	‘my added recipes’ stored within the user document 
+11.	I can edit recipes that I have added
+12.	Edited recipes will update recipe document 
+13.	I can delete recipes that I have added
+14.	Deleted recipes will delete recipe document in recipe collection and entry from ‘my added recipes’ from user document
+15.	I can upvote recipes that I like
+16.	The upvote will increment the upvote counter in the recipe document 
+17.	I can remove my upvote of a recipe
+18.	The removal of the upvote will increment the upvote counter in the recipe document
+19.	I can view recipe data and graphical information based on the following:
     1.	Cuisine
     2.	Country of origin
-    3.	Allergen friendly (free)
+    3.	Allergen 
     4.	Main ingredient
     5.	Difficulty 
-    6.	Recipe Author 
-    7.	Most popular
-    8.	Cooking time
-    9.	Meal time
-24.	Additional recipe information obtained from data contained within the recipe entry of the recipe document
-25.	When I enter the site I’m shown the landing page
-26.	Most popular recipes are displayed on the landing page based on the upvotes received 
-27.	I can click any recipe shown to be taken to the show recipe page
-28.	When I click any graphical data representation I’m shown recipes that match this criteria
-29.	When I click add recipes I am taken to the add recipe form
-30.	When I click edit/delete recipes I am taken to the edit/delete recipe form
-31.	When I click search I’m taken to the search form
-32.	I can login to the site
-33.	The login criteria will be stored in the user document in the user collection
-34.	I can register for the site
-35.	The password associated with the user's email address will be encrypted and not visible to the database
-35.	I can delete my account for the site
-36.	The user document will be deleted from the user collection
-37.	I can email the recipes to others to view
+    6.	Cooking time
+    7.	Meal time
+20.	Additional recipe information obtained from data contained within the recipe entry of the recipe document
+21.	When I enter the site I’m shown the landing page
+22.	Most popular recipes are displayed on the landing page based on the upvotes received 
+23.	I can click any recipe shown to be taken to the show recipe page
+24.	When I click add recipes I am taken to the add recipe form
+25.	When I click edit/delete recipes I am taken to the edit/delete recipe form
+26.	When I click search I’m taken to the search form
+27.	I can login to the site
+28.	The login criteria will be stored in the user document in the user collection
+29.	I can register for the site
+30.	The password associated with the user's email address will be encrypted and not visible to the database
 
 ### User stories
 
 *‘As a parent, I want a chicken recipe which is nut free so that my youngest child can eat the same meal as the rest of the family.’*
 
->The parent would access the site and click on the search button. The parent would then filter for chicken as the main ingredient and also filter for nuts in the allergen 
-friendly category. The results are then displayed.
+>The parent would access the site and click on the search button. The parent would then filter for chicken as the main ingredient, 
+the parent can then check if nuts are contained in the allergens of the recipe. The results are then displayed.
 
 *‘As the dinner party host, I want a tasty beef dish that is quick to prepare so that I enjoy time with my guests instead of being stuck in the kitchen all evening.’*
 
@@ -125,7 +114,7 @@ the page with the upvote now in place.
 
 *Header:* contains site name, links to: log-in if not already completed, personal favourites, home, edit/delete recipe, add recipe, and search.
 
-*Footer:*  back to top and copyright
+*Footer:* copyright
 
 *Side bar:* shows list of recipes based on ingredients, allergens, cuisine type, dietary choice, meal time: can add multiple filters selected by user. Shows data on number of recipes based on 
 ingredient, cuisine type, meal time. Shows data on most popular of recipes based on ingredient, cuisine type, meal time. 
@@ -188,8 +177,6 @@ Add new user to site.  Contains header and footer. Contains form to add new user
 -   Flask
 -	MongoDB Atlas
 -	Python 3
--	Materialize
--	Jasmine Test suite
 -	JQuery
 -	CSS 3
 -	HTML 5
@@ -214,16 +201,15 @@ Add new user to site.  Contains header and footer. Contains form to add new user
 -	register.html: *extends base.html and allows user to register for site*
 -	style.css: *contains styles to be used on site*
 -	main.js: *contains js code to be executed by site*
--	email.js: *contains email recipe code*
 -	display.js: *contains data presentation JS code*
--	Test files: *run unit level test on python and JS*
+-	Test files: *run unit level test on python*
 -	Procfile: *tells Heroku how to run the app*
 -	requirements.txt: *list of packages to be installed to run application*
 
 ### Database schema
 
 The document scheme used to organise the site data on Mongo DB Atlas is a hybrid approach which uses components of both normalised and de-normalised data patterns. All the documents 
-required for the site are contained within a single collection and allocated a ‘type’ attribute. The ‘type’ that the documents can have are as follows:
+required for the site are contained within a single collection and allocated a ‘document’ attribute, as follows:
 -	User: *stores specific user data*
 -	Recipe: *stores specific recipe data*
 
@@ -233,73 +219,3 @@ The database schema is shown below:
 
 Recipe name and recipe author values are duplicated across the Recipe and User document types as these values will be regularly used whilst the remainder of the Recipe and User properties 
 remain separated out.  
-
-
-
-## Setting up the working environment
-
- 1. Created a git repository for the project named 'milestone-project-4-online-cookbook'
- 2. Installed flask in C9
-    >Used 'sudo pip3 install flask' in the terminal to install Flask and created the app.py file. I ran the app.py file with the code executed in the 'Create the Flask Application' in 
-    the Mini-project of the Code Institute Data Centric Development Module to ensure functionality
- 2. Created new app in heroku and logged in via the terminal using my credentials to connect the C9 project to Heroku. I added the Heroku remote to my existing repository.
- 3. I then created a 'requirements.txt' file using 'pip freeze > requirements.txt' but after mulitple failed attempts due to lack of dependencies I populated this file with the packages found in 
-    'Deploy application to Heroku' in the Code Institute Data Centric Development Module
- 4. Added a procfile to my project to ensure that Heroku knows how to run the project as follows: using 'echo web: python app.py > Procfile'
- 5. Once the application was successfully pushed to Heroku I specified the IP and Port on Heroku in the configuration settings and the app opened in Heroku to ensure functionality
- 6. The 'onlineCookbook' database was then created in MongoDB Atlas with the collection named 'recipes'
- 7. To create the connection between the C9 workspace I first installed dnspython and pymongo libraries using 'sudo pip3 install dnspython' and 'sudo pip3 install pymongo' and then on MongoDB Atlas chose 
-    to connect to my database through a SRV string. For security, I used environment variables to connect to MongoDB Atlas. I edited the '.bashrc' file to include the MongoDB Atlas using the following commands 'cd ..' to change to my home directory then 'nano .bashrc'
-    to open the file. I then typed 'export MONGO_URI= copied connection string' added my password and edited the database name and saved the file. I then closed and reopened the temrinal and typed 'echo $MONGO_URI'
-    to verify the connection
- 8. I then ran the code found in the ' Run Mongo Commands From a Python File ' of the Code Institute Data Centric Development Module to ensure functionality and installed Flask-PyMongo'sudo pip3 install Flask-PyMongo'
- 9. The environment setup was succesfully completed when I added the index.hmtl file and successfully wrote the name of my first database entry to the page.
-
-
- 
-
-## Test Setup 
- 
- 1. *Installed Flask-testing extension using 'sudo pip3 install Flask-Testing' to perform unit level testing on my flask application*
- 2. installed ming to provide a validation layer to the data to and from the mongo database and provide a mim: mongo in memory functionality for testing
- 3. installed python blinker library to allow signals to be seen using 'sudo pip3 install blinker'
- 4. created a configuration file to allow the production database and the mim databases to be selected for testing 
- 5. installed coverage.py to show the code coverage of the test.py file for the app.py file.... using 'coverage html --omit=*/usr/local/lib/python3.4/dist-packages*,*test*  '  or 'coverage html --omit=*/usr/local/lib/python3.4/dist-packages*,*test*' to obtain coverage
- 6. created database_config_setup function to define database to be sued dependent upon whether the main application or the test application is being run, no need for config.py any longer
-
-## git ignore
- 'git rm --cached'
- 
-## CSS
- 1. created scss file in static folder called 'main.scss'
- 2. change to the static directory usgin 'cd static' 
- 3. started a watch on the scss for compiling into css using 'sass --watch main.scss' 
- 
-## References
-Parallax https://www.w3schools.com/howto/howto_css_parallax.asp
-https://www.plus2net.com/javascript_tutorial/list-adding.php
-https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags   ---new line replace string--
-https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-values-as-Comma-Separated-String-using-jQuery.aspx--checkboxes to string--
-https://stackoverflow.com/questions/33677374/jinja2-and-bootstrap-carousel-item-active   ----set carousel item active----
-https://code.tutsplus.com/tutorials/full-text-search-in-mongodb--cms-24835 -----full text search----
-https://gist.github.com/cpatrick/5719077 ----text score----
-https://docs.mongodb.com/manual/reference/method/db.collection.find/ ---sort---
-https://docs.mongodb.com/manual/reference/operator/update/inc/index.html ---increment---
-https://stackoverflow.com/questions/13241878/convert-pymongo-cursor-to-json --json object from find results---
-https://www.geeksforgeeks.org/python-add-new-keys-to-a-dictionary/  --dictionary--
-https://bl.ocks.org/emiguevara/4bd152a8828f6b31270702d97dc0133d ---plot.js----
-http://jsfiddle.net/PBrockmann/ma3wr55k  ----histogram-----
-https://stackoverflow.com/questions/5629805/disabling-enter-key-for-form --- prevent enter key default ---
-https://stackoverflow.com/questions/27264504/how-to-getchecked-values-and-remove-unchecked-in-array ---checkbox array----
-https://stackoverflow.com/questions/31012129/selector-not-in-jquery-not-working ---exclude id from search form----
-https://www.encodedna.com/2013/07/dynamically-add-remove-textbox-control-using-jquery.htm  ---add remove text inputs---
-https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary ----string to dict----
-http://flask.pocoo.org/docs/1.0/patterns/fileuploads/  ---use flask uploads---
-https://github.com/MiroslavSvec/DCD_lead --user routes and templates---
-https://qiita.com/hengsokvisal/items/329924dd9e3f65dd48e7 --UPLOAD AND DOWNLOAD S3 ----
-https://boh717.github.io/post/flask-login-and-mongodb/  ---flask login with pymongo----
-https://stackoverflow.com/questions/48934625/objectid-object-has-no-attribute-is-active-flask-login ---m,ore login manager---
-https://infinidum.com/2018/08/18/making-a-simple-login-system-with-flask-login/ ---m,ore login manager---
-http://www.patricksoftwareblog.com/tag/flask-login/ ---flask_login---
-https://www.reddit.com/r/flask/comments/841ka3/questiondoubt_how_to_redirect_to_the_same_page/  ---last page redirect---
-https://www.tutorialspoint.com/flask/flask_sessions.htm ---FLASK SESSIONS---
