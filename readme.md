@@ -9,7 +9,38 @@ All the recipe and user information for the site is stored on a NoSQL database a
 
 ## Planning of the online cookbook
 
-[Project planning document](project_planning.md) 
+The planning undertaken prior to beginning the project is described in the following document: [Project planning document](project_planning.md) 
+
+## Site features
+
+For clarity, site features will be outlined in terms of how they are implemented in each of the HTML templates.
+
+### base.html
+
+As the name suggests, the base.html template is used as the basis for the more content specific html templates on the site: each of which will add unique content to 
+the standard base.html.
+
+The base.html template consists of a navbar which contains the site logo and the navigation links for the the pages on the site. The site logo, itself, provides a
+link anchor which will return the user to the index.html page upon click. This allows the user to easily access the home page from any other page on the website. 
+
+In addition to this, the navigation links are log-in status specific. For example, the add-recipe and favourites links will always be visible but upon click you will only be
+redirected to the correct page if you are currently logged-in otherwise you will be redirected to the log-in page after which you will be redirected to the correct page.
+
+Furthermore, if you are not currently logged in: two additional links will be shown. These are log-in and register, clicking on these will redirect the user to the correct 
+webpage. If the user is currently logged in, the log-in and register link buttons are replaced with the my-recipes and log-out buttons. The my-recipes button shows the 
+recipes added directly by the current user and the log-out button will terminate the user session and return the log-in and register link buttons.
+
+Following the header element, the html document contains the sections where the other page specific content is added e.g. search_results.html would insert the 
+recipes found as a result of the search here.
+
+At the bottom of the page is where the footer is located and this contains copyright information for the website.
+
+### index.html
+
+
+
+
+
 
 
 
