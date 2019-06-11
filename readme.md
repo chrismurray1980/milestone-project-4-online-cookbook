@@ -1,5 +1,12 @@
 # Milestone Project 4 : Online Cookbook
 
+This project is a web-based cokkbook which allows users to quickly view recipes and find recipes based on both a simple text search and a more advanced category search. 
+The user can also register and log-in to the site to access to additional site features such as 'add a new recipe', 'edit a recipe you have added', 'delete a recipe you have added',
+'like a recipe' and 'add a recipe to your favourites list'.
+
+All the recipe and user information for the site is stored on a NoSQL database and allows quick access to recipes on the site in addition to quick recipe addition and modification.
+
+
 ## Planning of the online cookbook
 
 [Project planning document](project_planning.md) 
