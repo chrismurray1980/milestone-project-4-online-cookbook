@@ -63,7 +63,7 @@ class FlaskTestCase(TestCase):
         self.assertEqual( users_collection.count() , 1 )
         # ensure bson is of correct data type
         self.assertEqual( type( data_dumps ) , str )
-    
+        
     # Ensure search results page loads and contains recipe data for advanced search
     def test_advanced_search( self ):
         response = self.client.get( "/advanced_search_results/[{'recipeCuisine': 'Italian'}]", follow_redirects = True )
@@ -114,17 +114,7 @@ class FlaskTestCase(TestCase):
            # ensure correct data in response
            self.assertIn( b'test insert document' , response.data )
     
-    # Ensure edit_delete_recipe page loads with correct recipe_id
-    def test_edit_delete_recipe( self ):
-        with app.test_request_context( '/show_recipe/0123456789ab0123456789ab' ):
-           response = self.client.get( '/show_recipe/0123456789ab0123456789ab', follow_redirects = True )
-           # ensure 200 response
-           self.assert200( response )
-           # ensure correct template used
-           self.assertTemplateUsed( 'show_recipe.html' )
-           # ensure correct content
-           self.assertIn( b'test this document' , response.data )
-
+    
     #Ensure recipe is updated and show_recipe page is rendered
     def test_update_recipe( self ):
         # update recipe document
