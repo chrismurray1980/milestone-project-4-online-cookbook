@@ -1,10 +1,10 @@
 # Milestone Project 4 : Online Cookbook
 
-This project is a web-based cokkbook which allows users to quickly view recipes and find recipes based on both a simple text search and a more advanced category search. 
+This project is a web-based cookbook which allows users to quickly view recipes and find recipes based on both a simple text search and a more advanced category search. 
 The user can also register and log-in to the site to access to additional site features such as 'add a new recipe', 'edit a recipe you have added', 'delete a recipe you have added',
 'like a recipe' and 'add a recipe to your favourites list'.
 
-All the recipe and user information for the site is stored on a NoSQL database and allows quick access to recipes on the site in addition to quick recipe addition and modification.
+All the recipe and user information for the site is stored in a NoSQL database and allows quick access to recipes on the site in addition to quick recipe addition and modification.
 
 
 ## Planning of the online cookbook
@@ -116,7 +116,7 @@ The number of recipes returned is then counted and the search_results.html is re
 
 #### browse all recipes function
 
-This function finds all recipes sorted based on the number of likes. The number of recipes returned is the counted and the search_results.html rendered.
+This function finds all recipes sorted based on the number of likes. The number of recipes returned is then counted and the search_results.html rendered.
 
 #### add recipe function
 
@@ -192,7 +192,7 @@ register.html form.
 #### register function
 
 This page allows users to register new credentials with the website. First of all it checks if the user is already registered and if so redirects the user to the login page.
-If not, the user password is hashed and the user added to the database. The function then reders the login page to allow the user to login to the site.
+If not, the user password is hashed and the user added to the database. The function then renders the login page to allow the user to login to the site.
 
 #### log-out function
 
@@ -259,12 +259,12 @@ At the top of this page the recipe name is displayed followed by an image of the
 recipe ingredients and recipe step-by step instructions are shown for the recipe.
 
 If the user is not logged-in then the page is complete. However, if the user is logged-in and the user hasn't created this recipe then two buttons appear which let the user
-like abd favourite the recipe. When the user likes the recipe: the like count for the recipe is incremented by one and the 'like' button is replaced by the 'unlike' button. Clicking 
+like and favourite the recipe. When the user likes the recipe: the like count for the recipe is incremented by one and the 'like' button is replaced by the 'unlike' button. Clicking 
 the 'unlike' button will decrement the like count and return the 'like' button to the page. Similarly, for the favourites button: when clicked the recipe is added to the
-users list of favourite recipes and can be viewed in their 'favourites' page. Upon click, the 'favourite' button is replaced by the 'unfavourite' button. CLicking this button
+users list of favourite recipes and can be viewed in their 'favourites' page. Upon click, the 'favourite' button is replaced by the 'unfavourite' button. Clicking this button
 removes the recipe from the favourites list and returns the 'favourite' button.
 
-If the user is logged-in and is the craetor of the recipe then the 'like' and 'favourite' buttons are replaced with the 'edit/delete' recipe button. This serves two purposes:
+If the user is logged-in and is the creator of the recipe then the 'like' and 'favourite' buttons are replaced with the 'edit/delete' recipe button. This serves two purposes:
 firstly, to stop users liking and favouriting their own recipes and secondly, stopping users attempting to modify recipes that they haven't created.
 
 ### add_recipe.html
@@ -277,7 +277,7 @@ values that can be added to the database from the user. Dietary and allergens ar
 is acceptable to be passed to the database.
 
 Following these inputs are the add ingredients and add instructions sections. Both these sections have add buttons which reveal
-new input textboxes upon click. In addition to this a remove button is also added mext to each textbox to allow the user to delete that
+new input textboxes upon click. In addition to this a remove button is also added next to each textbox to allow the user to delete that
 specific textbox. Once the user is satisfied with the inputs they have added the user is asked to confirm these inputs via 
 a confirm button. Once, the confirm button is clicked the user is informed that the ingredients or instructions are confirmed.
 
@@ -291,10 +291,10 @@ for the recipe they have just added and this recipe is added to the users my_rec
 
 The edit recipe form is identical to the add recipe form in layout with some exceptions. Firstly, the inputs for the 
 dropdowns, texboxes and checkboxes have been pre-filled with the information from the saved recipe. All of these are still 
-editable. Furthermore, the inputs for the ingredients and instructions sections have also been prefilled with the information f
+editable. Furthermore, the inputs for the ingredients and instructions sections have also been prefilled with the information 
 from the saved recipe. For the add recipe image section, the field to add a new image has not been pre-filled allowing a 
 new image to be uploaded however, the current image used by the recipe is shown below the add-image input field. The final difference
-between this and the add-recipe form is the 'delete recipe' button located below the submit button form the form.
+between this and the add-recipe form is the 'delete recipe' button located below the submit button form.
 
 On submission of the updated recipe the user is again directed to the show_recipe.html for the updated recipe. If the recipe is 
 deleted by the user the page redirects to index.html.
@@ -303,7 +303,7 @@ deleted by the user the page redirects to index.html.
 
 Whenever a search is performed by the user, the results of the search are displayed in the search results page. At the top of the 
 page; the user is informed of the number of recipes found in the search and each recipe returned is displayed as a recipe card which 
-shows an image of the recipe; recipe name; information for the that recipe; and a 'view recipe' button which will redirect the user to the show_recipe.html for that
+shows an image of the recipe; recipe name; information for that recipe; and a 'view recipe' button which will redirect the user to the show_recipe.html for that
 specific recipe. In the event that no results are found for the user search: the user is informed that no recipes were found and, in addition to this, there is a 'browse all'
 button which will show all the recipes based on number of likes to ensure a consistent flow for the website UX.
 
@@ -367,7 +367,7 @@ The following technologies were used in the development of the application:
 9. [d3.js](https://d3js.org/): Javascript library for manipulating documents based on data
 10. [Ming](https://ming.readthedocs.io/en/latest/): An object document mapper for mongoDB which extends Pymongo
 11. [AWS S3](https://aws.amazon.com/s3/): Amazon simple storage device
-12. [flask_login](https://flask-login.readthedocs.io/en/latest/): Provides user sessoin management for Flask applications
+12. [flask_login](https://flask-login.readthedocs.io/en/latest/): Provides user session management for Flask applications
 13. [flask_sslify](https://github.com/kennethreitz/flask-sslify): Converts all incoming requests from application to https
 14. [Flask-testing](https://pythonhosted.org/Flask-Testing/): Provides unittesting utilities for Flask
 15. [GitHub](https://github.com): used to store and save versions of the application
@@ -396,7 +396,7 @@ The [W3C Markup validation service](https://validator.w3.org/) was used to check
 9. [W3C_search_results.html](/static/img/verification_docs/search_results.pdf)
 10. [W3C_show_recipe.html](/static/img/verification_docs/show_recipe.pdf)
 
-The the main issues found due to the use of Jinja. 
+The the main issues found were due to the use of Jinja. 
 
 ### CSS validation
 
@@ -412,7 +412,7 @@ The written in the main.js and plot.js files was run through [JSHint](https://js
 
 ## Deployment
 
-To deploy the application to Heroku firstly, a new project was created in Heroku. A Procfile was created which is used to tell Heroku how 
+To deploy the application to Heroku firstly, a new project was created in Heroku. A Procfile was created which was used to tell Heroku how 
 to run the application. In addition to this a requirements.txt file was created which told Heroku which Python modules were needed to run the application.  In addition to this, environment variables had to be configured in Heroku.
 This was achieved by going to the project settings
 in Heroku and implementing the IP and PORT to be used by the application in the config variables settings. In addition to this the name of the mongoDB collection and the URI of the database were
@@ -421,7 +421,7 @@ and bucket name were configured for use with Heroku by running:
 
     $heroku config:set S3_KEY=****** S3_SECRET=******* S3_BUCKET=*********
     
-in the console of the Cloud9 application. The project was deployed to Heroku by going to the deploy tab and manually deploying the master branch of the project's Git repository. Once the project was 
+in the console of the Cloud9 application. The project was deployed to Heroku by going to the deploy tab and manually deploying the master branch of the project's GitHub repository. Once the project was 
 successfully deployed, the project was opened by clicking the 'view app' button in Heroku: this was achieved with minimal number of issues.
 
 There is no difference between the deployed and development versions of the application other than in development version debug is set to 'True' whereas in deployment debug is set to 'False'.
