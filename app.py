@@ -478,8 +478,7 @@ def submit_login():
                 return redirect( url_for( 'login' ) )
 		# if user not in db redirect to register
         else:
-            flash('Incorrect login details')
-            print( 'Incorrect login details' )
+            flash('Login details not recognised, please register')
             return redirect( url_for( 'register' ) ) 
     except:
         print( 'Error, could not login user' )
