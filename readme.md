@@ -431,6 +431,7 @@ in the console of the Cloud9 application. The project was deployed to Heroku by 
 successfully deployed, the project was opened by clicking the 'view app' button in Heroku: this was achieved with minimal number of issues.
 
 There is no difference between the deployed and development versions of the application other than in development version debug is set to 'True' whereas in deployment debug is set to 'False'.
+The site can be accessed here [The Good Grub Guide](https://milestone-project-4-cookbook.herokuapp.com/)
 
 ## Credits
 

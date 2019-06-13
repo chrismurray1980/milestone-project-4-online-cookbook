@@ -114,7 +114,6 @@ class FlaskTestCase(TestCase):
            # ensure correct data in response
            self.assertIn( b'test insert document' , response.data )
     
-    
     #Ensure recipe is updated and show_recipe page is rendered
     def test_update_recipe( self ):
         # update recipe document

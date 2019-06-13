@@ -21,7 +21,6 @@ var field_array = ['recipeCuisine', 'recipeCountryOfOrigin', 'recipeMealTime', '
 var dietary_array = [], allergen_array = []; 
 
 // variables for ingredients and instructions textboxes
-
 var ingredient_count = 0, instruction_count = 0, ingredient_values = '', instruction_values = '';
 
 // add options to select dropdowns function definition

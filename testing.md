@@ -7,7 +7,7 @@ intentions of the author.
 
 ### Automated testing
 
-Automated testing was used to test the main functionality of the website and was undertaken using the Ming-In-Memory (mim) database which provides temporary storage for the documents created during testing. Flask-testing is used in conjunction with Python unittests
+Automated testing was used to test the main functionality of the website and was undertaken using the Mongo-In-Memory (mim) database which provides temporary storage for the documents created during testing. Flask-testing is used in conjunction with Python unittests
 to conduct the automated tests themselves.   
 
 To begin testing a FlaskTestCase class was created, which contains all the test functions, and a function was defined that configures the application for testing. This function configures the application to disable the login manager functionality, used to

@@ -205,7 +205,6 @@ def browse_all_recipes():
     except:
         print( 'Error accessing database documents' )
 
-
 # Display add recipe page 
 @app.route( '/add_recipe' )
 @login_required
@@ -580,7 +579,6 @@ def advanced_search_query_formatting( list ):
             else:
                 search_list.append( { value : request.form[ value ] } )
     return search_list
-
 
 # Construct format of insert or update to be sent to db 
 def insert_update_db_format( list ):
