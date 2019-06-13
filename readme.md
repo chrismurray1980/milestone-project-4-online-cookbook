@@ -17,7 +17,11 @@ As development of the application progressed the layout of the pages also progre
 
 ![This image is not available](static/img/wireframes/add_recipe.JPG)
 
+It is clear from the add-recipe page above that the aside and main content are cramped due to the layout.
+
 ![This image is not available](static/img/wireframes/edit_recipe.JPG)
+
+Again, this over populated configuration can be seen in the edit-delete-recipe page, above, and in the index page, below.
 
 ![This image is not available](static/img/wireframes/index_image_2.JPG)
 
