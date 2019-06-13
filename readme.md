@@ -19,25 +19,13 @@ As development of the application progressed the layout of the pages also progre
 
 ![This image is not available](static/img/wireframes/database_schema.jpg)
 
-![This image is not available](static/img/wireframes/database_schema.jpg)
-
-![This image is not available](static/img/wireframes/database_schema.jpg)
-
-![This image is not available](static/img/wireframes/database_schema.jpg)
-
-![This image is not available](static/img/wireframes/database_schema.jpg)
-
-![This image is not available](static/img/wireframes/database_schema.jpg)
-
-![This image is not available](static/img/wireframes/database_schema.jpg)
-
 Having developed the site on the initial wireframe plan it was felt that the content was far too cramped with having the sidebar for additional content next to the main page content. The configuration 
 was redeveloped into a central content area above a background image. This central content area would contain the header elements, the main content and either additional hidden content or links to additional 
 content. The site layout was reconfigured as follows:
 
 ![This image is not available](static/img/wireframes/updated_wireframe.JPG)
 
-I also hated the initially planned name and renamed this the 'Good grub guide' which I don't love either but I can't think of anything better! In practice the website now has the following basic layout:
+I also hated the initially planned name and renamed this the 'The Good grub guide' which I don't love either but I can't think of anything better! In practice the website now has the following basic layout:
 
 ![This image is not available](static/img/wireframes/updated_site_layout.JPG)
 
@@ -382,6 +370,8 @@ The following technologies were used in the development of the application:
 12. [flask_login](https://flask-login.readthedocs.io/en/latest/): Provides user sessoin management for Flask applications
 13. [flask_sslify](https://github.com/kennethreitz/flask-sslify): Converts all incoming requests from application to https
 14. [Flask-testing](https://pythonhosted.org/Flask-Testing/): Provides unittesting utilities for Flask
+15. [GitHub]()
+16. [Cloud9]()
 
 ## Testing
 
@@ -389,9 +379,51 @@ Both automated and manual testing was undertaken on the application and this is 
 
 ## Code validation
 
+The HTML, CSS and JS code was run through code validation to detect any errors.
 
+### HTML validation
+
+The [W3C Markup validation service](https://validator.w3.org/) was used to check the quality of the HTML language used. This was run for all the document templates and the base template as follows:
+
+1. [W3C_base.html](/static/img/verification_docs/W3C_baseHTML.pdf)
+2. [W3C_add_recipe.html](/static/img/verification_docs/add_recipe.pdf)
+3. [W3C_edit_recipe.html](/static/img/verification_docs/edit_recipe.pdf)
+4. [W3C_favourites.html](/static/img/verification_docs/favourites.pdf)
+5. [W3C_index.html](/static/img/verification_docs/index.pdf)
+6. [W3C_login.html](/static/img/verification_docs/login.pdf)
+7. [W3C_my_recipes.html](/static/img/verification_docs/my_recipes.pdf)
+8. [W3C_register.html](/static/img/verification_docs/register.pdf)
+9. [W3C_search_results.html](/static/img/verification_docs/search_results.pdf)
+10. [W3C_show_recipe.html](/static/img/verification_docs/show_recipe.pdf)
+
+The the main issues found due to the use of Jinja. 
+
+### CSS validation
+
+The [W3C CSS validation service](https://jigsaw.w3.org/css-validator/) was used to check the quality of the CSS used. The results are show here:
+[W3C_CSS](/static/img/verification_docs/css_validator.pdf)
+
+### JS validation
+
+The written in the main.js and plot.js files was run through [JSHint](https://jshint.com/) with no major errors as follows:
+
+1. [JSHint_main.js](/static/img/verification_docs/main_js_js_hint.pdf)
+2. [JSHint_plot.js](/static/img/verification_docs/plot_js_js_hint.pdf)
 
 ## Deployment
+
+To deploy the application to Heroku firstly, a new project was created in Heroku. A Procfile was created which is used to tell Heroku how 
+to run the application. In addition to this a requirements.txt file was created which told Heroku which Python modules were needed to run the application.  In addition to this, environment variables had to be configured in HerokuThis was achieved by going to the project settings
+in Heroku and implementing the IP and PORT to be used by the application in the config variables settings. In addition to this the name of the mongoDB collection and the URI of the database were
+added to these settings. In addition to this,  for security within Flask, a secret key for the application was also added to these variables. The variables used by S3 such as the access key, secret key
+and bucket name were configured for use with Heroku by running: 
+
+    $heroku config:set S3_KEY=****** S3_SECRET=******* S3_BUCKET=*********
+    
+in the console of the Cloud9 application. The project was deployed to Heroku by going to the deploy tab and manually deploying the master branch of the project's Git repository. Once the project was 
+successfully deployed, the project was opened by clicking the 'view app' button in Heroku: this was achieved with minimal number of issues.
+
+There is no difference between the deployed and development versions of the application other than in development version debug is set to 'True' whereas in deployment debug is set to 'False'.
 
 ## Credits
 
