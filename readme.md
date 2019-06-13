@@ -291,6 +291,8 @@ redirected to the login page to enter the website.
 
 ## Testing
 
+Both automated and manual testing was undertaken on the application and this is described in detail in the following document: [Testing document](testing.md)
+
 ## Deployment
 
 ## Credits
