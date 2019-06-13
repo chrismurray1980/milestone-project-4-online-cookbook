@@ -15,9 +15,11 @@ The planning undertaken prior to beginning the project is described in the follo
 
 As development of the application progressed the layout of the pages also progressed. Around mid-way through the project the site had the following configuration:
 
-![This image is not available](static/img/wireframes/database_schema.jpg)
+![This image is not available](static/img/wireframes/add recipe.JPG)
 
-![This image is not available](static/img/wireframes/database_schema.jpg)
+![This image is not available](static/img/wireframes/edit recipe.JPG)
+
+![This image is not available](static/img/wireframes/index image 2.JPG)
 
 Having developed the site on the initial wireframe plan it was felt that the content was far too cramped with having the sidebar for additional content next to the main page content. The configuration 
 was redeveloped into a central content area above a background image. This central content area would contain the header elements, the main content and either additional hidden content or links to additional 
