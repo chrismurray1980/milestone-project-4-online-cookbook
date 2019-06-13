@@ -1,4 +1,6 @@
-# Testing 
+# Milestone Project 4 : Online Cookbook
+
+## Testing 
 
 The testing conducted to verify the functionality of the website consisted of both automated testing and manual testing, using various screen sizes and web browsers ( safari, firefox and chrome). Due to time constraints; the automated testing portion is limited compared to the initial
 intentions of the author. 

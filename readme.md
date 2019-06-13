@@ -356,22 +356,22 @@ Due to time constraints the following features, which would produce a more enjoy
 
 The following technologies were used in the development of the application:
 
-1. [Flask](flask.pocoo.org):  A microframework for Python
+1. [Flask](http://flask.pocoo.org):  A microframework for Python
 2.	[MongoDB Atlas](https://www.mongodb.com/cloud/atlas): Automated cloud mongoDB service
 3. [JQuery](https://jquery.com/): A javascript library used for event handling and DOM manipulation
 4. [Bootstrap 4](https://getbootstrap.com/): A toolkit for developing HTML, CSS, and JS
 5. [SASS](https://sass-lang.com/): A professional level CSS extension language
 6. [Jinja](http://jinja.pocoo.org/docs/2.10/): Templating language for Python
 7.	[Heroku](https://dashboard.heroku.com): A cloud platform as a service
-8	 [dc.js](https://dc-js.github.io/dc.js/): Dimensional charting javascript library
+8.	[dc.js](https://dc-js.github.io/dc.js/): Dimensional charting javascript library
 9. [d3.js](https://d3js.org/): Javascript library for manipulating documents based on data
 10. [Ming](https://ming.readthedocs.io/en/latest/): An object document mapper for mongoDB which extends Pymongo
 11. [AWS S3](https://aws.amazon.com/s3/): Amazon simple storage device
 12. [flask_login](https://flask-login.readthedocs.io/en/latest/): Provides user sessoin management for Flask applications
 13. [flask_sslify](https://github.com/kennethreitz/flask-sslify): Converts all incoming requests from application to https
 14. [Flask-testing](https://pythonhosted.org/Flask-Testing/): Provides unittesting utilities for Flask
-15. [GitHub]()
-16. [Cloud9]()
+15. [GitHub](https://github.com): used to store and save versions of the application
+16. [Cloud9](https://c9.io): online IDE used to develop the application
 
 ## Testing
 
@@ -413,7 +413,8 @@ The written in the main.js and plot.js files was run through [JSHint](https://js
 ## Deployment
 
 To deploy the application to Heroku firstly, a new project was created in Heroku. A Procfile was created which is used to tell Heroku how 
-to run the application. In addition to this a requirements.txt file was created which told Heroku which Python modules were needed to run the application.  In addition to this, environment variables had to be configured in HerokuThis was achieved by going to the project settings
+to run the application. In addition to this a requirements.txt file was created which told Heroku which Python modules were needed to run the application.  In addition to this, environment variables had to be configured in Heroku.
+This was achieved by going to the project settings
 in Heroku and implementing the IP and PORT to be used by the application in the config variables settings. In addition to this the name of the mongoDB collection and the URI of the database were
 added to these settings. In addition to this,  for security within Flask, a secret key for the application was also added to these variables. The variables used by S3 such as the access key, secret key
 and bucket name were configured for use with Heroku by running: 
@@ -427,33 +428,33 @@ There is no difference between the deployed and development versions of the appl
 
 ## Credits
 
-Parallax https://www.w3schools.com/howto/howto_css_parallax.asp
-https://www.plus2net.com/javascript_tutorial/list-adding.php
-https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags   ---new line replace string--
-https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-values-as-Comma-Separated-String-using-jQuery.aspx--checkboxes to string--
-https://stackoverflow.com/questions/33677374/jinja2-and-bootstrap-carousel-item-active   ----set carousel item active----
-https://code.tutsplus.com/tutorials/full-text-search-in-mongodb--cms-24835 -----full text search----
-https://gist.github.com/cpatrick/5719077 ----text score----
-https://docs.mongodb.com/manual/reference/method/db.collection.find/ ---sort---
-https://docs.mongodb.com/manual/reference/operator/update/inc/index.html ---increment---
-https://stackoverflow.com/questions/13241878/convert-pymongo-cursor-to-json --json object from find results---
-https://www.geeksforgeeks.org/python-add-new-keys-to-a-dictionary/  --dictionary--
-https://bl.ocks.org/emiguevara/4bd152a8828f6b31270702d97dc0133d ---plot.js----
-http://jsfiddle.net/PBrockmann/ma3wr55k  ----histogram-----
-https://stackoverflow.com/questions/5629805/disabling-enter-key-for-form --- prevent enter key default ---
-https://stackoverflow.com/questions/27264504/how-to-getchecked-values-and-remove-unchecked-in-array ---checkbox array----
-https://stackoverflow.com/questions/31012129/selector-not-in-jquery-not-working ---exclude id from search form----
-https://www.encodedna.com/2013/07/dynamically-add-remove-textbox-control-using-jquery.htm  ---add remove text inputs---
-https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary ----string to dict----
-http://flask.pocoo.org/docs/1.0/patterns/fileuploads/  ---use flask uploads---
-https://github.com/MiroslavSvec/DCD_lead --user routes and templates---
-https://qiita.com/hengsokvisal/items/329924dd9e3f65dd48e7 --UPLOAD AND DOWNLOAD S3 ----
-https://boh717.github.io/post/flask-login-and-mongodb/  ---flask login with pymongo----
-https://stackoverflow.com/questions/48934625/objectid-object-has-no-attribute-is-active-flask-login ---m,ore login manager---
-https://infinidum.com/2018/08/18/making-a-simple-login-system-with-flask-login/ ---m,ore login manager---
-http://www.patricksoftwareblog.com/tag/flask-login/ ---flask_login---
-https://www.reddit.com/r/flask/comments/841ka3/questiondoubt_how_to_redirect_to_the_same_page/  ---last page redirect---
-https://www.tutorialspoint.com/flask/flask_sessions.htm ---FLASK SESSIONS---
+1. Parallax https://www.w3schools.com/howto/howto_css_parallax.asp
+2. https://www.plus2net.com/javascript_tutorial/list-adding.php
+3. https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags   ---new line replace string--
+4. https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-values-as-Comma-Separated-String-using-jQuery.aspx--checkboxes to string--
+5. https://stackoverflow.com/questions/33677374/jinja2-and-bootstrap-carousel-item-active   ----set carousel item active----
+6. https://code.tutsplus.com/tutorials/full-text-search-in-mongodb--cms-24835 -----full text search----
+7. https://gist.github.com/cpatrick/5719077 ----text score----
+8. https://docs.mongodb.com/manual/reference/method/db.collection.find/ ---sort---
+9. https://docs.mongodb.com/manual/reference/operator/update/inc/index.html ---increment---
+10. https://stackoverflow.com/questions/13241878/convert-pymongo-cursor-to-json --json object from find results---
+11. https://www.geeksforgeeks.org/python-add-new-keys-to-a-dictionary/  --dictionary--
+12. https://bl.ocks.org/emiguevara/4bd152a8828f6b31270702d97dc0133d ---plot.js----
+13. http://jsfiddle.net/PBrockmann/ma3wr55k  ----histogram-----
+14. https://stackoverflow.com/questions/5629805/disabling-enter-key-for-form --- prevent enter key default ---
+15. https://stackoverflow.com/questions/27264504/how-to-getchecked-values-and-remove-unchecked-in-array ---checkbox array----
+16. https://stackoverflow.com/questions/31012129/selector-not-in-jquery-not-working ---exclude id from search form----
+17. https://www.encodedna.com/2013/07/dynamically-add-remove-textbox-control-using-jquery.htm  ---add remove text inputs---
+18. https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary ----string to dict----
+19. http://flask.pocoo.org/docs/1.0/patterns/fileuploads/  ---use flask uploads---
+20. https://github.com/MiroslavSvec/DCD_lead --user routes and templates---
+21. https://qiita.com/hengsokvisal/items/329924dd9e3f65dd48e7 --UPLOAD AND DOWNLOAD S3 ----
+22. https://boh717.github.io/post/flask-login-and-mongodb/  ---flask login with pymongo----
+23. https://stackoverflow.com/questions/48934625/objectid-object-has-no-attribute-is-active-flask-login ---m,ore login manager---
+24. https://infinidum.com/2018/08/18/making-a-simple-login-system-with-flask-login/ ---m,ore login manager---
+25. http://www.patricksoftwareblog.com/tag/flask-login/ ---flask_login---
+26. https://www.reddit.com/r/flask/comments/841ka3/questiondoubt_how_to_redirect_to_the_same_page/  ---last page redirect---
+27. https://www.tutorialspoint.com/flask/flask_sessions.htm ---FLASK SESSIONS---
 
 
 
