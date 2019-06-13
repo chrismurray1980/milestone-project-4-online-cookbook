@@ -436,7 +436,7 @@ There is no difference between the deployed and development versions of the appl
 
 The following websites were used for guidance and code snippets used within this application:
 
-1. [Addint to lists in JS](https://www.plus2net.com/javascript_tutorial/list-adding.php)
+1. [Add int to lists in JS](https://www.plus2net.com/javascript_tutorial/list-adding.php)
 2. [new line replace string](https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags)
 3. [checkboxes to string](https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-values-as-Comma-Separated-String-using-jQuery.aspx)
 4. [set carousel item active](https://stackoverflow.com/questions/33677374/jinja2-and-bootstrap-carousel-item-active)
@@ -453,7 +453,7 @@ The following websites were used for guidance and code snippets used within this
 15. [exclude id from search form](https://stackoverflow.com/questions/31012129/selector-not-in-jquery-not-working)
 16. [add remove text inputs](https://www.encodedna.com/2013/07/dynamically-add-remove-textbox-control-using-jquery.htm)  
 17. [string to dict](https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary)
-18. [UPLOAD AND DOWNLOAD S3](https://qiita.com/hengsokvisal/items/329924dd9e3f65dd48e7)
+18. [upload and download S3](https://qiita.com/hengsokvisal/items/329924dd9e3f65dd48e7)
 19. [flask login with pymongo](https://boh717.github.io/post/flask-login-and-mongodb/)
 20. [flask login manager](https://stackoverflow.com/questions/48934625/objectid-object-has-no-attribute-is-active-flask-login)
 21. [last page redirect flask](https://www.reddit.com/r/flask/comments/841ka3/questiondoubt_how_to_redirect_to_the_same_page/)
