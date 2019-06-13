@@ -11,136 +11,204 @@ All the recipe and user information for the site is stored on a NoSQL database a
 
 The planning undertaken prior to beginning the project is described in the following document: [Project planning document](project_planning.md) 
 
-## Add wireframe development
+## Wireframe/site configuration development
+
+As development of the application progressed the layout of the pages also progressed. Around mid-way through the project the site had the following configuration:
+
+![This image is not available](static/img/wireframes/database_schema.jpg)
+
+![This image is not available](static/img/wireframes/database_schema.jpg)
+
+![This image is not available](static/img/wireframes/database_schema.jpg)
+
+![This image is not available](static/img/wireframes/database_schema.jpg)
+
+![This image is not available](static/img/wireframes/database_schema.jpg)
+
+![This image is not available](static/img/wireframes/database_schema.jpg)
+
+![This image is not available](static/img/wireframes/database_schema.jpg)
+
+![This image is not available](static/img/wireframes/database_schema.jpg)
+
+Having developed the site on the initial wireframe plan it was felt that the content was far too cramped with having the sidebar for additional content next to the main page content. The configuration 
+was redeveloped into a central content area above a background image. This central content area would contain the header elements, the main content and either additional hidden content or links to additional 
+content. The site layout was reconfigured as follows:
+
+![This image is not available](static/img/wireframes/updated_wireframe.JPG)
+
+I also hated the initially planned name and renamed this the 'Good grub guide' which I don't love either but I can't think of anything better! In practice the website now has the following basic layout:
+
+![This image is not available](static/img/wireframes/updated_site_layout.JPG)
+
+This layout provides plenty of room to clearly show page content with the header and footer neatly surrounding it.
+
+## Final database schema
+
+As the project developed the database schema did also, to a lesser extent. As stated in the project planning document, the database for the application consisted of two different document types: recipe 
+documents and user documents.
+
+The recipe document schema, shown below, contains all information related to the recipe, including a link to the recipe image. The 'recipeEmail' is included to allow verification that the user is the author of the recipe
+and is imported from the user session on recipe creation and cannot be altered by any user.
+
+    class recipes(Document):
+     class __mongometa__:
+         session = session
+         name = 'recipe'
+     _id = Field(schema.ObjectId)
+     recipeName = Field(schema.String)
+     recipeAuthor = Field(schema.String)
+     recipeCuisine = Field(schema.String)
+     recipeCountryOfOrigin = Field(schema.String)
+     recipeMealTime = Field(schema.String)
+     recipeServings = Field(schema.String)
+     recipeDifficulty = Field(schema.String)
+     recipePreparationTime = Field(int)
+     recipeCookingTime = Field(int)
+     recipeAllergen = Field(schema.Array(str))
+     recipeMainIngredient = Field(schema.String)
+     recipeIngredients = Field(schema.String)
+     recipeInstructions = Field(schema.String)
+     recipeDietary= Field(schema.Array(str))
+     recipeUpvotes = Field(int)
+     recipeImageLink = Field(schema.String)
+     recipeEmail = Field(schema.String)
+
+The user document schema contains all information related to the site user. The user password is hashed and cannot be seen by anyone. The favouriteRecipes, myRecipes and likedRecipes arrays store the object
+ID of the recipes to allow users to quickly access these.
+
+    class users(UserMixin, Document):
+     class __mongometa__:
+         session = session
+         name = 'user'
+     _id = Field(schema.ObjectId)
+     username = Field(str)
+     email = Field(str)
+     password = Field(str)
+     favouriteRecipes = Field(schema.Array(str))
+     myRecipes = Field(schema.Array(str))
+     likedRecipes = Field(schema.Array(str))
 
 
 ## Site configuration
 
-### get recipes function
+### App.py
+
+This is the main application file which initially creates the flask application. It then initialises SSLIFY which forces the flask application to redirect requests to 'https://'. It then 
+connects the application to the mongoDB database and imports the environment variables for the application. It then configures the connection to the AWS S3 bucket which is used to store the recipe
+images for the website and then configures the Ming ODM session to ensure schema enforcement. This schema is shown in the following: [Document schema](models.py)
+
+Login manager is then initialised by the application to ensure that certain routes require user authentication to view them. The user is authenticated via the log-in page and protected routes 
+have the '@login_required' wrapper around the route function. The routes used by the flask application and their purpose are summarised as follows:
+
+#### get recipes function
 
 This function is used in the landing page of the website and queries the database for all recipes sorted in terms of the number of user likes the recipes has. Only the top
 5 liked recipes are returned. In addition to this the function also queries the database for all recipes and converts the returned object into BSON which is passed to the 
 index page and used for the data for the dc.js data plots. The index page is then rendered.
 
-### search function
+#### search function
 This function gets the user entered search text from the search form on index.html and passes this content to the search_results function. If the content is empty it redirects
 the user to the home page and informs them that no search content was entered.
 
-### search_results function
+#### search_results function
 
 This function takes the search content and converts it to the correct format to use to query the database. The database is then queried based upon the text score of the
 text entered by the user. The number of recipes returned by the query are then counted and the search_results page is rendered.
 
-### advanced_search function
+#### advanced_search function
 
 This function takes in all the fields from the advanced search form and converts it into a format in which the database can be queried. This is then passed to the advanced 
 search results function.
 
-### advanced search results function
+#### advanced search results function
 
 This function queries the database for all recipes which match the advanced search parameters and returns those recipes based on the number of likes with a limit of 10 recipes.
 The number of recipes returned is then counted and the search_results.html is rendered.
 
-### browse all recipes function
+#### browse all recipes function
 
 This function finds all recipes sorted based on the number of likes. The number of recipes returned is the counted and the search_results.html rendered.
 
-### add recipe function
+#### add recipe function
 
 This function requires user login for access and renders the add recipe form.
 
-### insert recipe function
+#### insert recipe function
 
 This function collates the input fields from the add recipe form and inserts the new recipe into the database. The function then finds this newly created recipe by ID
 and renders the show_recipe.html for the newly inserted recipe. In addition to this, the function adds the recipe ID to the user's my-recipes array and informs the user that it can now
 be viewed in the my-recipes link.
 
-### edit delete recipe function
+#### edit delete recipe function
 
 This function requires user login for access and opens the edit_delete_recipe.html form with previously inserted information if the user's email matches the recipe-email field. If it does not match the user
 is informed that they are not authorised to edit this document and returned to the home page.
 
-### update recipe function
+#### update recipe function
 
 This function takes the fields from the edit_delete_recipe.html form and updates the database with the new recipe parameters. It then finds the recipe ID and renders
 the show_recipe.html for this specific recipe.
 
-### show recipe function
+#### show recipe function
 
 This function finds the chosen recipe based on recipe ID and checks whether the user is authenticated: this shows different action buttons based upon the users relationship with the recipe. If the user is the recipe author
 the 'edit delete recipe' button is shown otherwise the 'like' and 'favourite' buttons are shown. If the user is not authenticated, no further action buttons are shown.
 
 
-### delete recipe function
+#### delete recipe function
 
 This function deletes the recipe from the database and removes the recipe from the user's my-recipes and favourites array. The index page is then displayed on deletion and
 the user notified.
 
-### like recipe function
+#### like recipe function
 
 This function requires user log-in. This function checks if the recipe is currently liked by the user and in the user favourites. If not already liked then it will increment
 the user like count and return the current recipe page.
 
-### unlike recipe function
+#### unlike recipe function
 
 This function requires user log-in. This function checks if the recipe is currently liked by the user and in the user favourites. If already liked then it will decrement
 the user like count and return the current recipe page.
 
-### favourite recipe function
+#### favourite recipe function
 
 This function requires user log-in. This function checks if the recipe is currently liked by the user and in the user favourites. If not already in the user favourites it will
 add the recipe ID to the user favourites array and return the current recipe page.
 
-### unfavourite recipe function
+#### unfavourite recipe function
 
 This function requires user log-in. This function checks if the recipe is currently liked by the user and in the user favourites. If already in user favourites then it will remove the
 recipe id from the user favourites array and return the current recipe page.
 
-### favourites function
+#### favourites function
 
 This function requires user log-in. This function finds all the recipe ID's in the user favourite array and then search the database for these recipes. The number of recipes 
 returned is also counted and the favourites.html page rendered.
 
-### my-recipes function
+#### my-recipes function
 
 This function requires user log-in. This function finds all the recipe ID's in the user my-recipes array and then search the database for these recipes. The number of recipes 
 returned is also counted and the my_recipes.html.html page rendered.
 
-### login function
+#### login function
 
 This function renders the login.html form for user login.
 
-### submit login function
+#### submit login function
 
 This function takes the inputs from the login form and searches the database for the user. If the user is found in the database the passwords are checked and if correct
 the user is logged in. If the password is incorrect the user is notified and the login page reloaded. If none of the user credentials are correct the user is redirected to the 
 register.html form.
 
-### register function
+#### register function
 
 This page allows users to register new credentials with the website. First of all it checks if the user is already registered and if so redirects the user to the login page.
 If not, the user password is hashed and the user added to the database. The function then reders the login page to allow the user to login to the site.
 
-### log-out function
+#### log-out function
 
 This function terminates the current user session.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Site features
 
@@ -231,7 +299,7 @@ ultimately be uploaded to the AWS S3 bucket for the website which contains all t
 To submit the recipe the user clicks the 'submit' button at the bottom of the form and they are redirected to the 'show_recipe.html'
 for the recipe they have just added and this recipe is added to the users my_recipes array in the database.
 
-### edit_delete_recipe.html
+### edit-delete-recipe.html
 
 The edit recipe form is identical to the add recipe form in layout with some exceptions. Firstly, the inputs for the 
 dropdowns, texboxes and checkboxes have been pre-filled with the information from the saved recipe. All of these are still 
@@ -287,61 +355,46 @@ redirected to the login page to enter the website.
 
 ## Features Left to Implement
 
+Due to time constraints the following features, which would produce a more enjoyable user experience and more professional website, were not implemented:
+
+1. Email on user register to ask users to verify their email address
+2. Link for users who have forgotten their log-in credentials to reset them
+3. Ability for user to delete account
+4. Removal of recipe ID from all user favourites and likes upon recipe deletion
+5. Ability for users to save and name their saved searches, this would include an additional webpage showing all saved searches for that user
+6. Ability for the user to apply additional filters to the results of a search query
+
 ## Technologies Used
+
+The following technologies were used in the development of the application:
+
+1. [Flask](flask.pocoo.org):  A microframework for Python
+2.	[MongoDB Atlas](https://www.mongodb.com/cloud/atlas): Automated cloud mongoDB service
+3. [JQuery](https://jquery.com/): A javascript library used for event handling and DOM manipulation
+4. [Bootstrap 4](https://getbootstrap.com/): A toolkit for developing HTML, CSS, and JS
+5. [SASS](https://sass-lang.com/): A professional level CSS extension language
+6. [Jinja](http://jinja.pocoo.org/docs/2.10/): Templating language for Python
+7.	[Heroku](https://dashboard.heroku.com): A cloud platform as a service
+8	 [dc.js](https://dc-js.github.io/dc.js/): Dimensional charting javascript library
+9. [d3.js](https://d3js.org/): Javascript library for manipulating documents based on data
+10. [Ming](https://ming.readthedocs.io/en/latest/): An object document mapper for mongoDB which extends Pymongo
+11. [AWS S3](https://aws.amazon.com/s3/): Amazon simple storage device
+12. [flask_login](https://flask-login.readthedocs.io/en/latest/): Provides user sessoin management for Flask applications
+13. [flask_sslify](https://github.com/kennethreitz/flask-sslify): Converts all incoming requests from application to https
+14. [Flask-testing](https://pythonhosted.org/Flask-Testing/): Provides unittesting utilities for Flask
 
 ## Testing
 
 Both automated and manual testing was undertaken on the application and this is described in detail in the following document: [Testing document](testing.md)
 
+## Code validation
+
+
+
 ## Deployment
 
 ## Credits
 
-
-
-
-
-
-## Setting up the working environment
-
- 1. Created a git repository for the project named 'milestone-project-4-online-cookbook'
- 2. Installed flask in C9
-    >Used 'sudo pip3 install flask' in the terminal to install Flask and created the app.py file. I ran the app.py file with the code executed in the 'Create the Flask Application' in 
-    the Mini-project of the Code Institute Data Centric Development Module to ensure functionality
- 2. Created new app in heroku and logged in via the terminal using my credentials to connect the C9 project to Heroku. I added the Heroku remote to my existing repository.
- 3. I then created a 'requirements.txt' file using 'pip freeze > requirements.txt' but after mulitple failed attempts due to lack of dependencies I populated this file with the packages found in 
-    'Deploy application to Heroku' in the Code Institute Data Centric Development Module
- 4. Added a procfile to my project to ensure that Heroku knows how to run the project as follows: using 'echo web: python app.py > Procfile'
- 5. Once the application was successfully pushed to Heroku I specified the IP and Port on Heroku in the configuration settings and the app opened in Heroku to ensure functionality
- 6. The 'onlineCookbook' database was then created in MongoDB Atlas with the collection named 'recipes'
- 7. To create the connection between the C9 workspace I first installed dnspython and pymongo libraries using 'sudo pip3 install dnspython' and 'sudo pip3 install pymongo' and then on MongoDB Atlas chose 
-    to connect to my database through a SRV string. For security, I used environment variables to connect to MongoDB Atlas. I edited the '.bashrc' file to include the MongoDB Atlas using the following commands 'cd ..' to change to my home directory then 'nano .bashrc'
-    to open the file. I then typed 'export MONGO_URI= copied connection string' added my password and edited the database name and saved the file. I then closed and reopened the temrinal and typed 'echo $MONGO_URI'
-    to verify the connection
- 8. I then ran the code found in the ' Run Mongo Commands From a Python File ' of the Code Institute Data Centric Development Module to ensure functionality and installed Flask-PyMongo'sudo pip3 install Flask-PyMongo'
- 9. The environment setup was succesfully completed when I added the index.hmtl file and successfully wrote the name of my first database entry to the page.
-
-
- 
-
-## Test Setup 
- 
- 1. *Installed Flask-testing extension using 'sudo pip3 install Flask-Testing' to perform unit level testing on my flask application*
- 2. installed ming to provide a validation layer to the data to and from the mongo database and provide a mim: mongo in memory functionality for testing
- 3. installed python blinker library to allow signals to be seen using 'sudo pip3 install blinker'
- 4. created a configuration file to allow the production database and the mim databases to be selected for testing 
- 5. installed coverage.py to show the code coverage of the test.py file for the app.py file.... using 'coverage html --omit=*/usr/local/lib/python3.4/dist-packages*,*test*  '  or 'coverage html --omit=*/usr/local/lib/python3.4/dist-packages*,*test*' to obtain coverage
- 6. created database_config_setup function to define database to be sued dependent upon whether the main application or the test application is being run, no need for config.py any longer
-
-## git ignore
- 'git rm --cached'
- 
-## CSS
- 1. created scss file in static folder called 'main.scss'
- 2. change to the static directory usgin 'cd static' 
- 3. started a watch on the scss for compiling into css using 'sass --watch main.scss' 
- 
-## References
 Parallax https://www.w3schools.com/howto/howto_css_parallax.asp
 https://www.plus2net.com/javascript_tutorial/list-adding.php
 https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags   ---new line replace string--

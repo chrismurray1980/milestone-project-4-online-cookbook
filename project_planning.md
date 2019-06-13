@@ -23,7 +23,7 @@ to up-vote recipes that they have prepared and the most popular recipes will be 
     2.	Country of origin
     3.	Allergens
     4.	Main ingredient
-    5.	Difficulty= 
+    5.	Difficulty 
     6.	Most popular
     7.	Cooking time
     8.	Meal time
