@@ -434,33 +434,38 @@ There is no difference between the deployed and development versions of the appl
 
 ## Credits
 
-1. Parallax https://www.w3schools.com/howto/howto_css_parallax.asp
-2. https://www.plus2net.com/javascript_tutorial/list-adding.php
-3. https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags   ---new line replace string--
-4. https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-values-as-Comma-Separated-String-using-jQuery.aspx--checkboxes to string--
-5. https://stackoverflow.com/questions/33677374/jinja2-and-bootstrap-carousel-item-active   ----set carousel item active----
-6. https://code.tutsplus.com/tutorials/full-text-search-in-mongodb--cms-24835 -----full text search----
-7. https://gist.github.com/cpatrick/5719077 ----text score----
-8. https://docs.mongodb.com/manual/reference/method/db.collection.find/ ---sort---
-9. https://docs.mongodb.com/manual/reference/operator/update/inc/index.html ---increment---
-10. https://stackoverflow.com/questions/13241878/convert-pymongo-cursor-to-json --json object from find results---
-11. https://www.geeksforgeeks.org/python-add-new-keys-to-a-dictionary/  --dictionary--
-12. https://bl.ocks.org/emiguevara/4bd152a8828f6b31270702d97dc0133d ---plot.js----
-13. http://jsfiddle.net/PBrockmann/ma3wr55k  ----histogram-----
-14. https://stackoverflow.com/questions/5629805/disabling-enter-key-for-form --- prevent enter key default ---
-15. https://stackoverflow.com/questions/27264504/how-to-getchecked-values-and-remove-unchecked-in-array ---checkbox array----
-16. https://stackoverflow.com/questions/31012129/selector-not-in-jquery-not-working ---exclude id from search form----
-17. https://www.encodedna.com/2013/07/dynamically-add-remove-textbox-control-using-jquery.htm  ---add remove text inputs---
-18. https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary ----string to dict----
-19. http://flask.pocoo.org/docs/1.0/patterns/fileuploads/  ---use flask uploads---
-20. https://github.com/MiroslavSvec/DCD_lead --user routes and templates---
-21. https://qiita.com/hengsokvisal/items/329924dd9e3f65dd48e7 --UPLOAD AND DOWNLOAD S3 ----
-22. https://boh717.github.io/post/flask-login-and-mongodb/  ---flask login with pymongo----
-23. https://stackoverflow.com/questions/48934625/objectid-object-has-no-attribute-is-active-flask-login ---m,ore login manager---
-24. https://infinidum.com/2018/08/18/making-a-simple-login-system-with-flask-login/ ---m,ore login manager---
-25. http://www.patricksoftwareblog.com/tag/flask-login/ ---flask_login---
-26. https://www.reddit.com/r/flask/comments/841ka3/questiondoubt_how_to_redirect_to_the_same_page/  ---last page redirect---
-27. https://www.tutorialspoint.com/flask/flask_sessions.htm ---FLASK SESSIONS---
+The following websites were used for guidance and code snippets used within this application:
 
+1. [Addint to lists in JS](https://www.plus2net.com/javascript_tutorial/list-adding.php)
+2. [new line replace string](https://stackoverflow.com/questions/784539/how-do-i-replace-all-line-breaks-in-a-string-with-br-tags)
+3. [checkboxes to string](https://www.aspsnippets.com/Articles/Get-multiple-selected-checked-CheckBox-values-as-Comma-Separated-String-using-jQuery.aspx)
+4. [set carousel item active](https://stackoverflow.com/questions/33677374/jinja2-and-bootstrap-carousel-item-active)
+5. [full text search mongoDB](https://code.tutsplus.com/tutorials/full-text-search-in-mongodb--cms-24835)
+6. [text score mongoDB](https://gist.github.com/cpatrick/5719077)
+7. [sort mongoDB](https://docs.mongodb.com/manual/reference/method/db.collection.find/)
+8. [increment mongoDB](https://docs.mongodb.com/manual/reference/operator/update/inc/index.html)
+9. [json object from find results](https://stackoverflow.com/questions/13241878/convert-pymongo-cursor-to-json)
+10. [Python dictionaries](https://www.geeksforgeeks.org/python-add-new-keys-to-a-dictionary/)
+11. [plot JS help](https://bl.ocks.org/emiguevara/4bd152a8828f6b31270702d97dc0133d)
+12. [plot JS histogram](http://jsfiddle.net/PBrockmann/ma3wr55k)
+13. [prevent enter key default](https://stackoverflow.com/questions/5629805/disabling-enter-key-for-form)
+14. [checkbox array](https://stackoverflow.com/questions/27264504/how-to-getchecked-values-and-remove-unchecked-in-array)
+15. [exclude id from search form](https://stackoverflow.com/questions/31012129/selector-not-in-jquery-not-working)
+16. [add remove text inputs](https://www.encodedna.com/2013/07/dynamically-add-remove-textbox-control-using-jquery.htm)  
+17. [string to dict](https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary)
+18. [UPLOAD AND DOWNLOAD S3](https://qiita.com/hengsokvisal/items/329924dd9e3f65dd48e7)
+19. [flask login with pymongo](https://boh717.github.io/post/flask-login-and-mongodb/)
+20. [flask login manager](https://stackoverflow.com/questions/48934625/objectid-object-has-no-attribute-is-active-flask-login)
+21. [last page redirect flask](https://www.reddit.com/r/flask/comments/841ka3/questiondoubt_how_to_redirect_to_the_same_page/)
+22. [flask sessions](https://www.tutorialspoint.com/flask/flask_sessions.htm)
+
+### Media
+
+The background image used on the website was obtained from [Pexels](https://www.pexels.com/).
+
+#### Recipes and recipe images
+
+The majority of the website recipes and images were obtained from the [BBC Good Food](https://www.bbcgoodfood.com/) website in addition to a large amount
+of inspiration for the visual layout of this project as the site has a clean, visually pleasing interface with easily identified and accessible page links.
 
 
